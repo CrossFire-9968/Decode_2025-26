@@ -20,7 +20,6 @@ public class Manual extends OpMode {
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
-        telemetry.update();
 
         if (gamepad2.left_bumper){
             intake.setOutputMotorPowers(outputPower);
@@ -31,6 +30,7 @@ public class Manual extends OpMode {
         else {
             intake.setOutputMotorPowers(0.0);
         }
+        telemetry.update();
     }
 
 

@@ -11,11 +11,11 @@ public class intake {
 
     public void init(HardwareMap hwMap)
     {
-        outputMotor_L = hwMap.get(DcMotor.class, "Motor_LF");
+        outputMotor_L = hwMap.get(DcMotor.class, "Yeet_L");
         outputMotor_L.setDirection(DcMotorSimple.Direction.FORWARD);
         outputMotor_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        outputMotor_R = hwMap.get(DcMotor.class, "Motor_RF");
+        outputMotor_R = hwMap.get(DcMotor.class, "Yeet_R");
         outputMotor_R.setDirection(DcMotorSimple.Direction.REVERSE);
         outputMotor_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
