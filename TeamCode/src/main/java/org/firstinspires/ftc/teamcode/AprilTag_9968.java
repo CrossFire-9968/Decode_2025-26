@@ -14,7 +14,7 @@ import java.util.List;
 public class AprilTag_9968
 {
    private AprilTagProcessor aprilTag;                // The variable to store our instance of the AprilTag processor.
-   private VisionPortal visionPortal;                 // The variable to store our instance of the vision portal.
+   public VisionPortal visionPortal;                 // The variable to store our instance of the vision portal.
    private double robotRange;
    private double robotBearing;
    private double robotElevation;
@@ -22,6 +22,7 @@ public class AprilTag_9968
    public void init(HardwareMap hwMap) {
       // Create the AprilTag processor the easy way.
       aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+      aprilTag.setDecimation(3);
 
       // Create the vision portal the easy way.
       visionPortal = VisionPortal.easyCreateWithDefaults(hwMap.get(WebcamName.class, "Webcam 1"), aprilTag);
@@ -35,15 +36,6 @@ public class AprilTag_9968
 
       telemetryAprilTag(tm);
 
-      // Save CPU resources; can resume streaming when needed.
-      if (gPad.dpad_down) {
-         visionPortal.stopStreaming();
-      } else if (gPad.dpad_up) {
-         visionPortal.resumeStreaming();
-      }
-
-      // Save more CPU resources when camera is no longer needed.
-      visionPortal.close();
    }   // end method runOpMode()
 
 
@@ -56,24 +48,24 @@ public class AprilTag_9968
       // Step through the list of detections and display info for each one.
       for (AprilTagDetection detection : currentDetections) {
          if (detection.metadata != null) {
-            tm.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-            tm.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-            tm.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+//            tm.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+//            tm.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+//            tm.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
             tm.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
 
             robotRange = detection.ftcPose.range;
             robotBearing = detection.ftcPose.bearing;
             robotElevation = detection.ftcPose.elevation;
-         } else {
-            tm.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-            tm.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+//         } else {
+//            tm.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+//            tm.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
          }
       }   // end for() loop
 
       // Add "key" information to telemetry
-      tm.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-      tm.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-      tm.addLine("RBE = Range, Bearing & Elevation");
+//      tm.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+//      tm.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+//      tm.addLine("RBE = Range, Bearing & Elevation");
 
    }   // end method telemetryAprilTag()
 

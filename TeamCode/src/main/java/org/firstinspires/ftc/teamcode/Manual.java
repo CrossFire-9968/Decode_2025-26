@@ -5,52 +5,64 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 @TeleOp(name = "Manual")
-public class Manual extends OpMode
-{
-   public Mecanum mecanum = new Mecanum();
-   public AprilTag_9968 aTag = new AprilTag_9968();
-   double kp = 1;
-   double desiredBearingAngle = 0.0;
-   double bearingAngle = 0.0;
-   double bearingMotorPower = 0.0;
-   double targetingDeadband = 0.05;
+public class Manual extends OpMode {
+    public Mecanum mecanum = new Mecanum();
+    public AprilTag_9968 aTag = new AprilTag_9968();
+    double kp = 0.1;
+    double desiredBearingAngle = 0.0;
+    double bearingAngle = 0.0;
+    double bearingMotorPower = 0.0;
+    double targetingDeadband = 0.05;
 
-   public void init()
-   {
-      mecanum.init(hardwareMap);
-      aTag.init(hardwareMap);
-   }
+    public void init() {
+        mecanum.init(hardwareMap);
+        aTag.init(hardwareMap);
+    }
 
 
-   @Override
-   public void loop()
-   {
-      mecanum.manualDrive(gamepad1, telemetry);
-      mecanum.getMotorTelemetry(telemetry);
+    @Override
+    public void loop() {
+        mecanum.manualDrive(gamepad1, telemetry);
+        //mecanum.getMotorTelemetry(telemetry);
 
-      if (gamepad2.x) {
-         aTag.runAprilTag(telemetry, gamepad2);
-         bearingAngle = aTag.getRobotBearing();
+        // Save CPU resources; can resume streaming when needed.
+        if (gamepad2.dpad_down) {
+            aTag.visionPortal.stopStreaming();
+        } else if (gamepad2.dpad_up) {
+            aTag.visionPortal.resumeStreaming();
+        }
 
-         // Y = kp * (desired_angle - actual_angle)
-         bearingMotorPower = kp * (desiredBearingAngle - bearingAngle);
+        aTag.runAprilTag(telemetry, gamepad2);
+        bearingAngle = aTag.getRobotBearing();
 
-         // Limit range of targeting power between -1 and 1
-         if (bearingMotorPower > 1) {
-            bearingMotorPower = 1;
-         }
-         else if (bearingMotorPower < -1) {
-            bearingMotorPower = -1;
-         }
+        // Y = kp * (desired_angle - actual_angle)
+        bearingMotorPower = kp * (desiredBearingAngle - bearingAngle);
 
-         // Add targeting power deadband
-         if (Math.abs(bearingMotorPower) < targetingDeadband) {
-            bearingMotorPower = 0.0;
-         }
+        if (gamepad2.square) {
+            // Limit range of targeting power between -1 and 1
+            if (bearingMotorPower > 1) {
+                bearingMotorPower = 1;
+            } else if (bearingMotorPower < -1) {
+                bearingMotorPower = -1;
+            }
 
-         mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
-      }
+            // Add targeting power deadband
+            if (Math.abs(bearingMotorPower) < targetingDeadband) {
+                bearingMotorPower = 0.0;
+            }
 
-      telemetry.update();
-   }
+            telemetry.addData("bearingPower: ", bearingMotorPower);
+            mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+        }
+
+        telemetry.update();
+    }
+
+
+    @Override
+    public void stop() {
+        // Save more CPU resources when camera is no longer needed.
+        aTag.visionPortal.close();
+    }
+
 }
