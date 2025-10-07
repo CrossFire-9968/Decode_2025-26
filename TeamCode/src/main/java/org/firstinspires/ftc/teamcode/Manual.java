@@ -5,18 +5,52 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 @TeleOp(name = "Manual")
-public class Manual extends OpMode {
-    public Mecanum mecanum = new Mecanum();
+public class Manual extends OpMode
+{
+   public Mecanum mecanum = new Mecanum();
+   public AprilTag_9968 aTag = new AprilTag_9968();
+   double kp = 1;
+   double desiredBearingAngle = 0.0;
+   double bearingAngle = 0.0;
+   double bearingMotorPower = 0.0;
+   double targetingDeadband = 0.05;
 
-    public void init() {
-        mecanum.init(hardwareMap);
-    }
+   public void init()
+   {
+      mecanum.init(hardwareMap);
+      aTag.init(hardwareMap);
+   }
 
 
-    @Override
-    public void loop() {
-        mecanum.manualDrive(gamepad1, telemetry);
-        mecanum.getMotorTelemetry(telemetry);
-        telemetry.update();
-    }
+   @Override
+   public void loop()
+   {
+      mecanum.manualDrive(gamepad1, telemetry);
+      mecanum.getMotorTelemetry(telemetry);
+
+      if (gamepad2.x) {
+         aTag.runAprilTag(telemetry, gamepad2);
+         bearingAngle = aTag.getRobotBearing();
+
+         // Y = kp * (desired_angle - actual_angle)
+         bearingMotorPower = kp * (desiredBearingAngle - bearingAngle);
+
+         // Limit range of targeting power between -1 and 1
+         if (bearingMotorPower > 1) {
+            bearingMotorPower = 1;
+         }
+         else if (bearingMotorPower < -1) {
+            bearingMotorPower = -1;
+         }
+
+         // Add targeting power deadband
+         if (Math.abs(bearingMotorPower) < targetingDeadband) {
+            bearingMotorPower = 0.0;
+         }
+
+         mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+      }
+
+      telemetry.update();
+   }
 }
