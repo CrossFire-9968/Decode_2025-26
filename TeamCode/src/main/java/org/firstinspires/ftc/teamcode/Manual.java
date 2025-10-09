@@ -10,12 +10,19 @@ public class Manual extends OpMode {
     public intake intake = new intake();
     private double outputPower = 1.0;
     private double intakePower = -0.3;
+    public AprilTag_9968 aTag = new AprilTag_9968();
+    double kp = 0.1;
+    double desiredBearingAngle = 0.0;
+    double bearingAngle = 0.0;
+    double bearingMotorPower = 0.0;
+    double targetingDeadband = 0.05;
 
     public void init() {
         mecanum.init(hardwareMap);
         intake.init(hardwareMap);
+        aTag.init(hardwareMap);
     }
-    
+
     @Override
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
@@ -30,8 +37,46 @@ public class Manual extends OpMode {
         else {
             intake.setOutputMotorPowers(0.0);
         }
+        //mecanum.getMotorTelemetry(telemetry);
+
+        // Save CPU resources; can resume streaming when needed.
+        if (gamepad2.dpad_down) {
+            aTag.visionPortal.stopStreaming();
+        } else if (gamepad2.dpad_up) {
+            aTag.visionPortal.resumeStreaming();
+        }
+
+        aTag.runAprilTag(telemetry, gamepad2);
+        bearingAngle = aTag.getRobotBearing();
+
+        // Y = kp * (desired_angle - actual_angle)
+        bearingMotorPower = kp * (desiredBearingAngle - bearingAngle);
+
+        if (gamepad2.square) {
+            // Limit range of targeting power between -1 and 1
+            if (bearingMotorPower > 1) {
+                bearingMotorPower = 1;
+            } else if (bearingMotorPower < -1) {
+                bearingMotorPower = -1;
+            }
+
+            // Add targeting power deadband
+            if (Math.abs(bearingMotorPower) < targetingDeadband) {
+                bearingMotorPower = 0.0;
+            }
+
+            telemetry.addData("bearingPower: ", bearingMotorPower);
+            mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+        }
+
         telemetry.update();
     }
 
+
+    @Override
+    public void stop() {
+        // Save more CPU resources when camera is no longer needed.
+        aTag.visionPortal.close();
+    }
 
 }
