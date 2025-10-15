@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
     public intake intake = new intake();
-    private double outputPower = 1.0;
+    private double outputPower = 1;
     private double intakePower = -0.3;
     public AprilTag_9968 aTag = new AprilTag_9968();
     double kp = 0.1;
@@ -16,6 +16,13 @@ public class Manual extends OpMode {
     double bearingAngle = 0.0;
     double bearingMotorPower = 0.0;
     double targetingDeadband = 0.05;
+
+    //100% at 12 ft
+    //90% at 10 ft
+    //85% at 8 ft
+    //80% at 6 ft
+    //75% at 4 ft
+    //70% at 2 ft
 
     public void init() {
         mecanum.init(hardwareMap);
@@ -28,13 +35,11 @@ public class Manual extends OpMode {
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
 
-        if (gamepad2.left_bumper){
+        if (gamepad2.left_bumper) {
             intake.setOutputMotorPowers(outputPower);
-        }
-        else if (gamepad2.right_bumper){
+        } else if (gamepad2.right_bumper) {
             intake.setOutputMotorPowers(intakePower);
-        }
-        else {
+        } else {
             intake.setOutputMotorPowers(0.0);
         }
         //mecanum.getMotorTelemetry(telemetry);
