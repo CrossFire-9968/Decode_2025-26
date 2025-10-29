@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "Manual")
 public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
-    public intake intake = new intake();
+    public Intake intake = new Intake();
+    public AimYeeter aimYeeter = new AimYeeter();
     private double outputPower = 1;
     private double intakePower = -0.3;
     public AprilTag_9968 aTag = new AprilTag_9968();
@@ -28,12 +29,20 @@ public class Manual extends OpMode {
         mecanum.init(hardwareMap);
         intake.init(hardwareMap);
         aTag.init(hardwareMap);
+        aimYeeter.init(hardwareMap);
     }
 
     @Override
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
+
+        if(gamepad2.circle){
+            aimYeeter.raiseToYeet(telemetry);
+        }
+        else{
+            aimYeeter.noYeetPower();
+        }
 
         if (gamepad2.left_bumper) {
             intake.setOutputMotorPowers(outputPower);
@@ -72,6 +81,10 @@ public class Manual extends OpMode {
 
             telemetry.addData("bearingPower: ", bearingMotorPower);
             mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+        }
+
+        if (gamepad2.dpad_up){
+
         }
 
         telemetry.update();

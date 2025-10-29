@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import android.util.Size;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -20,11 +20,8 @@ public class AprilTag_9968 {
     private double robotElevation;
 
     public void init(HardwareMap hwMap) {
-        // Create the AprilTag processor the easy way.
         //aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         //aprilTag.setDecimation(3);
-
-        // Create the vision portal the easy way.
         //visionPortal = VisionPortal.easyCreateWithDefaults(hwMap.get(WebcamName.class, "Webcam 1"), aprilTag);
 
         // Create the AprilTag processor.
@@ -58,6 +55,8 @@ public class AprilTag_9968 {
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
+        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
+
         // Choose a camera resolution. Not all cameras support all resolutions.
         builder.setCameraResolution(new Size(640, 480));
 
@@ -85,7 +84,7 @@ public class AprilTag_9968 {
     }   // end method init()
 
     // Add telemetry about AprilTag detections.
-    private void runAprilTag(Telemetry tm, Gamepad gPad) {
+    public void runAprilTag(Telemetry tm, Gamepad gPad) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         if (gPad.left_bumper) {
             tm.addData("# AprilTags Detected", currentDetections.size());
