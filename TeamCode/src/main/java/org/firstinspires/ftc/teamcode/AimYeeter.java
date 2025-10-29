@@ -11,8 +11,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AimYeeter {
     public DcMotor aim_Motor;
-    public double aimSpeed = -0.5;
-    public int aimPosition = 100;
     // for presets
 //    private static final int wallElementPosition = ;
 //    private static final int lowBucketPosition = ;
@@ -61,36 +59,23 @@ public class AimYeeter {
         return aim_Motor.getCurrentPosition();
     }
 
-    public void raiseManual()
-    {
-        aim_Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        aim_Motor.setPower(aimSpeed);
-    }
-
-    public void lowerManual()
-    {
-        aim_Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        aim_Motor.setPower(aimSpeed);
-    }
-
     public void raiseToYeet(Telemetry tm){
+        double aimSpeed = -0.5;
+        int aimPosition = 100;
         aim_Motor.setTargetPosition(aimPosition);
         aim_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         aim_Motor.setPower(aimSpeed);
         tm.addData("aim position: ", aim_Motor.getCurrentPosition() );
     }
 
-    public void noYeetPower(){
-        aim_Motor.setPower(0);
-        aim_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
+    public void park() {
+        double parkSpeed = 0.5;
+        int parkPosition = 0;
+        aim_Motor.setTargetPosition(parkPosition);
+        aim_Motor.setPower(parkSpeed);
+        aim_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-    public void stop() {
-        // This method is intended to be called when we no longer want to energize the motors.
-        // In manual mode, this is anytime the driver is not pressing a raise or lower button.
-        // In encoder mode, this is when the aim is resting on at the bottom. There is no
-        // reason to apply motor torque to hold position when the aim is resting on the hard stop.
-        if ((aim_Motor.getMode() != DcMotor.RunMode.RUN_TO_POSITION) || (aim_Motor.getTargetPosition() == 0 && aim_Motor.getCurrentPosition() < 5)) {
+        if ((aim_Motor.getMode() != DcMotor.RunMode.RUN_TO_POSITION) || (aim_Motor.getTargetPosition() == parkPosition&& aim_Motor.getCurrentPosition() < 5)) {
             aim_Motor.setPower(0.0);
             aim_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             aim_Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
