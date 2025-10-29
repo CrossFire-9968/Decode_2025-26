@@ -12,7 +12,7 @@ public class YeetLaunchWheel
     public void init(HardwareMap hwMap)
     {
         yeetMotor = hwMap.get(DcMotor.class, "Motor_Yeet");
-        yeetMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        yeetMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         yeetMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.stop();
     }
@@ -23,7 +23,7 @@ public class YeetLaunchWheel
     }
 
     public void launchSpeed() {
-        double launchPower = 1.0;
+        double launchPower = 0.3;
         yeetMotor.setPower(launchPower);
     }
 

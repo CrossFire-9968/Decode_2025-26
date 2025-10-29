@@ -38,7 +38,7 @@ public class Manual extends OpMode
 
       // Yeeter control
       if (gamepad2.right_bumper) {
-         yeeter.launchAll();
+         yeeter.launchAll(telemetry);
       }
       else if (gamepad2.left_bumper) {
          yeeter.park();

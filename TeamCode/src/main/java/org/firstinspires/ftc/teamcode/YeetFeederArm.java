@@ -16,21 +16,21 @@ public class YeetFeederArm
    // Start feeder servo
    public void toHome()
    {
-      double homePosition = 0.0;
+      double homePosition = 0.8;
       feederArm.setPosition(homePosition);
    }
 
    // Stop feeder servo
    public void toFirstElement()
    {
-      double ball1Position = 0.0;
+      double ball1Position = 1.0;
       feederArm.setPosition(ball1Position);
    }
 
    // Stop feeder servo
    public void toSecondElement()
    {
-      double ball2Position = 0.0;
+      double ball2Position = 0.6;
       feederArm.setPosition(ball2Position);
    }
 

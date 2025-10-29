@@ -10,14 +10,14 @@ public class YeetFeederWheel
 
    public void init(HardwareMap hwMap){
       // Initialize your servo in hardware map
-      yeetFeedLaunchServo = hwMap.get(CRServo.class, "yeet_feed_launch_servo");
+      yeetFeedLaunchServo = hwMap.get(CRServo.class, "yeet_feed_wheel");
       this.stop();
    }
 
    // Start feeder servo
    public void start()
    {
-      double launchPower = 1.0;
+      double launchPower = 0.0;
       yeetFeedLaunchServo.setPower(launchPower);
    }
 
