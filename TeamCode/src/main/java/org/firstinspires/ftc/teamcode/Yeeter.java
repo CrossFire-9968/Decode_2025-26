@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Yeeter
 {
@@ -10,10 +9,11 @@ public class Yeeter
    private final YeetFeederArm feederArm = new YeetFeederArm();
    private final YeetFeederWheel feederWheel = new YeetFeederWheel();
    public final YeetLaunchWheel yeetWheel = new YeetLaunchWheel();
-   public  ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-   private boolean firstTime = true;
+   public ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+   private boolean sequenceActive = false;
 
-   public void init(HardwareMap hwMap){
+   public void init(HardwareMap hwMap)
+   {
       aimYeeter.init(hwMap);
       feederArm.init(hwMap);
       feederWheel.init(hwMap);
@@ -21,43 +21,43 @@ public class Yeeter
       this.park();
    }
 
-   public void launchAll(Telemetry tm) {
-      final double firstElementTime = 2.0;
-      final double secondElementTime = 5.0;
+   public void launchAll()
+   {
+      final double timeAllottedForElement1 = 2.0;
+      final double timeAllottedForElement2 = 3.0;
 
-      // Start outtake and launch wheels
-      yeetWheel.launchSpeed();
-      feederWheel.start();
-
-      // Move feeder wheel to first element and pause for launch
-      if (firstTime) {
+      if (!sequenceActive) {
          feedTimer.reset();
-         firstTime = false;
-      }
-      feederArm.toFirstElement();
-
-
-      // Wait for launch then move to element 2
-      if (feedTimer.seconds() >= firstElementTime){
-         feederArm.toSecondElement();
+         yeetWheel.launchSpeed();
+         feederWheel.start();
+         sequenceActive = false;
       }
 
-      // Reset timer for second element
-     // feedTimer.reset();
+      if (sequenceActive) {
+         double elapsedTime = feedTimer.seconds();
 
-      // Wait for launch then return feeder to home
-      if (feedTimer.seconds() >= secondElementTime){
-         this.park();
+         // Move feeder wheel to first element and pause for launch
+         if (elapsedTime <= timeAllottedForElement1) {
+            feederArm.toFirstElement();
+         }
+
+         // Move feeder wheel to second element and pause for launch
+         else if (elapsedTime <= timeAllottedForElement2) {
+            feederArm.toSecondElement();
+         }
+
+         // All done, so wait for next button press
+         else {
+            this.park();
+            sequenceActive = false;
+         }
       }
-
-      tm.addData("Feeder timer: ", feedTimer.seconds());
    }
 
-   public void park(){
+   public void park()
+   {
       yeetWheel.stop();
       feederWheel.stop();
       feederArm.toHome();
-     // firstTime = true;
    }
-
 }
