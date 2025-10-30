@@ -49,13 +49,20 @@ public class Yeeter
          // All done, so wait for next button press
          else {
             this.park();
-            sequenceActive = false;
          }
       }
    }
 
+   // Only reset the sequence after the button is released.
+   // We don't want to run it over and over again if the button is held.
+   public void resetLaunchSequence() {
+      sequenceActive = false;
+      this.park();
+   }
+
    public void park()
    {
+      feederArm.toHome();
       yeetWheel.stop();
       feederWheel.stop();
       feederArm.toHome();
