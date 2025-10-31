@@ -23,7 +23,7 @@ public class YeetLaunchWheel
     }
 
     public void launchSpeed() {
-        double launchPower = 0.3;
+        double launchPower = 1.0;
         yeetMotor.setPower(launchPower);
     }
 

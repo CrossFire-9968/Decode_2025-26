@@ -48,17 +48,18 @@ public class Mecanum
         telemetry.addData("rTrigger: ", gpad.right_trigger);
         telemetry.addData("lTrigger: ", gpad.left_trigger);
 
+        //Motor powers labeled wrong
         // Raw drive power for each motor from joystick inputs
         LFrontPower = driveSpeed - turnSpeed - strafeSpeed;
-        RFrontPower = driveSpeed + turnSpeed + strafeSpeed;
-        RRearPower = driveSpeed + turnSpeed - strafeSpeed;
-        LRearPower = driveSpeed - turnSpeed + strafeSpeed;
+        RFrontPower = driveSpeed - turnSpeed + strafeSpeed;
+        RRearPower = driveSpeed + turnSpeed + strafeSpeed;
+        LRearPower = driveSpeed + turnSpeed - strafeSpeed;
 
         // Find which motor power command is the greatest. If not motor
         // is greater than 1.0 (the max motor power possible) just set it by default
         // to 1.0 so the ratiometric calculation we do next does not
         // inadvertently increase motor powers.
-        double max = 1.0;
+        double max = 0.8;
         max = Math.max(max, Math.abs(LFrontPower));
         max = Math.max(max, Math.abs(RFrontPower));
         max = Math.max(max, Math.abs(RRearPower));
