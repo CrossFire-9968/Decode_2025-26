@@ -51,9 +51,9 @@ public class Mecanum
         //Motor powers labeled wrong
         // Raw drive power for each motor from joystick inputs
         LFrontPower = driveSpeed - turnSpeed - strafeSpeed;
-        RFrontPower = driveSpeed - turnSpeed + strafeSpeed;
-        RRearPower = driveSpeed + turnSpeed + strafeSpeed;
-        LRearPower = driveSpeed + turnSpeed - strafeSpeed;
+        RFrontPower = -driveSpeed - turnSpeed - strafeSpeed;
+        RRearPower = driveSpeed + turnSpeed - strafeSpeed;
+        LRearPower = -driveSpeed + turnSpeed - strafeSpeed;
 
         // Find which motor power command is the greatest. If not motor
         // is greater than 1.0 (the max motor power possible) just set it by default
