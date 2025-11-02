@@ -22,7 +22,7 @@ public class Yeeter
       this.park();
    }
 
-   public void launchAll(Telemetry tm)
+   public void launchAll(double launchPower, int yeetLiftPosition)
    {
       final double yeetDelay = 2.0;
       final double timeAllottedForElement1 = yeetDelay + 1.0;
@@ -38,7 +38,7 @@ public class Yeeter
          double yeetMotorStartPosition = 130;
 
          if (yeetLift.getPosition() >= yeetMotorStartPosition){
-            yeetWheel.launchSpeed();
+            yeetWheel.launchSpeed(launchPower);
             feederWheel.yeetStart();
          }
          else{
@@ -46,7 +46,7 @@ public class Yeeter
          }
 
          if (elapsedTime < yeetDelay){
-            yeetLift.raiseToYeet(tm);
+            yeetLift.raiseToYeet(yeetLiftPosition);
          }
 
          // Move feeder wheel to first element and pause for launch

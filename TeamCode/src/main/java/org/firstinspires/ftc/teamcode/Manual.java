@@ -34,9 +34,23 @@ public class Manual extends OpMode {
         mecanum.getMotorTelemetry(telemetry);
 //
 //        // Yeeter control
-        if (gamepad2.right_bumper) {
-            yeeter.launchAll(telemetry);
-        } else {
+        //position 1
+        if (gamepad2.cross) {
+            yeeter.launchAll(0.6, 300);
+        }
+        // position 2
+        else if (gamepad2.circle){
+            yeeter.launchAll(0.7, 280);
+        }
+        //position 3
+        else if (gamepad2.triangle){
+            yeeter.launchAll(0.8, 260);
+        }
+        // long shot
+        else if (gamepad2.square){
+            yeeter.launchAll(1.0, 240);
+        }
+        else {
             yeeter.resetLaunchSequence();
         }
 

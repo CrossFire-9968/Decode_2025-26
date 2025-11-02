@@ -59,13 +59,11 @@ public class YeetLift {
         return liftMotor.getCurrentPosition();
     }
 
-    public void raiseToYeet(Telemetry tm){
+    public void raiseToYeet(int yeetLiftPosition){
         double yeetLiftMotorPower = -0.5;
-        int yeetLiftPosition = 240;
         liftMotor.setTargetPosition(yeetLiftPosition);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(yeetLiftMotorPower);
-        tm.addData("Yeet Lift Position: ", liftMotor.getCurrentPosition() );
     }
 
     public void toHome() {

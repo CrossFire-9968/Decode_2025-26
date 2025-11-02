@@ -27,8 +27,7 @@ public class YeetLaunchWheel
         yeetMotor.setPower(pinchPower);
     }
 
-    public void launchSpeed() {
-        double launchPower = 0.95;
+    public void launchSpeed(double launchPower) {
         yeetMotor.setPower(launchPower);
     }
 
