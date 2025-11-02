@@ -11,15 +11,15 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Auto8Art")
-public class Auto8Art extends OpMode {
+@Autonomous(name = "Auto8ArtBackStartLeft")
+public class Auto8ArtBackStartLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
 
-    private final Pose startPose = new Pose(30,128, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(56.5,10, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(65,77, Math.toRadians(142)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));

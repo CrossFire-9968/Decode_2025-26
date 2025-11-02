@@ -11,23 +11,22 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Auto8ArtGoalStartRight")
-public class Auto8ArtGoalStartRight extends OpMode {
+@Autonomous(name = "Auto8ArtGoalStartLeft")
+public class Auto8ArtGoalStartLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
 
-    private final Pose startPose = new Pose(108,120, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(77,77, Math.toRadians(38)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(118,82, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose beforepickup2Pose = new Pose(87.5,59, Math.toRadians(0));
-    private final Pose pickup2Pose = new Pose(119,57.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose beforepickup3Pose = new Pose(87.5,37.5, Math.toRadians(0));
-    private final Pose pickup3Pose = new Pose(119,36, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(0));
-
+    private final Pose startPose = new Pose(30,128, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(65,77, Math.toRadians(142)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(23,55.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
+    private final Pose pickup3Pose = new Pose(23,36, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
 
 
     private Path scorePreload;
