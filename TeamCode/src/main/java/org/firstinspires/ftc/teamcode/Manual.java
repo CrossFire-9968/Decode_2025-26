@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "Manual")
 public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
-    public Yeeter2 yeeter = new Yeeter2();
+    public Yeeter yeeter = new Yeeter();
     public AprilTag_9968 aTag = new AprilTag_9968();
     //   double kp = 0.1;
     //   double desiredBearingAngle = 0.0;
@@ -32,10 +32,10 @@ public class Manual extends OpMode {
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
-
-        // Yeeter control
+//
+//        // Yeeter control
         if (gamepad2.right_bumper) {
-            yeeter.launchAll();
+            yeeter.launchAll(telemetry);
         } else {
             yeeter.resetLaunchSequence();
         }
