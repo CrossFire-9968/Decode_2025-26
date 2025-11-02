@@ -11,8 +11,8 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Auto6Art")
-public class Auto6Art extends OpMode {
+@Autonomous(name = "Auto8Art")
+public class Auto8Art extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -30,7 +30,7 @@ public class Auto6Art extends OpMode {
 
 
     private Path scorePreload;
-    private PathChain  scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain  scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4 ,scorePickup4;
 
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -82,11 +82,22 @@ public class Auto6Art extends OpMode {
                 .setLinearHeadingInterpolation(beforepickup2Pose.getHeading(), scorePose.getHeading())
                 .build();
 
+        grabPickup4 = follower.pathBuilder()
+                .addPath(new BezierCurve(scorePose, beforepickup3Pose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), beforepickup3Pose.getHeading()) // turn to 180° here
+                .addPath(new BezierCurve(beforepickup3Pose, pickup3Pose))
+                .setLinearHeadingInterpolation(beforepickup3Pose.getHeading(), pickup3Pose.getHeading()) // hold 180° or adjust
+                .build();
 
 
 
-
-
+        /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+        scorePickup4 = follower.pathBuilder()
+                .addPath(new BezierLine(pickup3Pose, beforepickup3Pose))
+                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), beforepickup3Pose.getHeading())
+                .addPath(new BezierLine(beforepickup3Pose, scorePose))
+                .setLinearHeadingInterpolation(beforepickup3Pose.getHeading(), scorePose.getHeading())
+                .build();
 
 
     }
@@ -149,10 +160,27 @@ public class Auto6Art extends OpMode {
                     setPathState(6);
                 }
 
+            case 6:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
 
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(grabPickup4, true);
+                    setPathState(7);
+                }
 
+            case 7:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
 
-
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(scorePickup4, true);
+                    setPathState(8);
+                }
 
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
