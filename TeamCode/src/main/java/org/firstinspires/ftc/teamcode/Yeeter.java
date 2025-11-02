@@ -24,23 +24,34 @@ public class Yeeter
 
    public void launchAll(Telemetry tm)
    {
-      final double timeAllottedForElement1 = 2.0;
-      final double timeAllottedForElement2 = 3.0;
+      final double yeetDelay = 2.0;
+      final double timeAllottedForElement1 = yeetDelay + 1.0;
+      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
 
       if (!sequenceActive) {
          feedTimer.reset();
-         yeetWheel.launchSpeed();
-         feederWheel.start(tm);
          sequenceActive = true;
       }
 
       if (sequenceActive) {
          double elapsedTime = feedTimer.seconds();
+         double yeetMotorStartPosition = 130;
+
+         if (yeetLift.getPosition() >= yeetMotorStartPosition){
+            yeetWheel.launchSpeed();
+            feederWheel.yeetStart();
+         }
+         else{
+            yeetWheel.noPinchSpeed();
+         }
+
+         if (elapsedTime < yeetDelay){
+            yeetLift.raiseToYeet(tm);
+         }
 
          // Move feeder wheel to first element and pause for launch
-         if (elapsedTime <= timeAllottedForElement1) {
+         else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
             feederArm.toFirstElement();
-            yeetLift.raiseToYeet(tm);
          }
 
          // Move feeder wheel to second element and pause for launch
@@ -53,6 +64,10 @@ public class Yeeter
             this.park();
          }
       }
+   }
+
+   public void intake(){
+      yeetWheel.intakeSpeed();
    }
 
    // Only reset the sequence after the button is released.

@@ -40,6 +40,10 @@ public class Manual extends OpMode {
             yeeter.resetLaunchSequence();
         }
 
+        if(gamepad2.left_bumper){
+            yeeter.intake();
+        }
+
         // Save CPU resources; can resume streaming when needed.
 //              if (gamepad2.dpad_down) {
 //                 aTag.visionPortal.stopStreaming();

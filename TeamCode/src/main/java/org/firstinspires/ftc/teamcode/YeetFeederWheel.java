@@ -19,7 +19,7 @@ public class YeetFeederWheel
    }
 
    // Start feeder servo
-   public void start(Telemetry tm)
+   public void yeetStart()
    {
       double launchPower = 1.0;
       Motor_Feed.setPower(launchPower);

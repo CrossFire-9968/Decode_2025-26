@@ -19,7 +19,7 @@ public class YeetLift {
 
     // Motor PIDF coefficients, USE CAUTION. These values change how the motor
     // responds when commanded to an encoder position.
-    public static final double NEW_P = 10.0;
+    public static final double NEW_P = 13.0;
     public static final double NEW_I = 1.0;
     public static final double NEW_D = 0.1;
     public static final double NEW_F = 1.0;
@@ -61,7 +61,7 @@ public class YeetLift {
 
     public void raiseToYeet(Telemetry tm){
         double yeetLiftMotorPower = -0.5;
-        int yeetLiftPosition = 190;
+        int yeetLiftPosition = 240;
         liftMotor.setTargetPosition(yeetLiftPosition);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(yeetLiftMotorPower);
