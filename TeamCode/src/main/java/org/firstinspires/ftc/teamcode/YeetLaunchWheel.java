@@ -23,7 +23,7 @@ public class YeetLaunchWheel
     }
 
     public void noPinchSpeed(){
-        double pinchPower = -0.2;
+        double pinchPower = -0.3;
         yeetMotor.setPower(pinchPower);
     }
 

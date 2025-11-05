@@ -19,8 +19,8 @@ public class YeetLift {
 
     // Motor PIDF coefficients, USE CAUTION. These values change how the motor
     // responds when commanded to an encoder position.
-    public static final double NEW_P = 13.0;
-    public static final double NEW_I = 1.0;
+    public static final double NEW_P = 15.0;
+    public static final double NEW_I = 0.5;
     public static final double NEW_D = 0.1;
     public static final double NEW_F = 1.0;
     PIDFCoefficients pidfNew;
