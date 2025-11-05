@@ -22,10 +22,10 @@ public class Auto8ArtGoalStartLeft extends OpMode {
     public Yeeter yeeter = new Yeeter();
 
     private final Pose startPose = new Pose(30,128, Math.toRadians(90));
-    private final Pose scorePose = new Pose(65,77, Math.toRadians(142));
+    private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
     private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
-    private final Pose pickup2Pose = new Pose(23,55.5, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
     private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
     private final Pose pickup3Pose = new Pose(23,36, Math.toRadians(180));
     private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
@@ -40,7 +40,7 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .addParametricCallback(60, (yeeter.launchAllRunnable(0.8, 260)))
+                .addParametricCallback(0.2, yeeter.launchAllRunnable(85,270))
                 .build();
 
         grabPickup2 = follower.pathBuilder()

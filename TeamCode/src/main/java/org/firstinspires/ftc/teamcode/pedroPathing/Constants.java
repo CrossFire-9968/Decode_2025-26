@@ -26,20 +26,20 @@ public class Constants {
             .centripetalScaling(0.008)
             .lateralZeroPowerAcceleration(-60.367)
             .forwardZeroPowerAcceleration(-139)
-            .mass(6.8);
+            .mass(11);
 
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
-            .yVelocity(53.58)
-            .xVelocity(60.1)
+            .yVelocity(49)
+            .xVelocity(60.9)
             .rightFrontMotorName("Motor_RF")
             .rightRearMotorName("Motor_RR")
             .leftRearMotorName("Motor_LR")
             .leftFrontMotorName("Motor_LF")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
@@ -50,7 +50,7 @@ public class Constants {
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
 
