@@ -11,12 +11,15 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.Yeeter;
+
 @Autonomous(name = "Auto8ArtGoalStartLeft")
 public class Auto8ArtGoalStartLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
+    public Yeeter yeeter = new Yeeter();
 
     private final Pose startPose = new Pose(30,128, Math.toRadians(90));
     private final Pose scorePose = new Pose(65,77, Math.toRadians(142));
@@ -37,21 +40,19 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .addParametricCallback(60, () -> {
-            // Example: start intake when 60% through path//
-            .intakeMotor.setPower(1.0); // example //
-        });
+                .addParametricCallback(60, (yeeter.launchAllRunnable(0.8, 260)))
+                .build();
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), 0.4)
-                .addParametricCallback(50,// insert the motor speed set// )
+                .addParametricCallback(50, yeeter.intakeRunnable() )
                 .build();
 
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading(), 0.4)
-                .addParametricCallback(50,// insert the motor speed set// )
+                .addParametricCallback(50, yeeter.parkRunnable() )
                 .build();
 
         grabPickup3 = follower.pathBuilder()
@@ -177,6 +178,7 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+        yeeter.init(hardwareMap);
 
 
 

@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import org.firstinspires.ftc.robotcore.external.navigation.NavUtil;
 
 public class Yeeter
 {
@@ -20,6 +21,21 @@ public class Yeeter
       feederWheel.init(hwMap);
       yeetWheel.init(hwMap);
       this.park();
+   }
+
+   public Runnable launchAllRunnable(double launchPower, int yeetLiftPosition) {
+      this.launchAll(launchPower, yeetLiftPosition);
+      return null;
+   }
+
+   public Runnable intakeRunnable() {
+      this.intake();
+      return null;
+   }
+
+   public Runnable parkRunnable() {
+      this.park();
+      return null;
    }
 
    public void launchAll(double launchPower, int yeetLiftPosition)
@@ -77,12 +93,13 @@ public class Yeeter
       this.park();
    }
 
-   public void park()
+   public Runnable park()
    {
       feederArm.toHome();
       yeetWheel.stop();
       feederWheel.stop();
       feederArm.toHome();
       yeetLift.toHome();
+      return null;
    }
 }
