@@ -37,16 +37,21 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .build();
+                .addParametricCallback(60, () -> {
+            // Example: start intake when 60% through path//
+            .intakeMotor.setPower(1.0); // example //
+        });
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), 0.4)
+                .addParametricCallback(50,// insert the motor speed set// )
                 .build();
 
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading(), 0.4)
+                .addParametricCallback(50,// insert the motor speed set// )
                 .build();
 
         grabPickup3 = follower.pathBuilder()
@@ -172,6 +177,8 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+
+
 
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
