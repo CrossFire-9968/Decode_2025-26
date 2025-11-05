@@ -16,7 +16,7 @@ public class YeetFeederArm
    // Start feeder servo
    public void toHome()
    {
-      double homePosition = 0.8;
+      double homePosition = 0.7;
       feederArm.setPosition(homePosition);
    }
 
@@ -30,7 +30,7 @@ public class YeetFeederArm
    // Stop feeder servo
    public void toSecondElement()
    {
-      double ball2Position = 0.6;
+      double ball2Position = 0.3;
       feederArm.setPosition(ball2Position);
    }
 
