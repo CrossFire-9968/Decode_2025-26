@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
     public Yeeter yeeter = new Yeeter();
-    public AprilTag_9968 aTag = new AprilTag_9968();
+    //public AprilTag_9968 aTag = new AprilTag_9968();
     //   double kp = 0.1;
     //   double desiredBearingAngle = 0.0;
     //   double bearingAngle = 0.0;
@@ -24,7 +24,7 @@ public class Manual extends OpMode {
 
     public void init() {
         mecanum.init(hardwareMap);
-        aTag.init(hardwareMap);
+        //aTag.init(hardwareMap);
         yeeter.init(hardwareMap);
     }
 
