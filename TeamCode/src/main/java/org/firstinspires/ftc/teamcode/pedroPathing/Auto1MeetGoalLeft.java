@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto8ArtGoalStartLeft")
-public class Auto8ArtGoalStartLeft extends OpMode {
+@Autonomous(name = "Auto1MeetGoalLeft")
+public class Auto1MeetGoalLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
@@ -126,9 +126,11 @@ public class Auto8ArtGoalStartLeft extends OpMode {
 
                 // once Yeeter finished, reset the timer and resume following
                 if (!yeeter.isLaunching()) {
+                    telemetry.addLine("LaunchComplete");
                     pathTimer.resetTimer();
                     follower.resumePathFollowing();
                     follower.followPath(grabPickup2, true);
+
                     setPathState(4);
                 }
                 break;

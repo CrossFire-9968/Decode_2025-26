@@ -22,15 +22,18 @@ public class Yeeter
       this.park();
    }
 
-   public void launchAllAuto (){
-      this.launchAll(85,270);
+   public void launchAllAuto (double launchPower, int yeetLiftPosition, Telemetry tm){
+      this.launchAll(launchPower,yeetLiftPosition, tm);
    }
 
-   public void launchAll(double launchPower, int yeetLiftPosition)
+   public void launchAll(double launchPower, int yeetLiftPosition, Telemetry tm)
    {
       final double yeetDelay = 2.0;
       final double timeAllottedForElement1 = yeetDelay + 1.0;
       final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
+      double elapsedTime = feedTimer.seconds();
+
+      tm.addData("Yeeter time: ", elapsedTime);
 
       if (!sequenceActive) {
          feedTimer.reset();
@@ -38,7 +41,7 @@ public class Yeeter
       }
 
       if (sequenceActive) {
-         double elapsedTime = feedTimer.seconds();
+
          double yeetMotorStartPosition = 130;
 
          if (yeetLift.getPosition() >= yeetMotorStartPosition){
@@ -65,9 +68,13 @@ public class Yeeter
 
          // All done, so wait for next button press
          else {
-            this.park();
+            this.resetLaunchSequence();
          }
       }
+   }
+
+   public boolean isLaunching() {
+      return sequenceActive;
    }
 
    public void intake(){
