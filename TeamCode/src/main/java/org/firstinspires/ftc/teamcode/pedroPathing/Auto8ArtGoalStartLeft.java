@@ -102,7 +102,8 @@ public class Auto8ArtGoalStartLeft extends OpMode {
                 }
                 break;
 
-            //  Add a 2-second delay before grabPickup2
+
+                //  Add a 2-second delay before grabPickup2
             case 2:
                 if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.5) {
                     follower.pausePathFollowing(); // Pause mid-path
