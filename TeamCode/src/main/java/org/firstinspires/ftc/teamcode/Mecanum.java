@@ -25,7 +25,7 @@ public class Mecanum
         motor_LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_RF = hwMap.get(DcMotor.class, "Motor_RF");
-        motor_RF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor_RF.setDirection(DcMotorSimple.Direction.REVERSE);
         motor_RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_RR = hwMap.get(DcMotor.class, "Motor_RR");
@@ -33,7 +33,7 @@ public class Mecanum
         motor_RR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_LR = hwMap.get(DcMotor.class, "Motor_LR");
-        motor_LR.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_LR.setDirection(DcMotorSimple.Direction.FORWARD);
         motor_LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.setAllMecanumPowers(0.0);
@@ -51,9 +51,9 @@ public class Mecanum
         //Motor powers labeled wrong
         // Raw drive power for each motor from joystick inputs
         LFrontPower = driveSpeed - turnSpeed - strafeSpeed;
-        RFrontPower = -driveSpeed - turnSpeed - strafeSpeed;
+        RFrontPower = driveSpeed + turnSpeed + strafeSpeed;
         RRearPower = driveSpeed + turnSpeed - strafeSpeed;
-        LRearPower = -driveSpeed + turnSpeed - strafeSpeed;
+        LRearPower = driveSpeed - turnSpeed + strafeSpeed;
 
         // Find which motor power command is the greatest. If not motor
         // is greater than 1.0 (the max motor power possible) just set it by default
