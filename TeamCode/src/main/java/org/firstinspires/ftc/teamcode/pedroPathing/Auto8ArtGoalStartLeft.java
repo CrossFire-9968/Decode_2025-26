@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
@@ -13,12 +14,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Yeeter;
 
+@Configurable
 @Autonomous(name = "Auto8ArtGoalStartLeft")
 public class Auto8ArtGoalStartLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
-    private int pathState;
+    private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
     private final Pose startPose = new Pose(30,128, Math.toRadians(90));
@@ -33,6 +35,7 @@ public class Auto8ArtGoalStartLeft extends OpMode {
     private Path scorePreload;
     private PathChain scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
 
+
     public void buildPaths() {
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
@@ -40,19 +43,19 @@ public class Auto8ArtGoalStartLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .addParametricCallback(0.2, yeeter.launchAllRunnable(85,270))
+                //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), 0.4)
-                .addParametricCallback(50, yeeter.intakeRunnable() )
+                //.addParametricCallback(0.3, yeeter::intake)
                 .build();
 
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading(), 0.4)
-                .addParametricCallback(50, yeeter.parkRunnable() )
+                //.addParametricCallback(0.3, yeeter::park)
                 .build();
 
         grabPickup3 = follower.pathBuilder()
@@ -100,14 +103,17 @@ public class Auto8ArtGoalStartLeft extends OpMode {
 
             //  Add a 2-second delay before grabPickup2
             case 2:
-                if (!follower.isBusy()) {
-                    pathTimer.resetTimer();
+                if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.5) {
+                    follower.pausePathFollowing(); // Pause mid-path
+                    yeeter.launchAllAuto();
+
                     setPathState(3);
                 }
                 break;
 
             case 3:
                 if (pathTimer.getElapsedTimeSeconds() > 2.0) { // change time here
+                    follower.resumePathFollowing();
                     follower.followPath(grabPickup2, true);
                     setPathState(4);
                 }

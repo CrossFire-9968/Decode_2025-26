@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Yeeter
 {
@@ -21,58 +22,8 @@ public class Yeeter
       this.park();
    }
 
-   public Test launchAllRunnable(double launchPower, int yeetLiftPosition) {
-      final double yeetDelay = 2.0;
-      final double timeAllottedForElement1 = yeetDelay + 1.0;
-      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
-
-      if (!sequenceActive) {
-         feedTimer.reset();
-         sequenceActive = true;
-      }
-
-      if (sequenceActive) {
-         double elapsedTime = feedTimer.seconds();
-         double yeetMotorStartPosition = 130;
-
-         if (yeetLift.getPosition() >= yeetMotorStartPosition){
-            yeetWheel.launchSpeed(launchPower);
-            feederWheel.yeetStart();
-         }
-         else{
-            yeetWheel.noPinchSpeed();
-         }
-
-         if (elapsedTime < yeetDelay){
-            yeetLift.raiseToYeet(yeetLiftPosition);
-         }
-
-         // Move feeder wheel to first element and pause for launch
-         else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
-            feederArm.toFirstElement();
-         }
-
-         // Move feeder wheel to second element and pause for launch
-         else if (elapsedTime <= timeAllottedForElement2) {
-            feederArm.toSecondElement();
-         }
-
-         // All done, so wait for next button press
-         else {
-            this.park();
-         }
-      }
-      return null;
-   }
-
-   public Test intakeRunnable() {
-      this.intake();
-      return null;
-   }
-
-   public Test parkRunnable() {
-      this.park();
-      return null;
+   public void launchAllAuto (){
+      this.launchAll(85,270);
    }
 
    public void launchAll(double launchPower, int yeetLiftPosition)
@@ -130,15 +81,12 @@ public class Yeeter
       this.park();
    }
 
-   public Test park()
+   public void park()
    {
       feederArm.toHome();
       yeetWheel.stop();
       feederWheel.stop();
       feederArm.toHome();
       yeetLift.toHome();
-      return null;
    }
-
-
 }
