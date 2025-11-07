@@ -94,9 +94,10 @@ public class Auto8ArtGoalStartLeft extends OpMode {
                 setPathState(1);
                 break;
 
-            case 1:
+                case 1:
                 if (!follower.isBusy()) {
                     follower.followPath(scorePickup1, true);
+                    pathTimer.resetTimer();
                     setPathState(2);
                 }
                 break;
