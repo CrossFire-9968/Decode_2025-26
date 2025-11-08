@@ -25,7 +25,7 @@ public class Mecanum
         motor_LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_RF = hwMap.get(DcMotor.class, "Motor_RF");
-        motor_RF.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor_RF.setDirection(DcMotorSimple.Direction.REVERSE);
         motor_RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_RR = hwMap.get(DcMotor.class, "Motor_RR");
@@ -33,7 +33,7 @@ public class Mecanum
         motor_RR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_LR = hwMap.get(DcMotor.class, "Motor_LR");
-        motor_LR.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_LR.setDirection(DcMotorSimple.Direction.FORWARD);
         motor_LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.setAllMecanumPowers(0.0);
@@ -48,6 +48,7 @@ public class Mecanum
         telemetry.addData("rTrigger: ", gpad.right_trigger);
         telemetry.addData("lTrigger: ", gpad.left_trigger);
 
+        //Motor powers labeled wrong
         // Raw drive power for each motor from joystick inputs
         LFrontPower = driveSpeed - turnSpeed - strafeSpeed;
         RFrontPower = driveSpeed + turnSpeed + strafeSpeed;
@@ -58,7 +59,7 @@ public class Mecanum
         // is greater than 1.0 (the max motor power possible) just set it by default
         // to 1.0 so the ratiometric calculation we do next does not
         // inadvertently increase motor powers.
-        double max = 1.0;
+        double max = 0.8;
         max = Math.max(max, Math.abs(LFrontPower));
         max = Math.max(max, Math.abs(RFrontPower));
         max = Math.max(max, Math.abs(RRearPower));

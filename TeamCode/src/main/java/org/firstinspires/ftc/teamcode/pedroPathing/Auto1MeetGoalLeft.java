@@ -111,7 +111,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAllAuto(0.85,270,telemetry);
+                    yeeter.launchAll(0.95, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -119,7 +119,7 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAllAuto(0.85,270,telemetry); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.95, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
@@ -130,8 +130,9 @@ public class Auto1MeetGoalLeft extends OpMode {
                     pathTimer.resetTimer();
                     follower.resumePathFollowing();
                     follower.followPath(grabPickup2, true);
-
-                    setPathState(4);
+                    if (!yeeter.isParking()) {
+                        setPathState(9);
+                    }
                 }
                 break;
 
@@ -157,7 +158,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 telemetry.addLine("Case 5");
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup3, true);
-                    setPathState(9);
+                    setPathState(6);
                 }
                 break;
 

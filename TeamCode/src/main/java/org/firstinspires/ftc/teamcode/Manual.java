@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 
 @TeleOp(name = "Manual")
 public class Manual extends OpMode {
@@ -39,19 +37,19 @@ public class Manual extends OpMode {
 //        // Yeeter control
         //position 1
         if (gamepad2.cross) {
-            yeeter.launchAll(0.65, 330, telemetry);
+            yeeter.launchAll(0.65, 330);
         }
         // position 2
         else if (gamepad2.circle){
-            yeeter.launchAll(0.75, 290, telemetry);
+            yeeter.launchAll(0.75, 290);
         }
         //position 3
         else if (gamepad2.triangle){
-            yeeter.launchAll(0.85, 270, telemetry);
+            yeeter.launchAll(0.85, 270);
         }
         // long shot
         else if (gamepad2.square){
-            yeeter.launchAll(1.0, 265, telemetry);
+            yeeter.launchAll(1.0, 265);
         }
         else {
             yeeter.resetLaunchSequence();

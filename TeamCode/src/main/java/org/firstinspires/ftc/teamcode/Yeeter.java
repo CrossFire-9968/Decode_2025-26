@@ -12,6 +12,7 @@ public class Yeeter
    public final YeetLaunchWheel yeetWheel = new YeetLaunchWheel();
    public ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
    private boolean sequenceActive = false;
+   private boolean parkActive = false;
 
    public void init(HardwareMap hwMap)
    {
@@ -22,18 +23,11 @@ public class Yeeter
       this.park();
    }
 
-   public void launchAllAuto (double launchPower, int yeetLiftPosition, Telemetry tm){
-      this.launchAll(launchPower,yeetLiftPosition, tm);
-   }
-
-   public void launchAll(double launchPower, int yeetLiftPosition, Telemetry tm)
+   public void launchAll(double launchPower, int yeetLiftPosition)
    {
       final double yeetDelay = 2.0;
       final double timeAllottedForElement1 = yeetDelay + 1.0;
       final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
-      double elapsedTime = feedTimer.seconds();
-
-      tm.addData("Yeeter time: ", elapsedTime);
 
       if (!sequenceActive) {
          feedTimer.reset();
@@ -41,7 +35,7 @@ public class Yeeter
       }
 
       if (sequenceActive) {
-
+         double elapsedTime = feedTimer.seconds();
          double yeetMotorStartPosition = 130;
 
          if (yeetLift.getPosition() >= yeetMotorStartPosition){
@@ -90,10 +84,17 @@ public class Yeeter
 
    public void park()
    {
+      parkActive = true;
       feederArm.toHome();
       yeetWheel.stop();
       feederWheel.stop();
       feederArm.toHome();
       yeetLift.toHome();
+      parkActive = false;
    }
+
+   public boolean isParking() {
+      return parkActive;
+   }
+
 }

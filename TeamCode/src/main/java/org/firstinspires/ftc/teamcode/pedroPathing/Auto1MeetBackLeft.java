@@ -4,8 +4,8 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
 import com.pedropathing.geometry.FuturePose;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
@@ -15,22 +15,24 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto8GoalStartLeft")
-public class Auto8ArtGoalStartLeft extends OpMode {
+@Autonomous(name = "Auto1MeetBackLeft")
+public class Auto1MeetBackLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(30,128, Math.toRadians(90));
-    private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
-    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
+    private final Pose startPose = new Pose(56.5,10, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(64,79, Math.toRadians(132)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
-    private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(23,55.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
-    private final Pose pickup3Pose = new Pose(23,36, Math.toRadians(180));
+    private final Pose pickup3Pose = new Pose(23,36, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
+
+
 
     private Path scorePreload;
     private PathChain scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
@@ -111,7 +113,7 @@ public class Auto8ArtGoalStartLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.90, 270);
+                    yeeter.launchAll(0.95, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -119,7 +121,7 @@ public class Auto8ArtGoalStartLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.90, 270); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.95, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
