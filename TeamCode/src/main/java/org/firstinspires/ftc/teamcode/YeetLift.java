@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-
+import org.firstinspires.ftc.teamcode.Yeeter.State.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
@@ -16,6 +16,7 @@ public class YeetLift {
 //    private static final int wallElementPosition = ;
 //    private static final int lowBucketPosition = ;
 //    private static final int highBucketPosition = ;
+    Yeeter.State state = Yeeter.State.POWERUP;
 
     // Motor PIDF coefficients, USE CAUTION. These values change how the motor
     // responds when commanded to an encoder position.
@@ -27,6 +28,7 @@ public class YeetLift {
     PIDFCoefficients pidCheck;
 
     public void init(HardwareMap hwMap){
+        state = Yeeter.State.INIT;
         liftMotor = hwMap.get(DcMotor.class, "yeet_lift_motor");
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -61,6 +63,8 @@ public class YeetLift {
 
     public void raiseToYeet(int yeetLiftPosition){
         double yeetLiftMotorPower = -0.5;
+
+        state = Yeeter.State.RUNNING;
         liftMotor.setTargetPosition(yeetLiftPosition);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(yeetLiftMotorPower);
@@ -73,11 +77,17 @@ public class YeetLift {
         if (liftMotor.getCurrentPosition() < 20) {
             liftMotor.setPower(0.0);
             liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            state = Yeeter.State.COMPLETE;
         }
         else {
+            state = Yeeter.State.PARKING;
             liftMotor.setTargetPosition(parkPosition);
             liftMotor.setPower(parkSpeed);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+    }
+
+    public Yeeter.State getYeetLiftState () {
+        return state;
     }
 }

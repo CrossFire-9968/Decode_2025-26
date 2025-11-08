@@ -13,6 +13,7 @@ public class Yeeter
    public ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
    private boolean sequenceActive = false;
    private boolean parkActive = false;
+   public static enum State {POWERUP, INIT, RUNNING, PARKING, COMPLETE};
 
    public void init(HardwareMap hwMap)
    {
