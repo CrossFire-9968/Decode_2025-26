@@ -113,7 +113,7 @@ public class Auto1MeetBackLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.95, 280);
+                    yeeter.launchAll(0.84, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -121,7 +121,7 @@ public class Auto1MeetBackLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.95, 280); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.84, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());

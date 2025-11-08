@@ -49,7 +49,7 @@ public class Manual extends OpMode {
         }
         // long shot
         else if (gamepad2.square){
-            yeeter.launchAll(1.0, 265);
+            yeeter.launchAll(0.95, 265);
         }
         else {
             yeeter.resetLaunchSequence();
