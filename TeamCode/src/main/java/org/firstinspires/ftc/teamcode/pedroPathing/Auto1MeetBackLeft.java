@@ -98,30 +98,7 @@ public class Auto1MeetBackLeft extends OpMode {
 
             case 1:
                 telemetry.addLine("Case1");
-                if (!follower.isBusy()) {
-                    follower.followPath(scorePickup1, true);
-                    pathTimer.resetTimer();
-                    telemetry.addLine("Case1Busy");
-                    setPathState(2);
-                }
-                break;
-
-
-            //  Add a 2-second delay before grabPickup2
-            case 2:
-                telemetry.addLine("Case2");
-                if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
-                {
-                    follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.95, 280);
-                    telemetry.addLine("Case2Busy");
-                    setPathState(21);
-                }
-                break;
-
-            case 21: // launching: keep calling launchAllAuto every loop until it finishes
-                telemetry.addLine("Case 21");
-                yeeter.launchAll(0.95, 280); // call every loop so Yeeter's timers progress
+  // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
