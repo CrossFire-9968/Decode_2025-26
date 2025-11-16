@@ -18,7 +18,7 @@ public class YeetLaunchWheel
     }
 
     public void intakeSpeed() {
-        double intakePower = -1.0;
+        double intakePower = -0.5;
         yeetMotor.setPower(intakePower);
     }
 
