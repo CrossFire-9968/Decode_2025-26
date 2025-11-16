@@ -119,7 +119,7 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.82, 280); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.72, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
