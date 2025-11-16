@@ -23,7 +23,7 @@ public class Auto1MeetGoalLeft extends OpMode {
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(30,129.5, Math.toRadians(90));
+    private final Pose startPose = new Pose(26,129.5, Math.toRadians(90));
     private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
     private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
@@ -111,7 +111,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.82, 280);
+                    //yeeter.launchAll(0.82, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -128,10 +128,12 @@ public class Auto1MeetGoalLeft extends OpMode {
                 if (!yeeter.isLaunching()) {
                     telemetry.addLine("LaunchComplete");
                     pathTimer.resetTimer();
+//                    yeeter.intake();
                     follower.resumePathFollowing();
                     follower.followPath(grabPickup2, true);
                     if (!yeeter.isParking()) {
-                        setPathState(9);
+                        yeeter.park();
+                        setPathState(4);
                     }
                 }
                 break;
@@ -148,10 +150,11 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 4:
                 telemetry.addLine("Case 4");
-                if (!follower.isBusy()) {
-                    follower.followPath(scorePickup2, true);
-                    setPathState(5);
-                }
+                yeeter.intake();
+//                if (!follower.isBusy()) {
+//                    follower.followPath(scorePickup2, true);
+//                    setPathState(5);
+//                }
                 break;
 
             case 5:
