@@ -23,7 +23,7 @@ public class Auto1MeetGoalLeft extends OpMode {
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(28,126, Math.toRadians(90));
+    private final Pose startPose = new Pose(30,129.5, Math.toRadians(90));
     private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
     private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));

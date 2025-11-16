@@ -15,23 +15,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto1MeetGoalRight")
-public class Auto1MeetGoalRight extends OpMode {
+@Autonomous(name = "Auto1MeetGoalLeft")
+public class StefanTest extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(110,120, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(77,77, Math.toRadians(48)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(118,82, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose beforepickup2Pose = new Pose(87.5,59, Math.toRadians(0));
-    private final Pose pickup2Pose = new Pose(119,57.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose beforepickup3Pose = new Pose(87.5,37.5, Math.toRadians(0));
-    private final Pose pickup3Pose = new Pose(119,36, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(0));
-
+    private final Pose startPose = new Pose(30,129.5, Math.toRadians(90));
+    private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
+    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
+    private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
+    private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
+    private final Pose pickup3Pose = new Pose(23,36, Math.toRadians(180));
+    private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
 
     private Path scorePreload;
     private PathChain scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
@@ -105,13 +104,14 @@ public class Auto1MeetGoalRight extends OpMode {
                 }
                 break;
 
+
             //  Add a 2-second delay before grabPickup2
             case 2:
                 telemetry.addLine("Case2");
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.82, 280);
+                    yeeter.launchAll(0.95, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -119,7 +119,7 @@ public class Auto1MeetGoalRight extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.82, 280); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.95, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
