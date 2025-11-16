@@ -23,7 +23,7 @@ public class Auto1MeetGoalRight extends OpMode {
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(108,120, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(110,118, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(77,77, Math.toRadians(48)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(118,82, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose beforepickup2Pose = new Pose(87.5,59, Math.toRadians(0));
