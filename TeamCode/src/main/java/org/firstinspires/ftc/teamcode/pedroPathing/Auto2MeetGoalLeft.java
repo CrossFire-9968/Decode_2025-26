@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto1MeetGoalLeft")
-public class Auto1MeetGoalLeft extends OpMode {
+@Autonomous(name = "Auto2MeetGoalLeft")
+public class Auto2MeetGoalLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
@@ -24,9 +24,9 @@ public class Auto1MeetGoalLeft extends OpMode {
     public Yeeter yeeter = new Yeeter();
 
     private final Pose startPose = new Pose(26,128.5, Math.toRadians(90));
-    private final Pose scorePose = new Pose(65,79, Math.toRadians(130));
+    private final Pose scorePose = new Pose(65,79, Math.toRadians(125));
     private final Pose beforePickup1Pose = new Pose(56,89.3, Math.toRadians(180));
-    private final Pose pickup1Pose = new Pose(26,88.3, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22,88.3, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
     private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
     private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
@@ -123,7 +123,7 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.72, 280); // call every loop so Yeeter's timers progress
+                yeeter.launchAll(0.78, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
