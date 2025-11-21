@@ -23,9 +23,10 @@ public class Auto1MeetGoalLeft extends OpMode {
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(26,129.5, Math.toRadians(90));
-    private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
-    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
+    private final Pose startPose = new Pose(26,128.5, Math.toRadians(90));
+    private final Pose scorePose = new Pose(65,79, Math.toRadians(130));
+    private final Pose beforePickup1Pose = new Pose(56,89.3, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(26,88.3, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
     private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
     private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
@@ -33,7 +34,7 @@ public class Auto1MeetGoalLeft extends OpMode {
     private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
 
     private Path scorePreload;
-    private PathChain scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
+    private PathChain scorePickup1,  grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
 
 
     public void buildPaths() {
@@ -43,8 +44,11 @@ public class Auto1MeetGoalLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(scorePose, beforePickup1Pose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
                 //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
+
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
@@ -151,19 +155,37 @@ public class Auto1MeetGoalLeft extends OpMode {
             case 4:
                 telemetry.addLine("Case 4");
                 yeeter.intake();
-//                if (!follower.isBusy()) {
-//                    follower.followPath(scorePickup2, true);
-//                    setPathState(5);
-//                }
+                if (!follower.isBusy()) {
+                   follower.followPath(scorePickup2, true);
+                   setPathState(9);
+                }
                 break;
 
             case 5:
                 telemetry.addLine("Case 5");
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup3, true);
-                    setPathState(6);
+                    setPathState(51);
                 }
                 break;
+
+            case 51:
+                telemetry.addLine("Case 5");
+                follower.pausePathFollowing();
+
+                if (!yeeter.isLaunching()) {
+                    telemetry.addLine("LaunchComplete");
+                    pathTimer.resetTimer();
+//                    yeeter.intake();
+                    follower.resumePathFollowing();
+                   // follower.followPath(grabPickup2, true);
+                    if (!yeeter.isParking()) {
+                        yeeter.park();
+                        setPathState(6);
+                    }
+                }
+
+
 
             case 6:
                 telemetry.addLine("Case 6");
@@ -190,6 +212,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 break;
 
             case 9:
+                yeeter.park();
                 telemetry.addLine("Case 9");
                 if (!follower.isBusy()) {
                     setPathState(-1); // finished
