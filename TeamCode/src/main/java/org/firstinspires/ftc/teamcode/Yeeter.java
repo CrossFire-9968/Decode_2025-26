@@ -58,6 +58,7 @@ public class Yeeter
 
          // Move feeder wheel to second element and pause for launch
          else if (elapsedTime <= timeAllottedForElement2) {
+            yeetWheel.launchSpeed(launchPower + 0.07);
             feederArm.toSecondElement();
          }
 

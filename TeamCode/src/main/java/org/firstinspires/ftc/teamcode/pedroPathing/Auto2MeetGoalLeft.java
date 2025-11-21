@@ -34,7 +34,7 @@ public class Auto2MeetGoalLeft extends OpMode {
     private final FuturePose Curve1 = new Pose(84,46, Math.toRadians(180));
 
     private Path scorePreload;
-    private PathChain scorePickup1,  grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
+    private PathChain scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3, grabPickup4, scorePickup4;
 
 
     public void buildPaths() {
@@ -48,7 +48,6 @@ public class Auto2MeetGoalLeft extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
                 //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
-
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))

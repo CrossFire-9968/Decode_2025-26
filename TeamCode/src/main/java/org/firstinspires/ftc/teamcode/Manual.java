@@ -37,27 +37,30 @@ public class Manual extends OpMode {
 //        // Yeeter control
         //position 1
         if (gamepad2.cross) {
-            yeeter.launchAll(0.65, 330);
+            yeeter.launchAll(0.60, 330);
         }
         // position 2
         else if (gamepad2.circle){
-            yeeter.launchAll(0.75, 290);
+            yeeter.launchAll(0.70, 290);
         }
         //position 3
         else if (gamepad2.triangle){
-            yeeter.launchAll(0.85, 270);
+            yeeter.launchAll(0.80, 270);
         }
         // long shot
         else if (gamepad2.square){
-            yeeter.launchAll(0.95, 265);
+            yeeter.launchAll(0.90, 265);
+        }
+        else if(gamepad2.left_bumper){
+            yeeter.intake();
         }
         else {
             yeeter.resetLaunchSequence();
         }
 
-        if(gamepad2.left_bumper){
-            yeeter.intake();
-        }
+//        if(gamepad2.left_bumper){
+//            yeeter.intake();
+//        }
 
         // Save CPU resources; can resume streaming when needed.
 //              if (gamepad2.dpad_down) {
