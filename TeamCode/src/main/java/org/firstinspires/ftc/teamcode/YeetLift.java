@@ -80,7 +80,7 @@ public class YeetLift {
             state = Yeeter.State.COMPLETE;
         }
         else {
-            state = Yeeter.State.PARKING;
+            state = Yeeter.State.RUNNING;
             liftMotor.setTargetPosition(parkPosition);
             liftMotor.setPower(parkSpeed);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -117,7 +117,7 @@ public class Auto2MeetBackLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    //yeeter.launchAll(0.82, 280);
+                    //yeeter.launchAll(0.82, 0.82, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -125,7 +125,7 @@ public class Auto2MeetBackLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.74, 280); // call every loop so Yeeter's timers progress
+                yeeter.yeetAllElements(0.74, 0.74, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
@@ -169,7 +169,7 @@ public class Auto2MeetBackLeft extends OpMode {
                 if (!follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    //yeeter.launchAll(0.82, 280);
+                    //yeeter.launchAll(0.82, 0.82, 280);
                     telemetry.addLine("Case41Busy");
                     setPathState(42);
                 }
@@ -177,7 +177,7 @@ public class Auto2MeetBackLeft extends OpMode {
 
             case 42: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 42");
-                yeeter.launchAll(0.74, 280); // call every loop so Yeeter's timers progress
+                yeeter.yeetAllElements(0.74, 0.74, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());

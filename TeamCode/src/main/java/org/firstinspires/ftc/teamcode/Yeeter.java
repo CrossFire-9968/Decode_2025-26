@@ -2,101 +2,123 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Yeeter
-{
-   private final YeetLift yeetLift = new YeetLift();
-   private final YeetFeederArm feederArm = new YeetFeederArm();
-   private final YeetFeederWheel feederWheel = new YeetFeederWheel();
-   public final YeetLaunchWheel yeetWheel = new YeetLaunchWheel();
-   public ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-   private boolean sequenceActive = false;
-   private boolean parkActive = false;
-   public static enum State {POWERUP, INIT, RUNNING, PARKING, COMPLETE};
+public class Yeeter {
+    private final YeetLift yeetLift = new YeetLift();
+    private final YeetFeederArm feederArm = new YeetFeederArm();
+    private final YeetFeederWheel feederWheel = new YeetFeederWheel();
+    public final YeetLaunchWheel yeetWheel = new YeetLaunchWheel();
+    public ElapsedTime feedTimer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+    private boolean sequenceActive = false;
+    private boolean parkActive = false;
 
-   public void init(HardwareMap hwMap)
-   {
-      yeetLift.init(hwMap);
-      feederArm.init(hwMap);
-      feederWheel.init(hwMap);
-      yeetWheel.init(hwMap);
-      this.park();
-   }
+    public enum State {POWERUP, INIT, RUNNING, IDLE, COMPLETE}
+    public State parkState = State.IDLE;
 
-   public void launchAll(double launchPower, int yeetLiftPosition)
-   {
-      final double yeetDelay = 2.0;
-      final double timeAllottedForElement1 = yeetDelay + 1.0;
-      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
+    ;
 
-      if (!sequenceActive) {
-         feedTimer.reset();
-         sequenceActive = true;
-      }
+    public void init(HardwareMap hwMap) {
+        yeetLift.init(hwMap);
+        feederArm.init(hwMap);
+        feederWheel.init(hwMap);
+        yeetWheel.init(hwMap);
+        this.park();
+    }
 
-      if (sequenceActive) {
-         double elapsedTime = feedTimer.seconds();
-         double yeetMotorStartPosition = 130;
+    public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition) {
+        final double yeetDelay = 2.0;
+        final double timeAllottedForElement1 = yeetDelay + 1.0;
+        final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
 
-         if (yeetLift.getPosition() >= yeetMotorStartPosition){
-            yeetWheel.launchSpeed(launchPower);
-            feederWheel.yeetStart();
-         }
-         else{
-            yeetWheel.noPinchSpeed();
-         }
+        if (!sequenceActive) {
+            feedTimer.reset();
+            sequenceActive = true;
+        }
 
-         if (elapsedTime < yeetDelay){
-            yeetLift.raiseToYeet(yeetLiftPosition);
-         }
+        if (sequenceActive) {
+            double elapsedTime = feedTimer.seconds();
+            double yeetMotorStartPosition = 130;
 
-         // Move feeder wheel to first element and pause for launch
-         else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
-            feederArm.toFirstElement();
-         }
+            if (yeetLift.getPosition() >= yeetMotorStartPosition) {
+                yeetWheel.yeetPower(powerElement1);
+                feederWheel.yeetStart();
+            } else {
+                yeetWheel.noPinchSpeed();
+            }
 
-         // Move feeder wheel to second element and pause for launch
-         else if (elapsedTime <= timeAllottedForElement2) {
-            yeetWheel.launchSpeed(launchPower + 0.07);
-            feederArm.toSecondElement();
-         }
+            if (elapsedTime < yeetDelay) {
+                yeetLift.raiseToYeet(yeetLiftPosition);
+            }
 
-         // All done, so wait for next button press
-         else {
-            this.resetLaunchSequence();
-         }
-      }
-   }
+            // Move feeder wheel to first element and pause for launch
+            else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
+                feederArm.toFirstElement();
+            }
 
-   public boolean isLaunching() {
-      return sequenceActive;
-   }
+            // Move feeder wheel to second element and pause for launch
+            else if (elapsedTime <= timeAllottedForElement2) {
+                yeetWheel.yeetPower(powerElement2);
+                feederArm.toSecondElement();
+            }
 
-   public void intake(){
-      yeetWheel.intakeSpeed();
-   }
+            // All done, so wait for next button press
+            else {
+                this.resetLaunchSequence();
+            }
+        }
+    }
 
-   // Only reset the sequence after the button is released.
-   // We don't want to run it over and over again if the button is held.
-   public void resetLaunchSequence() {
-      sequenceActive = false;
-      this.park();
-   }
+    public boolean isLaunching() {
+        return sequenceActive;
+    }
 
-   public void park()
-   {
-      parkActive = true;
-      feederArm.toHome();
-      yeetWheel.stop();
-      feederWheel.stop();
-      feederArm.toHome();
-      yeetLift.toHome();
-      parkActive = false;
-   }
+    public void intake() {
+        yeetWheel.intakeSpeed();
+    }
 
-   public boolean isParking() {
-      return parkActive;
-   }
+    // Only reset the sequence after the button is released.
+    // We don't want to run it over and over again if the button is held.
+    public void resetLaunchSequence() {
+        sequenceActive = false;
+        this.park();
+    }
+
+
+    public void park() {
+        switch (parkState) {
+            case IDLE:
+                parkState = State.RUNNING;
+                break;
+
+            case RUNNING:
+                feederArm.toHome();
+                yeetWheel.stop();
+                feederWheel.stop();
+                feederArm.toHome();
+                yeetLift.toHome();
+
+                if (yeetLift.getYeetLiftState() == State.COMPLETE) {
+                    parkState = State.COMPLETE;
+                }
+                break;
+        }
+    }
+
+
+    public void resetPark() {
+        if (parkState == State.COMPLETE) {
+            parkState = State.IDLE;
+        }
+    }
+
+
+    public State getYeeterParkState() {
+        return parkState;
+    }
+
+
+    public boolean isParking() {
+        return true;
+    }
 
 }

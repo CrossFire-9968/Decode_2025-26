@@ -37,19 +37,19 @@ public class Manual extends OpMode {
 //        // Yeeter control
         //position 1
         if (gamepad2.cross) {
-            yeeter.launchAll(0.60, 330);
+            yeeter.yeetAllElements(0.60, 0.60, 330);
         }
         // position 2
         else if (gamepad2.circle){
-            yeeter.launchAll(0.70, 290);
+            yeeter.yeetAllElements(0.70, 0.70, 290);
         }
         //position 3
         else if (gamepad2.triangle){
-            yeeter.launchAll(0.80, 270);
+            yeeter.yeetAllElements(0.80, 0.80, 270);
         }
         // long shot
         else if (gamepad2.square){
-            yeeter.launchAll(0.90, 265);
+            yeeter.yeetAllElements(0.90, 0.90, 265);
         }
         else if(gamepad2.left_bumper){
             yeeter.intake();
