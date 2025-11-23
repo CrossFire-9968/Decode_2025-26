@@ -45,6 +45,8 @@ public class Auto_With_Selection extends OpMode {
     private enum AutoStartLocation {GOAL, POINT, UNKNOWN}
     AutoStartLocation location = AutoStartLocation.UNKNOWN;
     boolean runBuild = false;
+    String allianceSelected = "";
+    String locationSelected = "";
 
 
     private void loadPreset(Alliance alliance, AutoStartLocation location) {
@@ -235,7 +237,7 @@ public class Auto_With_Selection extends OpMode {
                 break;
 
             case 999:
-                telemetry.addLine("Case 9: Autonomous complete");
+                telemetry.addLine("Case 999: Autonomous complete");
                 if (!follower.isBusy()) {
                     setPathState(-1); // finished
                 }
@@ -273,9 +275,6 @@ public class Auto_With_Selection extends OpMode {
 
     @Override
     public void init_loop() {
-        String allianceSelected = "";
-        String locationSelected = "";
-
         super.init_loop();
 
         if (alliance == Alliance.UNKNOWN) {
@@ -292,8 +291,7 @@ public class Auto_With_Selection extends OpMode {
                 allianceSelected = "RED";
             }
         }
-
-        if (alliance != Alliance.UNKNOWN && location == AutoStartLocation.UNKNOWN) {
+        else if (alliance != Alliance.UNKNOWN && location == AutoStartLocation.UNKNOWN) {
             telemetry.addLine("Alliance Selected: " + allianceSelected);
             telemetry.addLine("Select Start Location");
             telemetry.addLine("   Dpad Left: Goal");
@@ -318,9 +316,7 @@ public class Auto_With_Selection extends OpMode {
                 runBuild = true;
             }
         }
-
-        // After selecting alliance and start location
-        if (alliance != Alliance.UNKNOWN && location != AutoStartLocation.UNKNOWN) {
+        else if (alliance != Alliance.UNKNOWN && location != AutoStartLocation.UNKNOWN) {
             telemetry.addLine("Alliance Selected: " + allianceSelected);
             telemetry.addLine("Location Selected: " + locationSelected);
             telemetry.addLine("   Circle: Start Over");
@@ -336,7 +332,11 @@ public class Auto_With_Selection extends OpMode {
             if (gamepad1.circle) {
                 alliance = Alliance.UNKNOWN;
                 location = AutoStartLocation.UNKNOWN;
-                telemetry.addLine("/n...ready for play");
+            }
+
+            if (!runBuild) {
+                telemetry.addLine("");
+                telemetry.addLine("...ready for play");
             }
         }
     }
