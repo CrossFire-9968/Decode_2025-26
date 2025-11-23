@@ -81,21 +81,16 @@ public class Auto_With_Selection extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-//                .addPath(new BezierLine(scorePose, beforePickup1Pose))
-//                .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
-                //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
 
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), 0.4)
-                //.addParametricCallback(0.3, yeeter::intake)
                 .build();
 
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading(), 0.4)
-                //.addParametricCallback(0.3, yeeter::park)
                 .build();
 
         grabPickup3 = follower.pathBuilder()
