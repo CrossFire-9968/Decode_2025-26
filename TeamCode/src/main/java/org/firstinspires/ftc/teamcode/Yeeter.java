@@ -84,7 +84,7 @@ public class Yeeter {
     }
 
 
-    public void park() {
+    public State park() {
         switch (parkState) {
             case IDLE:
                 parkState = State.RUNNING;
@@ -102,6 +102,8 @@ public class Yeeter {
                 }
                 break;
         }
+
+        return yeetLift.getYeetLiftState();
     }
 
 

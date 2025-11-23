@@ -81,8 +81,8 @@ public class Auto_With_Selection extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .addPath(new BezierLine(scorePose, beforePickup1Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
+//                .addPath(new BezierLine(scorePose, beforePickup1Pose))
+//                .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
                 //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
 
@@ -150,17 +150,18 @@ public class Auto_With_Selection extends OpMode {
                 telemetry.addLine("Case 2: Yeeting elements");
                 yeeter.yeetAllElements(firstElementYeetPower, secondElementYeetPower, yeetPosition);
 
+
                 // once Yeeter finished
                 if (!yeeter.isLaunching()) {
                     telemetry.addLine("Case 2: Yeeting complete");
                     yeeter.resetPark(); // Reset park state machine so it runs only once
-                    yeeter.park();
                     setPathState(3);
                 }
                 break;
 
             case 3:
                 telemetry.addLine("Case 3: Parking yeeter");
+                yeeter.park();
                 if (yeeter.getYeeterParkState() == Yeeter.State.COMPLETE) {
                     telemetry.addLine("Case 3: Yeeter parked");
                     setPathState(4);
@@ -205,13 +206,13 @@ public class Auto_With_Selection extends OpMode {
                 if (!yeeter.isLaunching()) {
                     telemetry.addLine("Case 7: Yeeting complete");
                     yeeter.resetPark(); // Reset park state machine so it runs only once
-                    yeeter.park();
                     setPathState(8);
                 }
                 break;
 
             case 8:
                 telemetry.addLine("Case 8: Parking yeeter");
+                yeeter.park();
                 if (yeeter.getYeeterParkState() == Yeeter.State.COMPLETE) {
                     telemetry.addLine("Case 8: Yeeter parked");
                     setPathState(9);
@@ -220,7 +221,7 @@ public class Auto_With_Selection extends OpMode {
 
             case 9:
                 telemetry.addLine("Case 9: Initiating move to 2nd pickup");
-                yeeter.intake();
+//                yeeter.intake();
                 follower.resumePathFollowing();
                 follower.followPath(grabPickup3, true);
                 setPathState(10);

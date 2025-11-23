@@ -74,7 +74,7 @@ public class YeetLift {
         double parkSpeed = 0.2;
         int parkPosition = 0;
 
-        if (liftMotor.getCurrentPosition() < 20) {
+        if (liftMotor.getCurrentPosition() < 50) {
             liftMotor.setPower(0.0);
             liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             state = Yeeter.State.COMPLETE;
