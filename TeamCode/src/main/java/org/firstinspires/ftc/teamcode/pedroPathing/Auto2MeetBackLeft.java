@@ -262,8 +262,6 @@ public class Auto2MeetBackLeft extends OpMode {
         opmodeTimer.resetTimer();
         yeeter.init(hardwareMap);
 
-
-
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
