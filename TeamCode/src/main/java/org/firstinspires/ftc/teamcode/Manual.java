@@ -52,7 +52,7 @@ public class Manual extends OpMode {
             yeeter.yeetAllElements(0.90, 0.90, 265);
         }
         else if(gamepad2.left_bumper){
-            yeeter.intake();
+            yeeter.intakeOn();
         }
         else {
             yeeter.resetLaunchSequence();

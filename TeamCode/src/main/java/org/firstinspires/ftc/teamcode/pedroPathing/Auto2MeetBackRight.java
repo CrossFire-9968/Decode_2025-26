@@ -155,7 +155,7 @@ public class Auto2MeetBackRight extends OpMode {
 
             case 4:
                 telemetry.addLine("Case 4");
-                yeeter.intake();
+                yeeter.intakeOn();
                 if (!follower.isBusy()) {
                     follower.followPath(scorePickup2, true);
                     setPathState(41);

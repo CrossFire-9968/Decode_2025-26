@@ -14,8 +14,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Yeeter;
 
-import java.util.List;
-
 @Configurable
 @Autonomous(name = "Auto_With_Selection")
 public class Auto_With_Selection extends OpMode
@@ -177,7 +175,7 @@ public class Auto_With_Selection extends OpMode
 
          case 4:
             telemetry.addLine("Case 4: Initiating move to 1st pickup");
-            yeeter.intake();
+            yeeter.intakeOn();
             follower.resumePathFollowing();
             follower.followPath(grabPickup2, true);
             setPathState(5);
