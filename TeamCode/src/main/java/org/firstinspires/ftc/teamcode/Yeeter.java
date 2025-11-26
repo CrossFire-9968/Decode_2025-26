@@ -31,9 +31,9 @@ public class Yeeter
 
    public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition)
    {
-      final double yeetDelay = 2.0;
-      final double timeAllottedForElement1 = yeetDelay + 1.0;
-      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
+      final double yeetDelay = 1.0;
+      final double timeAllottedForElement1 = yeetDelay + 0.7;
+      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.2;
 
       if (!sequenceActive) {
          feedTimer.reset();
