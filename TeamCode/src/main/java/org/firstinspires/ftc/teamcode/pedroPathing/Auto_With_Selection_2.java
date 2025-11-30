@@ -20,11 +20,29 @@ import java.util.Arrays;
 @Autonomous(name = "Auto_With_Selection_2")
 public class Auto_With_Selection_2 extends OpMode {
     // Initialize poses
-    private final Pose startPose = new Pose(26, 128.5, Math.toRadians(90));
-    private final Pose yeetPose = new Pose(65, 79, Math.toRadians(130));
-    private final Pose GPPpose = new Pose(22, 88.3, Math.toRadians(180));
-    private final Pose PGPpose = new Pose(22, 51, Math.toRadians(180));
-    private final Pose PPGpose = new Pose(22, 35, Math.toRadians(180));
+    private final Pose startPoseFrontLeft = new Pose(26, 128.5, Math.toRadians(90));
+    private final Pose yeetPoseFrontLeft = new Pose(65, 80, Math.toRadians(126));
+    private final Pose GPPposeFrontLeft = new Pose(22, 88.3, Math.toRadians(180));
+    private final Pose PGPposeFrontLeft = new Pose(22, 51, Math.toRadians(180));
+    private final Pose PPGposeFrontLeft = new Pose(22, 35, Math.toRadians(180));
+
+    private final Pose startPoseFrontRight = new Pose(110,120, Math.toRadians(90));
+    private final Pose yeetPoseFrontRight = new Pose(77,77, Math.toRadians(48));
+    private final Pose GPPposeFrontRight = new Pose(118,80.5, Math.toRadians(0));
+    private final Pose PGPposeFrontRight = new Pose(119,57.5, Math.toRadians(0));
+    private final Pose PPGposeFrontRight = new Pose(119,36, Math.toRadians(0));
+
+    private final Pose startPoseBackLeft = new Pose(56.5,10, Math.toRadians(90));
+    private final Pose yeetPoseBackLeft = new Pose(64,79, Math.toRadians(132));
+    private final Pose GPPposeBackLeft = new Pose(29,82, Math.toRadians(180));
+    private final Pose PGPposeBackLeft = new Pose(23,55.5, Math.toRadians(180));
+    private final Pose PPGposeBackLeft = new Pose(23,36, Math.toRadians(180));
+
+    private final Pose startPoseBackRight = new Pose(84,1, Math.toRadians(90));
+    private final Pose yeetPoseBackRight = new Pose(77,77, Math.toRadians(40));
+    private final Pose GPPposeBackRight = new Pose(118,82, Math.toRadians(0));
+    private final Pose PGPposeBackRight = new Pose(119,57.5, Math.toRadians(0));
+    private final Pose PPGposeBackRight = new Pose(119,36, Math.toRadians(0));
 
     // Other Variables
     public Yeeter yeeter = new Yeeter();
@@ -47,14 +65,18 @@ public class Auto_With_Selection_2 extends OpMode {
 
     private enum masterAutoState {PRELOAD, GPP, PGP, PPG, YEET, COMPLETE}
 
+    private enum masterSideState {BLUE, RED}
+
     private masterAutoState masterState;
-    masterAutoState mosaicPose;
+    masterAutoState MotifPose;
+
+    private masterSideState sideState;
 
 
     @Override
     public void init() {
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(startPoseFrontLeft);
 
         // Reset master state machine
         masterState = masterAutoState.PRELOAD;
@@ -87,16 +109,26 @@ public class Auto_With_Selection_2 extends OpMode {
     public void init_loop() {
         // Simulate AprilTag selection
         if (gamepad1.dpad_up) {
-            mosaicPose = masterAutoState.GPP;
-            log("Mosiac", "GPP");
+            MotifPose = masterAutoState.GPP;
+            log("Motif", "GPP");
         }
-        else if (gamepad1.dpad_left || gamepad1.dpad_right) {
-            mosaicPose = masterAutoState.PGP;
-            log("Mosiac", "PGP");
+
+        if (gamepad1.square) {
+            sideState = masterSideState.BLUE;
+            log("Side", "Blue");
         }
-        else if (gamepad1.dpad_down) {
-            mosaicPose = masterAutoState.PPG;
-            log("Mosiac", "PPG");
+        if (gamepad1.circle) {
+            sideState = masterSideState.RED;
+            log("Side", "Red");
+        }
+
+        if (gamepad1.dpad_left || gamepad1.dpad_right) {
+            MotifPose = masterAutoState.PGP;
+            log("Motif", "PGP");
+        }
+        if (gamepad1.dpad_down) {
+            MotifPose = masterAutoState.PPG;
+            log("Motif", "PPG");
         }
 
         telemetry.update();
@@ -127,7 +159,7 @@ public class Auto_With_Selection_2 extends OpMode {
 
                     // After first yeet, go to the mosaic
                     if (yeetCount == 1) {
-                        masterState = mosaicPose;
+                        masterState = MotifPose;
                     }
                     // After yeeting mosaic do ???
                     else if (yeetCount == 2) {
@@ -180,26 +212,26 @@ public class Auto_With_Selection_2 extends OpMode {
     public void buildPathsPreload() {
         // Move to yeet position from start pose
         scorePreload = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, yeetPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierLine(startPoseFrontLeft, yeetPoseFrontLeft))
+                .setLinearHeadingInterpolation(startPoseFrontLeft.getHeading(), yeetPoseFrontLeft.getHeading())
                 .build();
     }
 
 
     // Move to GPP pose, then back to scoring pose
     public void buildPathsGPP() {
-        final Pose grabGPPControlPoint1 = new Pose(44, 85, Math.toRadians(180));
+        final Pose grabGPPControlPoint1 = new Pose(48, 85, Math.toRadians(180));
 
         // Move from yeet pose to GPP pose
         grabGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabGPPControlPoint1, GPPpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), GPPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPoseFrontLeft, grabGPPControlPoint1, GPPposeFrontLeft)))
+                .setLinearHeadingInterpolation(yeetPoseFrontLeft.getHeading(), GPPposeFrontLeft.getHeading())
                 .build();
 
         // Move from GPP pose to yeet pose
         scoreGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint1, yeetPose)))
-                .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(GPPposeFrontLeft, grabGPPControlPoint1, yeetPoseFrontLeft)))
+                .setLinearHeadingInterpolation(GPPposeFrontLeft.getHeading(), yeetPoseFrontLeft.getHeading())
                 .build();
     }
 
@@ -210,14 +242,14 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to PGP pose
         grabPGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabPGPControlPoint1, PGPpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), PGPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPoseFrontLeft, grabPGPControlPoint1, PGPposeFrontLeft)))
+                .setLinearHeadingInterpolation(yeetPoseFrontLeft.getHeading(), PGPposeFrontLeft.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PGPpose, grabPGPControlPoint1, yeetPose)))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(PGPposeFrontLeft, grabPGPControlPoint1, yeetPoseFrontLeft)))
+                .setLinearHeadingInterpolation(PGPposeFrontLeft.getHeading(), yeetPoseFrontLeft.getHeading())
                 .build();
     }
 
@@ -228,14 +260,14 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to PPG pose
         grabPPG = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabPPGControlPoint1, PPGpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), PPGpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPoseFrontLeft, grabPPGControlPoint1, PPGposeFrontLeft)))
+                .setLinearHeadingInterpolation(yeetPoseFrontLeft.getHeading(), PPGposeFrontLeft.getHeading())
                 .build();
 
         // Move from PPG pose to yeet pose
         scorePPG = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PPGpose, grabPPGControlPoint1, yeetPose)))
-                .setLinearHeadingInterpolation(PPGpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(PPGposeFrontLeft, grabPPGControlPoint1, yeetPoseFrontLeft)))
+                .setLinearHeadingInterpolation(PPGposeFrontLeft.getHeading(), yeetPoseFrontLeft.getHeading())
                 .build();
     }
 
@@ -366,8 +398,8 @@ public class Auto_With_Selection_2 extends OpMode {
     // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.83;
-        final double secondElementYeetPower = 0.87;
+        final double firstElementYeetPower = 0.80;
+        final double secondElementYeetPower = 0.82;
         final int yeetPosition = 280;
 
         switch (pathState) {
