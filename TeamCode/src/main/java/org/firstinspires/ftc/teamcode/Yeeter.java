@@ -70,8 +70,9 @@ public class Yeeter
    }
 
    public void launchOne(double launchPower, int yeetLiftPosition){
-      final double yeetDelay = 2.0;
-      final double timeAllottedForElement1 = yeetDelay + 1.0;
+      final double yeetDelay = 1.0;
+      final double timeAllottedForElement1 = yeetDelay + 0.5;
+      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
 
       if (!sequenceActive) {
          feedTimer.reset();
@@ -95,8 +96,15 @@ public class Yeeter
 
          // Move feeder wheel to first element and pause for launch
          else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
-            feederArm.toSecondElement();
-         } else {
+             feederArm.toFirstElement();
+         }
+
+         // Move feeder wheel to second element and pause for launch
+         else if (elapsedTime <= timeAllottedForElement2) {
+             yeetWheel.launchSpeed(launchPower + 0.07);
+             feederArm.toSecondElement();
+         }
+          else {
             this.resetLaunchSequence();
          }
       }
