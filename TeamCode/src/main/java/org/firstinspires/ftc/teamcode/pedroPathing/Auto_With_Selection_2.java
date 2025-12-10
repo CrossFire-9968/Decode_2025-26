@@ -287,11 +287,11 @@ public class Auto_With_Selection_2 extends OpMode {
                 updateStateMachineYeet();
                 if (pathState == -1) {
 
-                    // After first yeet, go to the mosaic
+                    // After first yeet, go to the Artifacts
                     if (yeetCount == 1) {
                         masterState = MotifPose;
                     }
-                    // After yeeting mosaic do ???
+                    // After yeeting Motif do ???
                     else if (yeetCount == 2) {
                         masterState = masterStateEnum.COMPLETE;
                     }
@@ -377,8 +377,10 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to PGP pose
         grabPGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabPGPControlPoint, PGPpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), PGPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPose,beforePGPpose)))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePGPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(beforePGPpose,PGPpose)))
+                .setLinearHeadingInterpolation(beforePGPpose.getHeading(), PGPpose.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
@@ -395,8 +397,10 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to PPG pose
         grabPPG = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabPPGControlPoint, PPGpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), PPGpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPose,beforePPGpose)))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePPGpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(beforePPGpose, PPGpose)))
+                .setLinearHeadingInterpolation(beforePPGpose.getHeading(), PPGpose.getHeading())
                 .build();
 
         // Move from PPG pose to yeet pose
@@ -565,6 +569,7 @@ public class Auto_With_Selection_2 extends OpMode {
                     yeetCount += 1;
 
                     setPathState(-1); // finished
+                    masterState = masterStateEnum.PGP;
                 }
                 break;
         }
