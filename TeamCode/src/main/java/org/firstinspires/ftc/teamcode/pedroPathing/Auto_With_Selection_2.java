@@ -22,13 +22,16 @@ public class Auto_With_Selection_2 extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
+    private Pose beforeGPPpose = null;
     private Pose GPPpose = null;
+    private Pose beforePGPpose = null;
     private Pose PGPpose = null;
+    private Pose beforePPGpose = null;
     private Pose PPGpose = null;
 
-     Pose grabGPPControlPoint = null;
-     Pose grabPGPControlPoint = null;
-     Pose grabPPGControlPoint = null;
+    Pose grabGPPControlPoint = null;
+    Pose grabPGPControlPoint = null;
+    Pose grabPPGControlPoint = null;
 
     private enum Alliance {BLUE, RED, UNKNOWN}
 
@@ -39,6 +42,7 @@ public class Auto_With_Selection_2 extends OpMode {
     boolean runBuild = false;
     String allianceSelected = "";
     String locationSelected = "";
+
 
 //    private final Pose startPoseFrontLeft = new Pose(26, 128.5, Math.toRadians(90));
 //    private final Pose yeetPoseFrontLeft = new Pose(65, 80, Math.toRadians(126));
@@ -58,11 +62,11 @@ public class Auto_With_Selection_2 extends OpMode {
 //    private final Pose PGPposeBackLeft = new Pose(23,55.5, Math.toRadians(180));
 //    private final Pose PPGposeBackLeft = new Pose(23,36, Math.toRadians(180));
 //
-//    private final Pose startPoseBackRight = new Pose(84,1, Math.toRadians(90));
-//    private final Pose yeetPoseBackRight = new Pose(77,77, Math.toRadians(40));
-//    private final Pose GPPposeBackRight = new Pose(118,82, Math.toRadians(0));
-//    private final Pose PGPposeBackRight = new Pose(119,57.5, Math.toRadians(0));
-//    private final Pose PPGposeBackRight = new Pose(119,36, Math.toRadians(0));
+//    private final Pose startPose = new Pose(84,1, Math.toRadians(90));
+//    private final Pose yeetPose = new Pose(77,77, Math.toRadians(40));
+//    private final Pose GPPpose = new Pose(118,82, Math.toRadians(0));
+//    private final Pose PGPpose = new Pose(119,57.5, Math.toRadians(0));
+//    private final Pose PPGpose = new Pose(119,36, Math.toRadians(0));
 
     // Other Variables
     public Yeeter yeeter = new Yeeter();
@@ -83,37 +87,81 @@ public class Auto_With_Selection_2 extends OpMode {
 
     private TelemetryManager panelsTelemetry; // Panels telemetry
 
-    private enum masterAutoState {PRELOAD, GPP, PGP, PPG, YEET, COMPLETE}
+    private enum masterStateEnum {PRELOAD, GPP, PGP, PPG, YEET, COMPLETE}
 
 //    private enum masterSideState {BLUE, RED}
 
-    private masterAutoState masterState;
-    masterAutoState MotifPose;
+    private masterStateEnum masterState;
+    private masterStateEnum MotifPose;
 
 //    private masterSideState sideState;
 
 
-    private void loadPreset(Alliance alliance, AutoStartLocation location)
-    {
+    private void loadPreset(Alliance alliance, AutoStartLocation location) {
         if (alliance == Alliance.BLUE && location == AutoStartLocation.GOAL) {
             grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
+            beforeGPPpose = new Pose (37,85.3, Math.toRadians(180));
+            beforePGPpose = new Pose(37,51, Math.toRadians(180));
+            beforePPGpose = new Pose(37,35, Math.toRadians(180));
+
             startPose = new Pose(26, 128.5, Math.toRadians(90));
-            yeetPose = new Pose(65, 80, Math.toRadians(126));
-            GPPpose = new Pose(22, 88.3, Math.toRadians(180));
-            PGPpose = new Pose(22, 51, Math.toRadians(180));
-            PPGpose = new Pose(22, 35, Math.toRadians(180));
+            yeetPose = new Pose(65, 80, Math.toRadians(128));
+            GPPpose = new Pose(22, 85.3, Math.toRadians(180));
+            PGPpose = new Pose(22, 48, Math.toRadians(180));
+            PPGpose = new Pose(22, 32, Math.toRadians(180));
         }
-        else if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
-            startPose = new Pose(26, 128.5, Math.toRadians(90));
-            yeetPose = new Pose(65, 80, Math.toRadians(126));
-            GPPpose = new Pose(22, 88.3, Math.toRadians(180));
-            PGPpose = new Pose(22, 51, Math.toRadians(180));
-            PPGpose = new Pose(22, 35, Math.toRadians(180));
+        if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
+            grabGPPControlPoint = new Pose(90, 83, Math.toRadians(180));
+            grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
+            grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
+
+            beforeGPPpose = new Pose (93,78, Math.toRadians(0));
+            beforePGPpose = new Pose(96,58, Math.toRadians(0));
+            beforePPGpose = new Pose(96,36, Math.toRadians(0));
+
+            startPose = new Pose(108, 120, Math.toRadians(90));
+            yeetPose = new Pose(77, 77, Math.toRadians(49));
+            GPPpose = new Pose(118, 78, Math.toRadians(0));
+            PGPpose = new Pose(119, 58, Math.toRadians(0));
+            PPGpose = new Pose(119, 36, Math.toRadians(0));
+        }
+
+        if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
+            grabGPPControlPoint = new Pose(96, 83, Math.toRadians(180));
+            grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
+            grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
+
+            beforeGPPpose = new Pose (102,79, Math.toRadians(0));
+            beforePGPpose = new Pose(101,58, Math.toRadians(0));
+            beforePPGpose = new Pose(101,36, Math.toRadians(0));
+
+            startPose = new Pose(84, 1, Math.toRadians(90));
+            yeetPose = new Pose(77, 76, Math.toRadians(40));
+            GPPpose = new Pose(120, 79, Math.toRadians(0));
+            PGPpose = new Pose(119, 58, Math.toRadians(0));
+            PPGpose = new Pose(119, 36, Math.toRadians(0));
+        }
+
+        if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
+            grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
+            grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
+            grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
+
+            beforeGPPpose = new Pose (44,83.5, Math.toRadians(180));
+            beforePGPpose = new Pose(39,55, Math.toRadians(180));
+            beforePPGpose = new Pose(39,36, Math.toRadians(180));
+
+            startPose = new Pose(56,10, Math.toRadians(90));
+            yeetPose = new Pose(64,79, Math.toRadians(132));
+            GPPpose = new Pose(29,83.5, Math.toRadians(180));
+            PGPpose = new Pose(23,55, Math.toRadians(180));
+            PPGpose = new Pose(23,36, Math.toRadians(180));
         }
     }
+
 
     private void buildPaths() {
         // build paths
@@ -130,7 +178,10 @@ public class Auto_With_Selection_2 extends OpMode {
 //        follower.setStartingPose(startPoseFrontLeft);
 
         // Reset master state machine
-        masterState = masterAutoState.PRELOAD;
+        masterState = masterStateEnum.PRELOAD;
+
+        // Manually set mosaic until apriltag works
+        MotifPose = masterStateEnum.GPP;
 
         // Hardware inits needed during autonomous
         yeeter.init(hardwareMap);
@@ -151,8 +202,7 @@ public class Auto_With_Selection_2 extends OpMode {
 
 
     @Override
-    public void init_loop()
-    {
+    public void init_loop() {
         super.init_loop();
 
         if (alliance == Alliance.UNKNOWN) {
@@ -163,13 +213,11 @@ public class Auto_With_Selection_2 extends OpMode {
             if (gamepad1.dpad_up) {
                 alliance = Alliance.BLUE;
                 allianceSelected = "BLUE";
-            }
-            else if (gamepad1.dpad_down) {
+            } else if (gamepad1.dpad_down) {
                 alliance = Alliance.RED;
                 allianceSelected = "RED";
             }
-        }
-        else if (alliance != Alliance.UNKNOWN && location == AutoStartLocation.UNKNOWN) {
+        } else if (alliance != Alliance.UNKNOWN && location == AutoStartLocation.UNKNOWN) {
             telemetry.addLine("Alliance Selected: " + allianceSelected);
             telemetry.addLine("Select Start Location");
             telemetry.addLine("   Dpad Left: Goal");
@@ -179,12 +227,10 @@ public class Auto_With_Selection_2 extends OpMode {
             if (gamepad1.dpad_left) {
                 location = AutoStartLocation.GOAL;
                 locationSelected = "GOAL";
-            }
-            else if (gamepad1.dpad_right) {
+            } else if (gamepad1.dpad_right) {
                 location = AutoStartLocation.POINT;
                 locationSelected = "POINT";
-            }
-            else if (gamepad1.circle) {
+            } else if (gamepad1.circle) {
                 alliance = Alliance.UNKNOWN;
                 location = AutoStartLocation.UNKNOWN;
             }
@@ -232,7 +278,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case PRELOAD:
                 updateStateMachinePreload();
                 if (pathState == -1) {
-                    masterState = masterAutoState.YEET;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -247,7 +293,7 @@ public class Auto_With_Selection_2 extends OpMode {
                     }
                     // After yeeting mosaic do ???
                     else if (yeetCount == 2) {
-                        masterState = masterAutoState.COMPLETE;
+                        masterState = masterStateEnum.COMPLETE;
                     }
 
                     setPathState(0);
@@ -257,7 +303,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case GPP:
                 updateStateMachineGPP();
                 if (pathState == -1) {
-                    masterState = masterAutoState.YEET;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -265,7 +311,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case PGP:
                 updateStateMachinePGP();
                 if (pathState == -1) {
-                    masterState = masterAutoState.YEET;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -273,7 +319,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case PPG:
                 updateStateMachinePPG();
                 if (pathState == -1) {
-                    masterState = masterAutoState.YEET;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -290,7 +336,8 @@ public class Auto_With_Selection_2 extends OpMode {
 //        log("heading", follower.getPose().getHeading());
         log("Yeet count:", yeetCount);
         telemetry.update();
-        panelsTelemetry.update();    }
+        panelsTelemetry.update();
+    }
 
 
     public void buildPathsPreload() {
@@ -308,14 +355,18 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to GPP pose
         grabGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, grabGPPControlPoint, GPPpose)))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), GPPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(yeetPose, beforeGPPpose)))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforeGPPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(beforeGPPpose, GPPpose)))
+                .setLinearHeadingInterpolation(beforeGPPpose.getHeading(), GPPpose.getHeading())
                 .build();
 
+
+
         // Move from GPP pose to yeet pose
-        scoreGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint, yeetPose)))
-                .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
+       scoreGPP = follower.pathBuilder()
+               .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint, yeetPose)))
+              .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -479,11 +530,11 @@ public class Auto_With_Selection_2 extends OpMode {
 
 
     // State machine handling the yeeting of elements in autonomous
-    // Assumes yeet position is always the same throughout autonomous
+// Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.80;
-        final double secondElementYeetPower = 0.82;
+        final double firstElementYeetPower = 0.76;
+        final double secondElementYeetPower = 0.773;
         final int yeetPosition = 280;
 
         switch (pathState) {
