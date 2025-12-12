@@ -28,13 +28,13 @@ public class Manual extends OpMode {
         yeeter.init(hardwareMap);
     }
 
-
     @Override
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
 //
 //        // Yeeter control
+        // for double shot
         //position 1
         if (gamepad2.cross) {
             yeeter.yeetAllElements(0.60, 0.60, 330);
@@ -54,6 +54,18 @@ public class Manual extends OpMode {
         else if (gamepad2.square){
             yeeter.yeetAllElements(0.90, 0.90, 265);
             yeeter.resetPark();
+        }
+        else if (gamepad2.dpad_down) {
+            yeeter.launchOne(0.60, 330);
+        }
+        else if (gamepad2.dpad_right){
+            yeeter.launchOne(0.70, 290);
+        }
+        else if (gamepad2.dpad_up){
+            yeeter.launchOne(0.80, 270);
+        }
+        else if(gamepad2.dpad_left){
+            yeeter.launchOne(0.90, 265);
         }
         else if(gamepad2.left_bumper){
             yeeter.intakeOn();
