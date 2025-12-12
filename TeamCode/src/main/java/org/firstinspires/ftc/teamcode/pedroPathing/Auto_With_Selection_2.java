@@ -104,13 +104,13 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (37,85.3, Math.toRadians(180));
-            beforePGPpose = new Pose(37,51, Math.toRadians(180));
+            beforePGPpose = new Pose(56,64.5, Math.toRadians(180));
             beforePPGpose = new Pose(37,35, Math.toRadians(180));
 
             startPose = new Pose(26, 128.5, Math.toRadians(90));
-            yeetPose = new Pose(65, 80, Math.toRadians(128));
+            yeetPose = new Pose(60, 84, Math.toRadians(128));
             GPPpose = new Pose(22, 85.3, Math.toRadians(180));
-            PGPpose = new Pose(22, 48, Math.toRadians(180));
+            PGPpose = new Pose(22, 64.5, Math.toRadians(180));
             PPGpose = new Pose(22, 32, Math.toRadians(180));
         }
         if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
@@ -134,13 +134,13 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (102,79, Math.toRadians(0));
+            beforeGPPpose = new Pose (95,75.325, Math.toRadians(0));
             beforePGPpose = new Pose(101,58, Math.toRadians(0));
             beforePPGpose = new Pose(101,36, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(77, 76, Math.toRadians(40));
-            GPPpose = new Pose(120, 79, Math.toRadians(0));
+            yeetPose = new Pose(81, 80.325, Math.toRadians(40));
+            GPPpose = new Pose(120, 76, Math.toRadians(0));
             PGPpose = new Pose(119, 58, Math.toRadians(0));
             PPGpose = new Pose(119, 36, Math.toRadians(0));
         }
@@ -150,14 +150,14 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (44,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(39,55, Math.toRadians(180));
+            beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
+            beforePGPpose = new Pose(57,65, Math.toRadians(180));
             beforePPGpose = new Pose(39,36, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
             yeetPose = new Pose(64,79, Math.toRadians(132));
             GPPpose = new Pose(29,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,55, Math.toRadians(180));
+            PGPpose = new Pose(23,65, Math.toRadians(180));
             PPGpose = new Pose(23,36, Math.toRadians(180));
         }
     }
@@ -293,6 +293,9 @@ public class Auto_With_Selection_2 extends OpMode {
                     }
                     // After yeeting Motif do ???
                     else if (yeetCount == 2) {
+                        masterState = masterStateEnum.PGP;
+                    }
+                    else if (yeetCount == 3) {
                         masterState = masterStateEnum.COMPLETE;
                     }
 
@@ -311,7 +314,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case PGP:
                 updateStateMachinePGP();
                 if (pathState == -1) {
-                    masterState = masterStateEnum.YEET;
+                    masterState = masterStateEnum.COMPLETE;
                     setPathState(0);
                 }
                 break;
@@ -483,8 +486,8 @@ public class Auto_With_Selection_2 extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                    follower.followPath(scorePGP, true);
-                    setPathState(2);
+                   // follower.followPath(scorePGP, true);
+                    setPathState(-1);
                 }
                 break;
 
@@ -537,9 +540,9 @@ public class Auto_With_Selection_2 extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.76;
-        final double secondElementYeetPower = 0.773;
-        final int yeetPosition = 280;
+        final double firstElementYeetPower = 0.78;
+        final double secondElementYeetPower = 0.83;
+        final int yeetPosition = 290;
 
         switch (pathState) {
             case 0:
@@ -565,11 +568,12 @@ public class Auto_With_Selection_2 extends OpMode {
                     log("State", "Yeet complete");
                     follower.resumePathFollowing();
 
+                    masterState = masterStateEnum.PGP;
+
                     // Increment yeet count
                     yeetCount += 1;
 
                     setPathState(-1); // finished
-                    masterState = masterStateEnum.PGP;
                 }
                 break;
         }
