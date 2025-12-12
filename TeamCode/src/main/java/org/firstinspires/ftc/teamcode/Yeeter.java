@@ -74,8 +74,48 @@ public class Yeeter
       }
    }
 
-   public boolean isLaunching()
-   {
+   public void launchOne(double launchPower, int yeetLiftPosition){
+      final double yeetDelay = 1.0;
+      final double timeAllottedForElement1 = yeetDelay + 0.5;
+      final double timeAllottedForElement2 = timeAllottedForElement1 + 1.5;
+
+      if (!sequenceActive) {
+         feedTimer.reset();
+         sequenceActive = true;
+      }
+
+      if (sequenceActive) {
+         double elapsedTime = feedTimer.seconds();
+         double yeetMotorStartPosition = 130;
+
+         if (yeetLift.getPosition() >= yeetMotorStartPosition) {
+            yeetWheel.yeetPower(launchPower);
+            feederWheel.yeetStart();
+         } else {
+            yeetWheel.noPinchSpeed();
+         }
+
+         if (elapsedTime < yeetDelay) {
+            yeetLift.raiseToYeet(yeetLiftPosition);
+         }
+
+         // Move feeder wheel to first element and pause for launch
+         else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
+             feederArm.toFirstElement();
+         }
+
+         // Move feeder wheel to second element and pause for launch
+         else if (elapsedTime <= timeAllottedForElement2) {
+             yeetWheel.yeetPower(launchPower + 0.07);
+             feederArm.toSecondElement();
+         }
+          else {
+            this.resetLaunchSequence();
+         }
+      }
+   }
+
+   public boolean isLaunching() {
       return sequenceActive;
    }
 
