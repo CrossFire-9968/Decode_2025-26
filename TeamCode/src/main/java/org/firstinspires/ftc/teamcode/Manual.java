@@ -57,15 +57,19 @@ public class Manual extends OpMode {
         }
         else if (gamepad2.dpad_down) {
             yeeter.launchOne(0.60, 330);
+            yeeter.resetPark();
         }
         else if (gamepad2.dpad_right){
             yeeter.launchOne(0.70, 290);
+            yeeter.resetPark();
         }
         else if (gamepad2.dpad_up){
             yeeter.launchOne(0.80, 270);
+            yeeter.resetPark();
         }
         else if(gamepad2.dpad_left){
             yeeter.launchOne(0.90, 265);
+            yeeter.resetPark();
         }
         else if(gamepad2.left_bumper){
             yeeter.intakeOn();

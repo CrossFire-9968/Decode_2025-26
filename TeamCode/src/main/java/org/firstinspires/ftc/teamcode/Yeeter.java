@@ -89,7 +89,7 @@ public class Yeeter
          double yeetMotorStartPosition = 130;
 
          if (yeetLift.getPosition() >= yeetMotorStartPosition) {
-            yeetWheel.launchSpeed(launchPower);
+            yeetWheel.yeetPower(launchPower);
             feederWheel.yeetStart();
          } else {
             yeetWheel.noPinchSpeed();
@@ -106,7 +106,7 @@ public class Yeeter
 
          // Move feeder wheel to second element and pause for launch
          else if (elapsedTime <= timeAllottedForElement2) {
-             yeetWheel.launchSpeed(launchPower + 0.07);
+             yeetWheel.yeetPower(launchPower + 0.07);
              feederArm.toSecondElement();
          }
           else {
