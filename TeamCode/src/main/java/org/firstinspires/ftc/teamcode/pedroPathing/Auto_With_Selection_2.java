@@ -118,14 +118,14 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (93,78, Math.toRadians(0));
-            beforePGPpose = new Pose(96,58, Math.toRadians(0));
+            beforeGPPpose = new Pose (86,78, Math.toRadians(0));
+            beforePGPpose = new Pose(81,54, Math.toRadians(0));
             beforePPGpose = new Pose(96,36, Math.toRadians(0));
 
             startPose = new Pose(108, 120, Math.toRadians(90));
             yeetPose = new Pose(77, 77, Math.toRadians(49));
             GPPpose = new Pose(118, 78, Math.toRadians(0));
-            PGPpose = new Pose(119, 58, Math.toRadians(0));
+            PGPpose = new Pose(115, 54, Math.toRadians(0));
             PPGpose = new Pose(119, 36, Math.toRadians(0));
         }
 
@@ -134,14 +134,14 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (95,75.325, Math.toRadians(0));
-            beforePGPpose = new Pose(101,58, Math.toRadians(0));
+            beforeGPPpose = new Pose (88,75.325, Math.toRadians(0));
+            beforePGPpose = new Pose(89,51, Math.toRadians(0));
             beforePPGpose = new Pose(101,36, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(81, 80.325, Math.toRadians(40));
             GPPpose = new Pose(120, 76, Math.toRadians(0));
-            PGPpose = new Pose(119, 58, Math.toRadians(0));
+            PGPpose = new Pose(121, 51, Math.toRadians(0));
             PPGpose = new Pose(119, 36, Math.toRadians(0));
         }
 
@@ -151,13 +151,13 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,65, Math.toRadians(180));
+            beforePGPpose = new Pose(57,60, Math.toRadians(180));
             beforePPGpose = new Pose(39,36, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
             yeetPose = new Pose(64,79, Math.toRadians(132));
             GPPpose = new Pose(29,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,65, Math.toRadians(180));
+            PGPpose = new Pose(23,60, Math.toRadians(180));
             PPGpose = new Pose(23,36, Math.toRadians(180));
         }
     }
@@ -296,6 +296,9 @@ public class Auto_With_Selection_2 extends OpMode {
                         masterState = masterStateEnum.PGP;
                     }
                     else if (yeetCount == 3) {
+                        masterState = masterStateEnum.PPG;
+                    }
+                    else if (yeetCount == 4) {
                         masterState = masterStateEnum.COMPLETE;
                     }
 
@@ -314,7 +317,7 @@ public class Auto_With_Selection_2 extends OpMode {
             case PGP:
                 updateStateMachinePGP();
                 if (pathState == -1) {
-                    masterState = masterStateEnum.COMPLETE;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -486,7 +489,7 @@ public class Auto_With_Selection_2 extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                   // follower.followPath(scorePGP, true);
+                    follower.followPath(scorePGP, true);
                     setPathState(-1);
                 }
                 break;
@@ -519,8 +522,8 @@ public class Auto_With_Selection_2 extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                    follower.followPath(scorePPG, true);
-                    setPathState(2);
+                    //follower.followPath(scorePPG, true);
+                    setPathState(-1);
                 }
                 break;
 
