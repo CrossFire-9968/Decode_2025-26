@@ -28,7 +28,6 @@ public class Manual extends OpMode {
         yeeter.init(hardwareMap);
     }
 
-
     @Override
     public void loop() {
         mecanum.manualDrive(gamepad1, telemetry);
