@@ -287,14 +287,15 @@ public class Auto_With_Selection_2 extends OpMode {
                 updateStateMachineYeet();
                 if (pathState == -1) {
 
-                    // After first yeet, go to the Artifacts
+                    // After first yeet, go to GPP elements
                     if (yeetCount == 1) {
                         masterState = MotifPose;
                     }
-                    // After yeeting Motif do ???
+                    // After second yeet, go to PGP elements
                     else if (yeetCount == 2) {
                         masterState = masterStateEnum.PGP;
                     }
+                    // After third yeet, go to PPG
                     else if (yeetCount == 3) {
                         masterState = masterStateEnum.PPG;
                     }
@@ -543,8 +544,8 @@ public class Auto_With_Selection_2 extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.78;
-        final double secondElementYeetPower = 0.83;
+        final double firstElementYeetPower = 0.73;
+        final double secondElementYeetPower = 0.77;
         final int yeetPosition = 290;
 
         switch (pathState) {
