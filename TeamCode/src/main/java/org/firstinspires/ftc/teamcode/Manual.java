@@ -37,20 +37,21 @@ public class Manual extends OpMode {
         // for double shot
         //position 1
         if (gamepad2.cross) {
-            yeeter.yeetAllElements(0.60, 0.60, 330);
+            yeeter.yeetAllElements(0.65, 0.65, 345);
             yeeter.resetPark();
         }
         // position 2
         else if (gamepad2.circle){
-            yeeter.yeetAllElements(0.70, 0.70, 290);
+            yeeter.yeetAllElements(0.75, 0.80, 305);
             yeeter.resetPark();
         }
         //position 3
         else if (gamepad2.triangle){
-            yeeter.yeetAllElements(0.80, 0.80, 270);
+            yeeter.yeetAllElements(0.85, 0.83, 285);
             yeeter.resetPark();
         }
         // long shot
+        // irrelevant
         else if (gamepad2.square){
             yeeter.yeetAllElements(0.90, 0.90, 265);
             yeeter.resetPark();
