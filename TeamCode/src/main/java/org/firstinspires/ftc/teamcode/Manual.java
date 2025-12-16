@@ -47,7 +47,7 @@ public class Manual extends OpMode {
         }
         //position 3
         else if (gamepad2.triangle){
-            yeeter.yeetAllElements(0.80, 0.80, 270);
+            yeeter.yeetAllElements(0.75, 0.78, 270);
             yeeter.resetPark();
         }
         // long shot
