@@ -17,8 +17,8 @@ import java.util.Arrays;
 
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_FrontBack")
-public class Auto_With_Selection_FrontBack extends OpMode {
+@Autonomous(name = "Auto_With_Selection_2")
+public class Auto_With_Selection_2 extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
@@ -88,10 +88,6 @@ public class Auto_With_Selection_FrontBack extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels telemetry
 
     private enum masterStateEnum {PRELOAD, GPP, PGP, PPG, YEET, COMPLETE}
-
-    private enum Order {FrontBack, BackFront, UNKNOWN}
-
-    Order order = Order.UNKNOWN;
 
 //    private enum masterSideState {BLUE, RED}
 
@@ -239,8 +235,6 @@ public class Auto_With_Selection_FrontBack extends OpMode {
                 location = AutoStartLocation.UNKNOWN;
             }
 
-        } else if (alliance != Alliance.UNKNOWN && location == AutoStartLocation.UNKNOWN) {
-
             // Force a rebuild when the selection has changed and all settings are known
             if (alliance != Alliance.UNKNOWN && location != AutoStartLocation.UNKNOWN) {
                 runBuild = true;
@@ -293,15 +287,14 @@ public class Auto_With_Selection_FrontBack extends OpMode {
                 updateStateMachineYeet();
                 if (pathState == -1) {
 
-                    // After first yeet, go to GPP elements
+                    // After first yeet, go to the Artifacts
                     if (yeetCount == 1) {
                         masterState = MotifPose;
                     }
-                    // After second yeet, go to PGP elements
+                    // After yeeting Motif do ???
                     else if (yeetCount == 2) {
                         masterState = masterStateEnum.PGP;
                     }
-                    // After third yeet, go to PPG
                     else if (yeetCount == 3) {
                         masterState = masterStateEnum.PPG;
                     }
@@ -550,8 +543,8 @@ public class Auto_With_Selection_FrontBack extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.72;
-        final double secondElementYeetPower = 0.76;
+        final double firstElementYeetPower = 0.78;
+        final double secondElementYeetPower = 0.83;
         final int yeetPosition = 290;
 
         switch (pathState) {
