@@ -11,7 +11,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Auto8ArtBackStartRight")
+//@Autonomous(name = "Auto8ArtBackStartRight")
 public class Auto8ArtBackStartRight extends OpMode {
 
     private Follower follower;

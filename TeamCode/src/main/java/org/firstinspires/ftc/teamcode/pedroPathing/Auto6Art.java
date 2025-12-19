@@ -11,7 +11,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Auto6Art")
+//@Autonomous(name = "Auto6Art")
 public class Auto6Art extends OpMode {
 
     private Follower follower;

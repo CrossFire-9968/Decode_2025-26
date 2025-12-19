@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto1MeetBackLeft")
+//@Autonomous(name = "Auto1MeetBackLeft")
 public class Auto1MeetBackLeft extends OpMode {
 
     private Follower follower;
