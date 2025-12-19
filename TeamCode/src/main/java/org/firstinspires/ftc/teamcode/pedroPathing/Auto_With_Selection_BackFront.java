@@ -134,15 +134,15 @@ public class Auto_With_Selection_BackFront extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (88,75.325, Math.toRadians(0));
+            beforeGPPpose = new Pose (88,72, Math.toRadians(0));
             beforePGPpose = new Pose(89,51, Math.toRadians(0));
-            beforePPGpose = new Pose(101,36, Math.toRadians(0));
+            beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(81, 80.325, Math.toRadians(40));
-            GPPpose = new Pose(120, 76, Math.toRadians(0));
-            PGPpose = new Pose(121, 51, Math.toRadians(0));
-            PPGpose = new Pose(119, 36, Math.toRadians(0));
+            GPPpose = new Pose(120, 72, Math.toRadians(0));
+            PGPpose = new Pose(123, 51, Math.toRadians(0));
+            PPGpose = new Pose(119, 26.5, Math.toRadians(0));
         }
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
@@ -411,8 +411,10 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PPGpose, grabPPGControlPoint, yeetPose)))
-                .setLinearHeadingInterpolation(PPGpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(PPGpose,beforePPGpose)))
+                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePPGpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(beforePPGpose, yeetPose)))
+                .setLinearHeadingInterpolation(beforePPGpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -522,7 +524,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                    //follower.followPath(scorePPG, true);
+                    follower.followPath(scorePPG, true);
                     setPathState(-1);
                 }
                 break;
@@ -543,8 +545,8 @@ public class Auto_With_Selection_BackFront extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.78;
-        final double secondElementYeetPower = 0.83;
+        final double firstElementYeetPower = 0.75;
+        final double secondElementYeetPower = 0.77;
         final int yeetPosition = 290;
 
         switch (pathState) {
