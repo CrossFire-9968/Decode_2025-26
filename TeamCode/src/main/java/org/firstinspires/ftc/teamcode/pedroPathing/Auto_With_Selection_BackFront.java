@@ -27,6 +27,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
     private Pose beforePGPpose = null;
     private Pose PGPpose = null;
     private Pose beforePPGpose = null;
+    private Pose beforePPGpose2 = null;
     private Pose PPGpose = null;
 
     Pose grabGPPControlPoint = null;
@@ -135,8 +136,9 @@ public class Auto_With_Selection_BackFront extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (88,72, Math.toRadians(0));
-            beforePGPpose = new Pose(89,51, Math.toRadians(0));
+            beforePGPpose = new Pose(90,51, Math.toRadians(0));
             beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
+            beforePPGpose2 = new Pose(105,26.5, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(81, 80.325, Math.toRadians(40));
@@ -371,7 +373,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from GPP pose to yeet pose
        scorePPG = follower.pathBuilder()
-               .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint, yeetPose)))
+               .addPath(new BezierCurve(Arrays.asList(GPPpose, yeetPose)))
               .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -391,7 +393,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PGPpose, grabPGPControlPoint, yeetPose)))
+                .addPath(new BezierCurve(Arrays.asList(PGPpose, yeetPose)))
                 .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -411,10 +413,10 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PPGpose,beforePPGpose)))
-                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePPGpose.getHeading())
-                .addPath(new BezierCurve(Arrays.asList(beforePPGpose, yeetPose)))
-                .setLinearHeadingInterpolation(beforePPGpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(PPGpose,beforePPGpose2)))
+                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePPGpose2.getHeading())
+                .addPath(new BezierLine(beforePPGpose2, yeetPose))
+                .setLinearHeadingInterpolation(beforePPGpose2.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -545,8 +547,8 @@ public class Auto_With_Selection_BackFront extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.72;
-        final double secondElementYeetPower = 0.75;
+        final double firstElementYeetPower = 0.655;
+        final double secondElementYeetPower = 0.665;
         final int yeetPosition = 290;
 
         switch (pathState) {

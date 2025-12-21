@@ -543,8 +543,8 @@ public class Auto_With_Selection_2 extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.78;
-        final double secondElementYeetPower = 0.83;
+        final double firstElementYeetPower = 0.655;
+        final double secondElementYeetPower = 0.665;
         final int yeetPosition = 290;
 
         switch (pathState) {
