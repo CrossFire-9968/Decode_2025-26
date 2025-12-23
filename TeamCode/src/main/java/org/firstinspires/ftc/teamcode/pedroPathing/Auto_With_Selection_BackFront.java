@@ -27,7 +27,6 @@ public class Auto_With_Selection_BackFront extends OpMode {
     private Pose beforePGPpose = null;
     private Pose PGPpose = null;
     private Pose beforePPGpose = null;
-    private Pose beforePPGpose2 = null;
     private Pose PPGpose = null;
 
     Pose grabGPPControlPoint = null;
@@ -136,9 +135,8 @@ public class Auto_With_Selection_BackFront extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (88,72, Math.toRadians(0));
-            beforePGPpose = new Pose(90,51, Math.toRadians(0));
+            beforePGPpose = new Pose(89,51, Math.toRadians(0));
             beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
-            beforePPGpose2 = new Pose(105,26.5, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(81, 80.325, Math.toRadians(40));
@@ -153,14 +151,14 @@ public class Auto_With_Selection_BackFront extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(61,60, Math.toRadians(180));
-            beforePPGpose = new Pose(55,37, Math.toRadians(180));
+            beforePGPpose = new Pose(57,60, Math.toRadians(180));
+            beforePPGpose = new Pose(50,36, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(64,79, Math.toRadians(132));
-            GPPpose = new Pose(36,69.5, Math.toRadians(180));
-            PGPpose = new Pose(23,60.5, Math.toRadians(180));
-            PPGpose = new Pose(23,37, Math.toRadians(180));
+            yeetPose = new Pose(60,83, Math.toRadians(132));
+            GPPpose = new Pose(29,83.5, Math.toRadians(180));
+            PGPpose = new Pose(23,60, Math.toRadians(180));
+            PPGpose = new Pose(23,36, Math.toRadians(180));
         }
     }
 
@@ -373,7 +371,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from GPP pose to yeet pose
        scorePPG = follower.pathBuilder()
-               .addPath(new BezierCurve(Arrays.asList(GPPpose, yeetPose)))
+               .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint, yeetPose)))
               .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -393,7 +391,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PGPpose, yeetPose)))
+                .addPath(new BezierCurve(Arrays.asList(PGPpose, grabPGPControlPoint, yeetPose)))
                 .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -413,10 +411,10 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PPGpose,beforePPGpose2)))
-                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePPGpose2.getHeading())
-                .addPath(new BezierLine(beforePPGpose2, yeetPose))
-                .setLinearHeadingInterpolation(beforePPGpose2.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(PPGpose,beforePGPpose)))
+                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePGPpose.getHeading())
+                .addPath(new BezierCurve(Arrays.asList(beforePGPpose, yeetPose)))
+                .setLinearHeadingInterpolation(beforePGPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -547,8 +545,8 @@ public class Auto_With_Selection_BackFront extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.655;
-        final double secondElementYeetPower = 0.665;
+        final double firstElementYeetPower = 0.75;
+        final double secondElementYeetPower = 0.77;
         final int yeetPosition = 290;
 
         switch (pathState) {
