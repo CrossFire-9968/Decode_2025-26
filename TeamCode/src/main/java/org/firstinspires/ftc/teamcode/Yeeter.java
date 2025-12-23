@@ -74,6 +74,53 @@ public class Yeeter
       }
    }
 
+
+
+    public void yeetAllElementsAuto(double powerElement1, double powerElement2, int yeetLiftPosition)
+    {
+        final double yeetDelay = 0.8;
+        final double timeAllottedForElement1 = yeetDelay + 0.8;
+        final double timeAllottedForElement2 = timeAllottedForElement1 + 1.3;
+
+        if (!sequenceActive) {
+            feedTimer.reset();
+            sequenceActive = true;
+        }
+
+        if (sequenceActive) {
+            double elapsedTime = feedTimer.seconds();
+            double yeetMotorStartPosition = 130;
+
+            if (yeetLift.getPosition() >= yeetMotorStartPosition) {
+                yeetWheel.yeetPower(powerElement1);
+                feederWheel.yeetStart();
+            }
+            else {
+                yeetWheel.noPinchSpeed();
+            }
+
+            if (elapsedTime < yeetDelay) {
+                yeetLift.raiseToYeet(yeetLiftPosition);
+            }
+
+            // Move feeder wheel to first element and pause for launch
+            else if (elapsedTime >= yeetDelay && elapsedTime <= timeAllottedForElement1) {
+                feederArm.toFirstElement();
+            }
+
+            // Move feeder wheel to second element and pause for launch
+            else if (elapsedTime <= timeAllottedForElement2) {
+                yeetWheel.yeetPower(powerElement2);
+                feederArm.toSecondElement();
+            }
+
+            // All done, so wait for next button press
+            else {
+                this.resetLaunchSequence();
+            }
+        }
+    }
+
    public void launchOne(double launchPower, int yeetLiftPosition){
       final double yeetDelay = 1.0;
       final double timeAllottedForElement1 = yeetDelay + 0.5;

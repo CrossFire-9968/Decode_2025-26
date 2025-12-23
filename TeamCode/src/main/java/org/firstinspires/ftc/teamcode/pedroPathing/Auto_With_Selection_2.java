@@ -557,7 +557,7 @@ public class Auto_With_Selection_2 extends OpMode {
 
             case 1:
                 log("State", "Yeeting elements");
-                yeeter.yeetAllElements(firstElementYeetPower, secondElementYeetPower, yeetPosition);
+                yeeter.yeetAllElementsAuto(firstElementYeetPower, secondElementYeetPower, yeetPosition);
                 if (!yeeter.isLaunching()) {
                     yeeter.resetPark(); // Reset park state machine so it runs only once
                     setPathState(2);

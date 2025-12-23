@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection")
+//@Autonomous(name = "Auto_With_Selection")
 public class Auto_With_Selection extends OpMode
 {
 
