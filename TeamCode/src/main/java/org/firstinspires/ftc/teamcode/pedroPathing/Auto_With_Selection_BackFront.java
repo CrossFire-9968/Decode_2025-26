@@ -136,15 +136,15 @@ public class Auto_With_Selection_BackFront extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (88,74.4, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,74.4, Math.toRadians(0));
             beforePGPpose = new Pose(89,51, Math.toRadians(0));
-            beforePPGpose = new Pose(90,26, Math.toRadians(0));
+            beforePPGpose = new Pose(90,28.75, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(83, 72.325, Math.toRadians(46));
             GPPpose = new Pose(120, 74.4, Math.toRadians(0));
             PGPpose = new Pose(123, 51, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 28, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 28.75, Math.toRadians(0));
             yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
             endPose = new Pose(85, 66.325, Math.toRadians(53));
         }
@@ -551,8 +551,8 @@ public class Auto_With_Selection_BackFront extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.72;
-        final double secondElementYeetPower = 0.70;
+        final double firstElementYeetPower = 0.73;
+        final double secondElementYeetPower = 0.71;
         final int yeetPosition = 290;
 
         switch (pathState) {
