@@ -86,9 +86,9 @@ public class AprilTag_9968 {
     // Add telemetry about AprilTag detections.
     public void runAprilTag(Telemetry tm, Gamepad gPad) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        if (gPad.left_bumper) {
+//        if (gPad.left_bumper) {
 //            tm.addData("# AprilTags Detected", currentDetections.size());
-        }
+//        }
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
@@ -102,6 +102,7 @@ public class AprilTag_9968 {
                 robotRange = detection.ftcPose.range;
                 robotBearing = detection.ftcPose.bearing;
                 robotElevation = detection.ftcPose.elevation;
+                tm.addData("apBearing: ", detection.ftcPose.bearing);
             }
         }
     }

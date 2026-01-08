@@ -13,7 +13,7 @@ public class Manual extends OpMode {
     double desiredBearingAngle = 0.0;
     double bearingAngle = 0.0;
     double bearingMotorPower = 0.0;
-    double targetingDeadband = 0.05;
+    double bearingDeadband = 0.05;
 
     //100% at 12 ft
     //90% at 10 ft
@@ -30,6 +30,7 @@ public class Manual extends OpMode {
 
     @Override
     public void loop() {
+        double bearingError = 0.0;
         mecanum.manualDrive(gamepad1, telemetry);
         mecanum.getMotorTelemetry(telemetry);
 //
@@ -81,15 +82,18 @@ public class Manual extends OpMode {
 
         // Save CPU resources;
         // can resume streaming when needed.
-        if (gamepad1.triangle) {
-            aTag.visionPortal.resumeStreaming();
+        aTag.visionPortal.resumeStreaming();
 
-            aTag.runAprilTag(telemetry, gamepad2);
-            bearingAngle = aTag.getRobotBearing();
+        aTag.runAprilTag(telemetry, gamepad2);
+        bearingAngle = aTag.getRobotBearing();
+        bearingError = bearingAngle - desiredBearingAngle;
+
+        if (gamepad1.triangle) {
+
 
             // Y = kp * (desired_angle - actual_angle)
-            bearingMotorPower = kp * (desiredBearingAngle - bearingAngle);
 
+            bearingMotorPower = kp * bearingError;
 
             // Limit range of targeting power between -1 and 1
             if (bearingMotorPower > 1) {
@@ -99,7 +103,7 @@ public class Manual extends OpMode {
             }
 
             // Add targeting power deadband
-            if (Math.abs(bearingMotorPower) < targetingDeadband) {
+            if (Math.abs(bearingError) < bearingDeadband) {
                 bearingMotorPower = 0.0;
             }
 
@@ -109,6 +113,8 @@ public class Manual extends OpMode {
         } else {
             aTag.visionPortal.stopStreaming();
         }
+        telemetry.addData("bearingError: ", bearingError);
+        telemetry.addData("bearingAngle: ", bearingAngle);
         telemetry.update();
     }
 
