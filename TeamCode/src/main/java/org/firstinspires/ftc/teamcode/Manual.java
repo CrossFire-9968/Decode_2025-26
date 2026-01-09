@@ -9,11 +9,16 @@ public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
     public Yeeter yeeter = new Yeeter();
     public AprilTag_9968 aTag = new AprilTag_9968();
-    double kp = 0.1;
+    double kp = 0.05;
+    double ki = 0.0005;
+    double kd = 0;
+    double maxIntegralSum = 30.0;
     double desiredBearingAngle = 0.0;
     double bearingAngle = 0.0;
     double bearingMotorPower = 0.0;
-    double bearingDeadband = 0.05;
+    double bearingDeadband = 0.3;
+    double bearingErrorRunningSum = 0.0;
+    double previousBearingError = 0.0;
 
     //100% at 12 ft
     //90% at 10 ft
@@ -26,13 +31,14 @@ public class Manual extends OpMode {
         mecanum.init(hardwareMap);
         aTag.init(hardwareMap);
         yeeter.init(hardwareMap);
+
+        aTag.startStreaming();
     }
 
     @Override
     public void loop() {
         double bearingError = 0.0;
-        mecanum.manualDrive(gamepad1, telemetry);
-        mecanum.getMotorTelemetry(telemetry);
+        //mecanum.getMotorTelemetry(telemetry);
 //
 //        // Yeeter control
         // for double shot
@@ -80,20 +86,34 @@ public class Manual extends OpMode {
             yeeter.resetLaunchSequence();
         }
 
-        // Save CPU resources;
-        // can resume streaming when needed.
-        aTag.visionPortal.resumeStreaming();
-
-        aTag.runAprilTag(telemetry, gamepad2);
+        aTag.runAprilTag(telemetry);
         bearingAngle = aTag.getRobotBearing();
-        bearingError = bearingAngle - desiredBearingAngle;
-
-        if (gamepad1.triangle) {
 
 
-            // Y = kp * (desired_angle - actual_angle)
+        if (gamepad2.right_bumper) {
+            // Save CPU resources, resume streaming when needed.
+//            aTag.startStreaming();
 
-            bearingMotorPower = kp * bearingError;
+            bearingError = desiredBearingAngle - bearingAngle;
+
+            // Accumulate error for integral term
+            bearingErrorRunningSum += bearingError;
+
+            // Anti-windup: clamp integral sum
+            if (bearingErrorRunningSum > maxIntegralSum) {
+                bearingErrorRunningSum = maxIntegralSum;
+            } else if (bearingErrorRunningSum < -maxIntegralSum) {
+                bearingErrorRunningSum = -maxIntegralSum;
+            }
+
+            // Calculate derivative term (rate of change of error)
+            double derivative = bearingError - previousBearingError;
+
+            // PID Controller: Y = kp * error + ki * sum(error) + kd * derivative(error)
+            bearingMotorPower = kp * bearingError + ki * bearingErrorRunningSum + kd * derivative;
+
+            // Store current error for next iteration
+            previousBearingError = bearingError;
 
             // Limit range of targeting power between -1 and 1
             if (bearingMotorPower > 1) {
@@ -107,15 +127,17 @@ public class Manual extends OpMode {
                 bearingMotorPower = 0.0;
             }
 
-            //telemetry.addData("bearingPower: ", bearingMotorPower);
             mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
-
-        } else {
-            aTag.visionPortal.stopStreaming();
         }
+         else {
+             //aTag.visionPortal.stopStreaming();
+            mecanum.manualDrive(gamepad1, telemetry);
+        }
+
         telemetry.addData("bearingError: ", bearingError);
         telemetry.addData("bearingAngle: ", bearingAngle);
-        telemetry.update();
+        telemetry.addData("bearingErrorRunningSum: ", bearingErrorRunningSum);
+        //telemetry.update();
     }
 
     @Override
