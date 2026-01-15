@@ -92,6 +92,9 @@ public class Mecanum
         motor_RR.setPower(RRpower);
         motor_LR.setPower(LRpower);
     }
+    public void setPIDrotatepower(double power){
+        setEachMecanumPower(-power, power, power, -power);
+    }
 
     public void getMotorTelemetry(Telemetry telemetry)
     {
