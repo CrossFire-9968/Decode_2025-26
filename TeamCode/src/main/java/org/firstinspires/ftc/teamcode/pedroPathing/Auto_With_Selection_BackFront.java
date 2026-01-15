@@ -138,13 +138,13 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
             beforeGPPpose = new Pose (85,74.4, Math.toRadians(0));
             beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
-            beforePPGpose = new Pose(90,28.25, Math.toRadians(0));
+            beforePPGpose = new Pose(90,28., Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(83, 72.325, Math.toRadians(46));
             GPPpose = new Pose(120, 74.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 28.25, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 28, Math.toRadians(0));
             yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
             endPose = new Pose(85, 66.325, Math.toRadians(53));
         }
