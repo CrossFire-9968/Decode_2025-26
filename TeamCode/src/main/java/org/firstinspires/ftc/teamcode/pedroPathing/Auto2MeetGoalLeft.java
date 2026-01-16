@@ -15,17 +15,18 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 @Configurable
-@Autonomous(name = "Auto1MeetGoalLeft")
-public class Auto1MeetGoalLeft extends OpMode {
+//@Autonomous(name = "Auto2MeetGoalLeft")
+public class Auto2MeetGoalLeft extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState = 0;
     public Yeeter yeeter = new Yeeter();
 
-    private final Pose startPose = new Pose(28,129, Math.toRadians(90));
-    private final Pose scorePose = new Pose(65,77, Math.toRadians(132));
-    private final Pose pickup1Pose = new Pose(29,82, Math.toRadians(180));
+    private final Pose startPose = new Pose(26,128.5, Math.toRadians(90));
+    private final Pose scorePose = new Pose(65,79, Math.toRadians(125));
+    private final Pose beforePickup1Pose = new Pose(56,89.3, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22,88.3, Math.toRadians(180));
     private final Pose beforepickup2Pose = new Pose(54.5,57, Math.toRadians(180));
     private final Pose pickup2Pose = new Pose(23,58.5, Math.toRadians(180));
     private final Pose beforepickup3Pose = new Pose(54.5,36, Math.toRadians(180));
@@ -43,6 +44,8 @@ public class Auto1MeetGoalLeft extends OpMode {
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(scorePose, beforePickup1Pose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), beforePickup1Pose.getHeading(), 0.4)
                 //.addParametricCallback(0.2, yeeter::launchAllAuto)
                 .build();
 
@@ -89,6 +92,7 @@ public class Auto1MeetGoalLeft extends OpMode {
 
     public void autonomousPathUpdate() {
         switch (pathState) {
+            // Move to first yeet position
             case 0:
                 follower.followPath(scorePreload);
                 setPathState(1);
@@ -111,7 +115,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 if (follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
                 {
                     follower.pausePathFollowing(); // Pause mid-path
-                    yeeter.launchAll(0.74, 280);
+                    //yeeter.launchAll(0.82, 0.82, 280);
                     telemetry.addLine("Case2Busy");
                     setPathState(21);
                 }
@@ -119,7 +123,7 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 21: // launching: keep calling launchAllAuto every loop until it finishes
                 telemetry.addLine("Case 21");
-                yeeter.launchAll(0.74, 280); // call every loop so Yeeter's timers progress
+                yeeter.yeetAllElements(0.74, 0.74, 280); // call every loop so Yeeter's timers progress
 
                 // optional telemetry
                 telemetry.addData("yeeterLaunching", yeeter.isLaunching());
@@ -128,10 +132,12 @@ public class Auto1MeetGoalLeft extends OpMode {
                 if (!yeeter.isLaunching()) {
                     telemetry.addLine("LaunchComplete");
                     pathTimer.resetTimer();
+//                    yeeter.intake();
                     follower.resumePathFollowing();
                     follower.followPath(grabPickup2, true);
                     if (!yeeter.isParking()) {
-                        setPathState(9);
+                        yeeter.park();
+                        setPathState(4);
                     }
                 }
                 break;
@@ -148,9 +154,43 @@ public class Auto1MeetGoalLeft extends OpMode {
 
             case 4:
                 telemetry.addLine("Case 4");
+                yeeter.intakeOn();
                 if (!follower.isBusy()) {
-                    follower.followPath(scorePickup2, true);
-                    setPathState(5);
+                   follower.followPath(scorePickup2, true);
+                   setPathState(41);
+                }
+                break;
+
+            //  Add a 2-second delay before grabPickup2
+            case 41:
+                telemetry.addLine("Case41");
+                if (!follower.isBusy()) //&& pathTimer.getElapsedTimeSeconds() > 0.5)
+                {
+                    follower.pausePathFollowing(); // Pause mid-path
+                    //yeeter.launchAll(0.82, 280);
+                    telemetry.addLine("Case41Busy");
+                    setPathState(42);
+                }
+                break;
+
+            case 42: // launching: keep calling launchAllAuto every loop until it finishes
+                telemetry.addLine("Case 42");
+                yeeter.yeetAllElements(0.74, 0.74, 280); // call every loop so Yeeter's timers progress
+
+                // optional telemetry
+                telemetry.addData("yeeterLaunching", yeeter.isLaunching());
+
+                // once Yeeter finished, reset the timer and resume following
+                if (!yeeter.isLaunching()) {
+                    telemetry.addLine("LaunchComplete");
+                    pathTimer.resetTimer();
+//                    yeeter.intake();
+                    follower.resumePathFollowing();
+                    follower.followPath(grabPickup3, true);
+                    if (!yeeter.isParking()) {
+                        yeeter.park();
+                        setPathState(9);
+                    }
                 }
                 break;
 
@@ -158,7 +198,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 telemetry.addLine("Case 5");
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup3, true);
-                    setPathState(6);
+                    setPathState(51);
                 }
                 break;
 
@@ -187,6 +227,7 @@ public class Auto1MeetGoalLeft extends OpMode {
                 break;
 
             case 9:
+                yeeter.park();
                 telemetry.addLine("Case 9");
                 if (!follower.isBusy()) {
                     setPathState(-1); // finished

@@ -17,18 +17,17 @@ public class YeetLaunchWheel
         this.stop();
     }
 
-    public void intakeSpeed() {
-        double intakePower = -0.5;
-        yeetMotor.setPower(intakePower);
+    public void intakeSpeed(double power) {
+        yeetMotor.setPower(power);
     }
 
-    public void noPinchSpeed(){
+    public void noPinchSpeed() {
         double pinchPower = -0.3;
         yeetMotor.setPower(pinchPower);
     }
 
-    public void launchSpeed(double launchPower) {
-        yeetMotor.setPower(launchPower);
+    public void yeetPower(double power) {
+        yeetMotor.setPower(power);
     }
 
     public void stop() {
