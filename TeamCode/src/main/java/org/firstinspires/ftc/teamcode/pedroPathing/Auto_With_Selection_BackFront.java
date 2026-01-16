@@ -150,6 +150,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
             endPose = new Pose(85, 66.325, Math.toRadians(49));
         }
 
+
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
             grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
