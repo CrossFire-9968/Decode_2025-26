@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -29,7 +30,7 @@ public class Yeeter
       this.park();
    }
 
-   public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition)
+   public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition, Gamepad gamepad2)
    {
       final double yeetDelay = 1.5;
       final double timeAllottedForElement1 = yeetDelay + 1.0;
@@ -38,6 +39,9 @@ public class Yeeter
       if (!sequenceActive) {
          feedTimer.reset();
          sequenceActive = true;
+
+
+
       }
 
       if (sequenceActive) {

@@ -20,6 +20,7 @@ public class Manual extends OpMode
    double bearingDeadband = 0.3;
    double bearingErrorRunningSum = 0.0;
    double previousBearingError = 0.0;
+   double aprilYeet = ;
 
    //100% at 12 ft
    //90% at 10 ft
