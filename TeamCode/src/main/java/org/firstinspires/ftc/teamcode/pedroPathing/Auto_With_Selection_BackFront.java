@@ -147,7 +147,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
             PPGpose = new Pose(119.25, 28, Math.toRadians(0));
             yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
-            endPose = new Pose(85, 66.325, Math.toRadians(53));
+            endPose = new Pose(85, 66.325, Math.toRadians(49));
         }
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
