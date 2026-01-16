@@ -5,122 +5,152 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 @TeleOp(name = "Manual")
-public class Manual extends OpMode {
-    public Mecanum mecanum = new Mecanum();
-    public Yeeter yeeter = new Yeeter();
-    public AprilTag_9968 aTag = new AprilTag_9968();
-    double kp = 0.1;
-    double desiredBearingAngle = 0.0;
-    double bearingAngle = 0.0;
-    double bearingMotorPower = 0.0;
-    double bearingDeadband = 0.05;
+public class Manual extends OpMode
+{
+   public Mecanum mecanum = new Mecanum();
+   public Yeeter yeeter = new Yeeter();
+   public AprilTag_9968 aTag = new AprilTag_9968();
+   double kp = 0.05;
+   double ki = 0.0005;
+   double kd = 0;
+   double maxIntegralSum = 30.0;
+   double desiredBearingAngle = 0.0;
+   double bearingAngle = 0.0;
+   double bearingMotorPower = 0.0;
+   double bearingDeadband = 0.3;
+   double bearingErrorRunningSum = 0.0;
+   double previousBearingError = 0.0;
 
-    //100% at 12 ft
-    //90% at 10 ft
-    //85% at 8 ft
-    //80% at 6 ft
-    //75% at 4 ft
-    //70% at 2 ft
+   //100% at 12 ft
+   //90% at 10 ft
+   //85% at 8 ft
+   //80% at 6 ft
+   //75% at 4 ft
+   //70% at 2 ft
 
-    public void init() {
-        mecanum.init(hardwareMap);
-        aTag.init(hardwareMap);
-        yeeter.init(hardwareMap);
-    }
+   public void init()
+   {
+      mecanum.init(hardwareMap);
+      aTag.init(hardwareMap);
+      yeeter.init(hardwareMap);
 
-    @Override
-    public void loop() {
-        double bearingError = 0.0;
-        mecanum.manualDrive(gamepad1, telemetry);
-        mecanum.getMotorTelemetry(telemetry);
-//
-//        // Yeeter control
-        // for double shot
-        //position 1
-        if (gamepad2.cross) {
-            yeeter.yeetAllElements(0.60, 0.60, 330);
-            yeeter.resetPark();
-        }
-        // position 2
-        else if (gamepad2.circle) {
-            yeeter.yeetAllElements(0.70, 0.70, 290);
-            yeeter.resetPark();
-        }
-        //position 3
-        else if (gamepad2.triangle) {
-            yeeter.yeetAllElements(0.75, 0.78, 270);
-            yeeter.resetPark();
-        }
-        // long shot
-        else if (gamepad2.square) {
-            yeeter.yeetAllElements(0.90, 0.90, 265);
-            yeeter.resetPark();
-        }
-        else if (gamepad2.dpad_down) {
-            yeeter.launchOne(0.60, 330);
-            yeeter.resetPark();
-        }
-        else if (gamepad2.dpad_right) {
-            yeeter.launchOne(0.70, 290);
-            yeeter.resetPark();
-        }
-        else if (gamepad2.dpad_up) {
-            yeeter.launchOne(0.80, 270);
-            yeeter.resetPark();
-        }
-        else if (gamepad2.dpad_left) {
-            yeeter.launchOne(0.90, 265);
-            yeeter.resetPark();
-        }
-        else if (gamepad2.left_bumper) {
-            yeeter.intakeOn();
-            yeeter.resetPark();
-        }
-        else {
-            yeeter.resetLaunchSequence();
-        }
+      aTag.startStreaming();
+   }
 
-        // Save CPU resources;
-        // can resume streaming when needed.
-        aTag.visionPortal.resumeStreaming();
+   @Override
+   public void loop()
+   {
+      double bearingError = 0.0;
 
-        aTag.runAprilTag(telemetry, gamepad2);
-        bearingAngle = aTag.getRobotBearing();
-        bearingError = bearingAngle - desiredBearingAngle;
+      //      // Yeeter control for double yeet
+      //position 1
+      if (gamepad2.cross) {
+         yeeter.yeetAllElements(0.60, 0.60, 330);
+         yeeter.resetPark();
+      }
+      // position 2
+      else if (gamepad2.circle) {
+         yeeter.yeetAllElements(0.70, 0.70, 290);
+         yeeter.resetPark();
+      }
+      //position 3
+      else if (gamepad2.triangle) {
+         yeeter.yeetAllElements(0.75, 0.78, 270);
+         yeeter.resetPark();
+      }
+      // long shot
+      else if (gamepad2.square) {
+         yeeter.yeetAllElements(0.90, 0.90, 265);
+         yeeter.resetPark();
+      }
+      else if (gamepad2.dpad_down) {
+         yeeter.launchOne(0.60, 330);
+         yeeter.resetPark();
+      }
+      else if (gamepad2.dpad_right) {
+         yeeter.launchOne(0.70, 290);
+         yeeter.resetPark();
+      }
+      else if (gamepad2.dpad_up) {
+         yeeter.launchOne(0.80, 270);
+         yeeter.resetPark();
+      }
+      else if (gamepad2.dpad_left) {
+         yeeter.launchOne(0.90, 265);
+         yeeter.resetPark();
+      }
+      else if (gamepad2.left_bumper) {
+         yeeter.intakeOn();
+         yeeter.resetPark();
+      }
+      else {
+         yeeter.resetLaunchSequence();
+      }
 
-        if (gamepad1.triangle) {
+      aTag.runAprilTag(telemetry);
+      bearingAngle = aTag.getRobotBearing();
 
+      if (bearingAngle != 0.0) {
+         // Blinking purple
+      }
+      else {
+         // Blinking green
+      }
 
-            // Y = kp * (desired_angle - actual_angle)
+      // Driver initiated April Tag alignment for yeeting
+      if (gamepad2.right_bumper) {
+         // PID targeting control
+         bearingError = desiredBearingAngle - bearingAngle;
 
-            bearingMotorPower = kp * bearingError;
+         // Check deadband first - if within tolerance, skip PID calculations
+         if (Math.abs(bearingError) < bearingDeadband) {
+            bearingMotorPower = 0.0;
+         }
+         else {
+            // Accumulate error for integral term
+            bearingErrorRunningSum += bearingError;
 
-            // Limit range of targeting power between -1 and 1
-            if (bearingMotorPower > 1) {
-                bearingMotorPower = 1;
-            } else if (bearingMotorPower < -1) {
-                bearingMotorPower = -1;
+            // Anti-windup: clamp integral sum
+            if (bearingErrorRunningSum > maxIntegralSum) {
+               bearingErrorRunningSum = maxIntegralSum;
+            }
+            else if (bearingErrorRunningSum < -maxIntegralSum) {
+               bearingErrorRunningSum = -maxIntegralSum;
             }
 
-            // Add targeting power deadband
-            if (Math.abs(bearingError) < bearingDeadband) {
-                bearingMotorPower = 0.0;
-            }
+            // Calculate derivative term (rate of change of error)
+            double derivative = bearingError - previousBearingError;
 
-            //telemetry.addData("bearingPower: ", bearingMotorPower);
-            mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+            // PID Controller: Y = kp * error + ki * sum(error) + kd * derivative(error)
+            bearingMotorPower = kp * bearingError + ki * bearingErrorRunningSum + kd * derivative;
 
-        } else {
-            aTag.visionPortal.stopStreaming();
-        }
-        telemetry.addData("bearingError: ", bearingError);
-        telemetry.addData("bearingAngle: ", bearingAngle);
-        telemetry.update();
-    }
+            // Store current error for next iteration
+            previousBearingError = bearingError;
 
-    @Override
-    public void stop() {
-        // Save more CPU resources when camera is no longer needed.
-        aTag.visionPortal.close();
-    }
+            // Clamp motor power between -1 and 1
+            bearingMotorPower = Math.max(-1.0, Math.min(1.0, bearingMotorPower));
+         }
+
+         mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
+
+      }
+      else {
+         // Reset integral and derivative when not targeting to prevent accumulated error
+         bearingErrorRunningSum = 0.0;
+         previousBearingError = 0.0;
+         mecanum.manualDrive(gamepad1, telemetry);
+      }
+
+      telemetry.addData("bearingError: ", bearingError);
+      telemetry.addData("bearingAngle: ", bearingAngle);
+      telemetry.addData("bearingErrorRunningSum: ", bearingErrorRunningSum);
+      telemetry.update();
+   }
+
+   @Override
+   public void stop()
+   {
+      // Save more CPU resources when camera is no longer needed.
+      aTag.visionPortal.close();
+   }
 }

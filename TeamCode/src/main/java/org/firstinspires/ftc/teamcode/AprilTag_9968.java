@@ -15,9 +15,11 @@ import java.util.List;
 public class AprilTag_9968 {
     private AprilTagProcessor aprilTag;                // The variable to store our instance of the AprilTag processor.
     public VisionPortal visionPortal;                 // The variable to store our instance of the vision portal.
-    private double robotRange;
-    private double robotBearing;
-    private double robotElevation;
+    private double robotRange = 0.0;
+    private double robotBearing = 0.0;
+    private double robotElevation = 0.0;
+    private boolean tagDetected = false;
+    private boolean isStreaming = false;
 
     public void init(HardwareMap hwMap) {
         //aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -79,31 +81,36 @@ public class AprilTag_9968 {
 
         // Disable or re-enable the aprilTag processor at any time.
         visionPortal.setProcessorEnabled(aprilTag, true);
-
+        isStreaming = true;  // Tracking initial state
 
     }   // end method init()
 
     // Add telemetry about AprilTag detections.
-    public void runAprilTag(Telemetry tm, Gamepad gPad) {
+    public void runAprilTag(Telemetry tm) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-//        if (gPad.left_bumper) {
-//            tm.addData("# AprilTags Detected", currentDetections.size());
-//        }
 
-        // Step through the list of detections and display info for each one.
-        for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-//                if (gPad.left_bumper) {
-//                    tm.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-//                    tm.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-//                    tm.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-//                    tm.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-//                }
-                robotRange = detection.ftcPose.range;
-                robotBearing = detection.ftcPose.bearing;
-                robotElevation = detection.ftcPose.elevation;
-                tm.addData("apBearing: ", detection.ftcPose.bearing);
+        // Reset detection flag and values at start of each loop
+        tagDetected = false;
+
+        // Process only the first valid detection (most efficient)
+        if (!currentDetections.isEmpty()) {
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    robotRange = detection.ftcPose.range;
+                    robotBearing = detection.ftcPose.bearing;
+                    robotElevation = detection.ftcPose.elevation;
+                    tagDetected = true;
+                    tm.addData("apBearing: ", detection.ftcPose.bearing);
+                    break;  // Only process first valid tag for efficiency
+                }
             }
+        }
+        
+        // Reset values if no tag detected to avoid stale data
+        if (!tagDetected) {
+            robotRange = 0.0;
+            robotBearing = 0.0;
+            robotElevation = 0.0;
         }
     }
 
@@ -119,5 +126,24 @@ public class AprilTag_9968 {
         return robotElevation;
     }
 
+    public boolean isTagDetected() {
+        return tagDetected;
+    }
+
+    // Efficiently start streaming only if not already streaming
+    public void startStreaming() {
+        if (!isStreaming) {
+            visionPortal.resumeStreaming();
+            isStreaming = true;
+        }
+    }
+
+    // Efficiently stop streaming only if currently streaming
+    public void stopStreaming() {
+        if (isStreaming) {
+            visionPortal.stopStreaming();
+            isStreaming = false;
+        }
+    }
 
 }   // end class
