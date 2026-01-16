@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,6 +11,9 @@ public class Manual extends OpMode
    public Mecanum mecanum = new Mecanum();
    public Yeeter yeeter = new Yeeter();
    public AprilTag_9968 aTag = new AprilTag_9968();
+   public Blinkin blinkin = new Blinkin();
+   public ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+   private RevBlinkinLedDriver.BlinkinPattern idleColor;
    double kp = 0.05;
    double ki = 0.0005;
    double kd = 0;
@@ -21,7 +25,8 @@ public class Manual extends OpMode
    double bearingErrorRunningSum = 0.0;
    double previousBearingError = 0.0;
 
-   //100% at 12 ft
+
+    //100% at 12 ft
    //90% at 10 ft
    //85% at 8 ft
    //80% at 6 ft
@@ -30,9 +35,11 @@ public class Manual extends OpMode
 
    public void init()
    {
+       blinkin.init(hardwareMap);
       mecanum.init(hardwareMap);
       aTag.init(hardwareMap);
       yeeter.init(hardwareMap);
+
 
       aTag.startStreaming();
    }
@@ -86,15 +93,25 @@ public class Manual extends OpMode
       else {
          yeeter.resetLaunchSequence();
       }
+       if (timer.seconds() >= 39 ) {
+           idleColor = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+           }
+           else if (timer.seconds() >= 100){
+               idleColor = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+           }
+
+
 
       aTag.runAprilTag(telemetry);
       bearingAngle = aTag.getRobotBearing();
 
       if (bearingAngle != 0.0) {
          // Blinking purple
+          idleColor = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
       }
       else {
          // Blinking green
+          idleColor = RevBlinkinLedDriver.BlinkinPattern.GREEN;
       }
 
       // Driver initiated April Tag alignment for yeeting
