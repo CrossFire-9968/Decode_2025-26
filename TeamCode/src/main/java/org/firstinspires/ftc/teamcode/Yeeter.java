@@ -30,7 +30,7 @@ public class Yeeter
       this.park();
    }
 
-   public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition, Gamepad gamepad2)
+   public void yeetAllElements(double powerElement1, double powerElement2, int yeetLiftPosition)
    {
       final double yeetDelay = 1.5;
       final double timeAllottedForElement1 = yeetDelay + 1.0;
