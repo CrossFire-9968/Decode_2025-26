@@ -22,13 +22,6 @@ public class Manual extends OpMode
    double previousBearingError = 0.0;
    //double aprilYeet = ;
 
-   //100% at 12 ft
-   //90% at 10 ft
-   //85% at 8 ft
-   //80% at 6 ft
-   //75% at 4 ft
-   //70% at 2 ft
-
    public void init()
    {
       mecanum.init(hardwareMap);
@@ -46,17 +39,17 @@ public class Manual extends OpMode
       //      // Yeeter control for double yeet
       //position 1
       if (gamepad2.cross) {
-         yeeter.yeetAllElements(0.70, 0.65, 330);
+         yeeter.yeetAllElements(0.65, 0.65, 330);
          yeeter.resetPark();
       }
       // position 2
       else if (gamepad2.circle) {
-         yeeter.yeetAllElements(0.80, 0.75, 290);
+         yeeter.yeetAllElements(0.75, 0.75, 290);
          yeeter.resetPark();
       }
       //position 3
       else if (gamepad2.triangle) {
-         yeeter.yeetAllElements(0.85, 0.80, 270);
+         yeeter.yeetAllElements(0.80, 0.80, 270);
          yeeter.resetPark();
       }
       // long shot
