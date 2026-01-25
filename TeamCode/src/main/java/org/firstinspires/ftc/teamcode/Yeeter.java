@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -38,6 +39,9 @@ public class Yeeter
       if (!sequenceActive) {
          feedTimer.reset();
          sequenceActive = true;
+
+
+
       }
 
       if (sequenceActive) {
