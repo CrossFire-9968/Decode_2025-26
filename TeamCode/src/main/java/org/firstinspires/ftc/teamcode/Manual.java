@@ -124,20 +124,20 @@ public class Manual extends OpMode
             // Clamp motor power between -1 and 1
             bearingMotorPower = Math.max(-1.0, Math.min(1.0, bearingMotorPower));
          }
-
-         mecanum.setEachMecanumPower(-bearingMotorPower, bearingMotorPower, bearingMotorPower, -bearingMotorPower);
-
       }
       else {
          // Reset integral and derivative when not targeting to prevent accumulated error
+         bearingMotorPower = 0.0;
          bearingErrorRunningSum = 0.0;
          previousBearingError = 0.0;
-         mecanum.manualDrive(gamepad1, telemetry);
       }
 
-      telemetry.addData("bearingError: ", bearingError);
-      telemetry.addData("bearingAngle: ", bearingAngle);
-      telemetry.addData("bearingErrorRunningSum: ", bearingErrorRunningSum);
+      /* Sets manual drive powers
+         If targeting, bearingMotorPower is the targeting power adjustment
+         If not targeting, bearingMotorPower is zero with not adjustment
+       */
+      mecanum.manualDrive(gamepad1, bearingMotorPower);
+
       telemetry.update();
    }
 
