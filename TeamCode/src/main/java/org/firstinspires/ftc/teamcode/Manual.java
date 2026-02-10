@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp(name = "Manual")
@@ -10,6 +11,9 @@ public class Manual extends OpMode
    public Mecanum mecanum = new Mecanum();
    public Yeeter yeeter = new Yeeter();
    public AprilTag_9968 aTag = new AprilTag_9968();
+   public GoBildaPrism gbPrism = new GoBildaPrism();
+   public ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+
    double kp = 0.05;
    double ki = 0.0005;
    double kd = 0;
@@ -22,12 +26,14 @@ public class Manual extends OpMode
    double previousBearingError = 0.0;
    //double aprilYeet = ;
 
+
+
    public void init()
    {
       mecanum.init(hardwareMap);
       aTag.init(hardwareMap);
       yeeter.init(hardwareMap);
-
+      gbPrism.init(hardwareMap);
       aTag.startStreaming();
    }
 
@@ -36,7 +42,7 @@ public class Manual extends OpMode
    {
       double bearingError = 0.0;
 
-      //      // Yeeter control for double yeet
+      // Yeeter control for double yeet
       //position 1
       if (gamepad2.cross) {
          yeeter.yeetAllElements(0.65, 0.65, 330);
@@ -85,10 +91,13 @@ public class Manual extends OpMode
       bearingAngle = aTag.getRobotBearing();
 
       if (bearingAngle != 0.0) {
-         // Blinking purple
+         gbPrism.green();
       }
-      else {
-         // Blinking green
+      else if (timer.seconds() >= 39 ) {
+         gbPrism.blue();
+      }
+      else if (timer.seconds() >= 100){
+         gbPrism.red();
       }
 
       // Driver initiated April Tag alignment for yeeting
@@ -135,9 +144,6 @@ public class Manual extends OpMode
          mecanum.manualDrive(gamepad1, telemetry);
       }
 
-      telemetry.addData("bearingError: ", bearingError);
-      telemetry.addData("bearingAngle: ", bearingAngle);
-      telemetry.addData("bearingErrorRunningSum: ", bearingErrorRunningSum);
       telemetry.update();
    }
 
