@@ -452,6 +452,7 @@ public class Auto_With_Selection_GoalCompatible extends OpMode {
                 .setLinearHeadingInterpolation(beforeSTIntake2.getHeading(), STIntake2.getHeading())
                 .build();
 
+
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
                 .addPath(new BezierLine(STIntake2,beforePGPpose))
