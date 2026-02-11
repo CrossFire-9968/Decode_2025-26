@@ -20,17 +20,17 @@ public class GoBildaPrism {
       prism = hwMap.get(GoBildaPrismDriver.class, "prism");
 
       // Customize prism animations
-      solidRed.setBrightness(50);
+      solidRed.setBrightness(100);
       solidRed.setStartIndex(0);
-      solidRed.setStopIndex(12);
+      solidRed.setStopIndex(23);
 
-      solidGreen.setBrightness(50);
+      solidGreen.setBrightness(100);
       solidGreen.setStartIndex(0);
-      solidGreen.setStopIndex(12);
+      solidGreen.setStopIndex(23);
 
-      solidBlue.setBrightness(50);
+      solidBlue.setBrightness(100);
       solidBlue.setStartIndex(0);
-      solidBlue.setStopIndex(12);
+      solidBlue.setStopIndex(23);
 
       rainbowSnakes.setNumberOfSnakes(2);
       rainbowSnakes.setSnakeLength(3);
@@ -48,17 +48,17 @@ public class GoBildaPrism {
 
    public void green()
    {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidRed);
+      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidGreen);
    }
 
    public void blue()
    {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidRed);
+      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidBlue);
    }
 
    public void snake()
    {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_1,rainbowSnakes);
+      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0,rainbowSnakes);
    }
 
 }
