@@ -6,59 +6,79 @@ import org.firstinspires.ftc.teamcode.Prism.Color;
 import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
 import org.firstinspires.ftc.teamcode.Prism.PrismAnimations;
 
-public class GoBildaPrism {
-
+public class GoBildaPrism
+{
    GoBildaPrismDriver prism;
+   
+   private static final int SOLID_BRIGHTNESS = 100;
+   private static final int SOLID_START_INDEX = 0;
+   private static final int SOLID_STOP_INDEX = 23;
 
    PrismAnimations.Solid solidRed = new PrismAnimations.Solid(Color.RED);
    PrismAnimations.Solid solidGreen = new PrismAnimations.Solid(Color.GREEN);
    PrismAnimations.Solid solidBlue = new PrismAnimations.Solid(Color.BLUE);
+   PrismAnimations.Solid solidWhite = new PrismAnimations.Solid(Color.WHITE);
    PrismAnimations.RainbowSnakes rainbowSnakes = new PrismAnimations.RainbowSnakes();
+
+   public enum PrismColor
+   {
+      RED,
+      GREEN,
+      BLUE,
+      WHITE
+   }
+
+   private PrismColor prismColor = null;
+
 
    public void init(HardwareMap hwMap)
    {
       prism = hwMap.get(GoBildaPrismDriver.class, "prism");
 
-      // Customize prism animations
-      solidRed.setBrightness(100);
-      solidRed.setStartIndex(0);
-      solidRed.setStopIndex(23);
-
-      solidGreen.setBrightness(100);
-      solidGreen.setStartIndex(0);
-      solidGreen.setStopIndex(23);
-
-      solidBlue.setBrightness(100);
-      solidBlue.setStartIndex(0);
-      solidBlue.setStopIndex(23);
-
+      // Configure solid colors used by robot
+      configureSolid(solidRed);
+      configureSolid(solidGreen);
+      configureSolid(solidBlue);
+      configureSolid(solidWhite);
+      
       rainbowSnakes.setNumberOfSnakes(2);
       rainbowSnakes.setSnakeLength(3);
       rainbowSnakes.setSpacingBetween(6);
       rainbowSnakes.setSpeed(0.5f);
 
-      // Initialize the light to do something awesome
-      this.snake();
+      // Initialize the led strip to do something
+      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, rainbowSnakes);
    }
 
-   public void red()
+
+   private void configureSolid(PrismAnimations.Solid solid)
    {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidRed);
+      solid.setBrightness(SOLID_BRIGHTNESS);
+      solid.setStartIndex(SOLID_START_INDEX);
+      solid.setStopIndex(SOLID_STOP_INDEX);
    }
 
-   public void green()
+
+   public void setPrismColor(PrismColor nextColor)
    {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidGreen);
-   }
+      if (nextColor == null || nextColor == prismColor) {
+         return;
+      }
 
-   public void blue()
-   {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidBlue);
-   }
+      switch (nextColor) {
+         case RED:
+            prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidRed);
+            break;
+         case BLUE:
+            prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidBlue);
+            break;
+         case GREEN:
+            prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0, solidGreen);
+            break;
+         case WHITE:
+            break;
+      }
 
-   public void snake()
-   {
-      prism.insertAndUpdateAnimation(GoBildaPrismDriver.LayerHeight.LAYER_0,rainbowSnakes);
+      prismColor = nextColor;
    }
-
 }

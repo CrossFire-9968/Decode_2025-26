@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.GoBildaPrism.PrismColor;
 
 
 @TeleOp(name = "Manual")
@@ -10,7 +11,7 @@ public class Manual extends OpMode {
     public Mecanum mecanum = new Mecanum();
     public Yeeter yeeter = new Yeeter();
     public AprilTag_9968 aTag = new AprilTag_9968();
-    public GoBildaPrism gbPrism = new GoBildaPrism();
+    public GoBildaPrism led = new GoBildaPrism();
     public ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
     double kp = 0.05;
@@ -25,23 +26,22 @@ public class Manual extends OpMode {
     double previousBearingError = 0.0;
     //double aprilYeet = ;
     boolean firstLoopDone = false;
-    boolean isRed = false;
-    boolean isBlue = false;
-    boolean isGreen = false;
+
 
     public void init() {
         mecanum.init(hardwareMap);
         aTag.init(hardwareMap);
         yeeter.init(hardwareMap);
-        gbPrism.init(hardwareMap);
+        led.init(hardwareMap);
         aTag.startStreaming();
     }
+
 
     @Override
     public void loop() {
         if (!firstLoopDone) {
             timer.reset();
-            gbPrism.red();
+            led.setPrismColor(PrismColor.RED);
             firstLoopDone = true;
         }
 
@@ -67,22 +67,28 @@ public class Manual extends OpMode {
         else if (gamepad2.square) {
             yeeter.yeetAllElements(0.95, 0.95, 265);
             yeeter.resetPark();
-        } else if (gamepad2.dpad_down) {
+        }
+        else if (gamepad2.dpad_down) {
             yeeter.launchOne(0.60, 330);
             yeeter.resetPark();
-        } else if (gamepad2.dpad_right) {
+        }
+        else if (gamepad2.dpad_right) {
             yeeter.launchOne(0.70, 290);
             yeeter.resetPark();
-        } else if (gamepad2.dpad_up) {
+        }
+        else if (gamepad2.dpad_up) {
             yeeter.launchOne(0.80, 270);
             yeeter.resetPark();
-        } else if (gamepad2.dpad_left) {
+        }
+        else if (gamepad2.dpad_left) {
             yeeter.launchOne(0.90, 265);
             yeeter.resetPark();
-        } else if (gamepad2.left_bumper) {
+        }
+        else if (gamepad2.left_bumper) {
             yeeter.intakeOn();
             yeeter.resetPark();
-        } else {
+        }
+        else {
             yeeter.resetLaunchSequence();
         }
 
@@ -90,28 +96,13 @@ public class Manual extends OpMode {
         bearingAngle = aTag.getRobotBearing();
 
         if (bearingAngle != 0.0) {
-            if (!isGreen) {
-                gbPrism.green();
-                isGreen = true;
-                isBlue = false;
-                isRed = false;
-            }
-        } else {
-            if (timer.seconds() < 100) {
-                if (!isBlue) {
-                    gbPrism.blue();
-                    isBlue = true;
-                    isGreen = false;
-                    isRed = false;
-                }
-            } else {
-                if (!isRed) {
-                    gbPrism.red();
-                    isRed = true;
-                    isBlue = false;
-                    isGreen = false;
-                }
-            }
+            led.setPrismColor(PrismColor.GREEN);
+        }
+        else if (timer.seconds() < 100) {
+            led.setPrismColor(PrismColor.BLUE);
+        }
+        else {
+            led.setPrismColor(PrismColor.RED);
         }
 
         // Driver initiated April Tag alignment for yeeting
@@ -129,7 +120,8 @@ public class Manual extends OpMode {
                 // Anti-windup: clamp integral sum
                 if (bearingErrorRunningSum > maxIntegralSum) {
                     bearingErrorRunningSum = maxIntegralSum;
-                } else if (bearingErrorRunningSum < -maxIntegralSum) {
+                }
+                else if (bearingErrorRunningSum < -maxIntegralSum) {
                     bearingErrorRunningSum = -maxIntegralSum;
                 }
 
@@ -160,9 +152,11 @@ public class Manual extends OpMode {
         telemetry.update();
     }
 
+
     @Override
     public void stop() {
         // Save more CPU resources when camera is no longer needed.
         aTag.visionPortal.close();
+        led.setPrismColor(PrismColor.WHITE);
     }
 }
