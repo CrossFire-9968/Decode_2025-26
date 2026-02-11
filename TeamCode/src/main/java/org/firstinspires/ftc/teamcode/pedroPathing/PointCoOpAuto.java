@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_BackFire2")
-public class Auto_With_Selection_BackFire2 extends OpMode {
+@Autonomous(name = "PointCoOpAuto")
+public class PointCoOpAuto extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
@@ -27,6 +27,14 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
     private Pose beforePPGpose = null;
     private Pose PPGpose = null;
     private Pose endPose = null;
+    private Pose HPZoneIntake1 = null;
+    private Pose HPZoneIntake2 = null;
+    private Pose HPZoneIntake15 = null;
+    private Pose HPZoneIntake25 = null;
+    private Pose STIntake1 = null;
+    private Pose STIntake2 = null;
+    private Pose BeforeHPIntake = null;
+    private Pose BeforeSTIntake = null;
 
 
     Pose grabGPPControlPoint = null;
@@ -114,25 +122,40 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
             PPGpose = new Pose(23,37, Math.toRadians(180));
             yeetPoseOF = new Pose(60,83, Math.toRadians(136));
             endPose = new Pose(60,73, Math.toRadians(132));
+
+            HPZoneIntake1 = new Pose(130, 6, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
+            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
         }
         if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
             grabGPPControlPoint = new Pose(96, 83, Math.toRadians(180));
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (85,72.4, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,71.4, Math.toRadians(0));
             beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
             beforePPGpose = new Pose(90,28, Math.toRadians(0));
 
-
-
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(84, 8, Math.toRadians(62));
-            GPPpose = new Pose(120, 72.4, Math.toRadians(0));
+            GPPpose = new Pose(120, 71.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
             PPGpose = new Pose(119.25, 28, Math.toRadians(0));
             yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
+
+            HPZoneIntake1 = new Pose(130, 9.5, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
+            HPZoneIntake15 = new Pose(129, 9.5, Math.toRadians(30));
+            HPZoneIntake25 = new Pose(129, 3, Math.toRadians(30));
+            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
+            
         }
 
         if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
@@ -153,6 +176,12 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
             PPGpose = new Pose(119.25, 28, Math.toRadians(0));
             yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
+
+            HPZoneIntake1 = new Pose(130, 6, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
+            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
+            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
+            
         }
 
 
@@ -172,6 +201,13 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
             PPGpose = new Pose(23,37, Math.toRadians(180));
             yeetPoseOF = new Pose(60,83, Math.toRadians(136));
             endPose = new Pose(60,73, Math.toRadians(132));
+
+            HPZoneIntake1 = new Pose(130, 6, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
+            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
         }
     }
 
@@ -397,10 +433,25 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
 
         // Move from yeet pose to PGP pose
         grabPGP = follower.pathBuilder()
-                .addPath(new BezierLine(yeetPose,beforePGPpose))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierLine(beforePGPpose,PGPpose))
-                .setLinearHeadingInterpolation(beforePGPpose.getHeading(), PGPpose.getHeading())
+                .addPath(new BezierLine(yeetPose, BeforeHPIntake))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), BeforeHPIntake.getHeading())
+                .addPath(new BezierLine(BeforeHPIntake, HPZoneIntake1))
+                .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake15))
+                .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), HPZoneIntake15.getHeading())
+                .addPath(new BezierLine(HPZoneIntake15, HPZoneIntake1))
+                .setLinearHeadingInterpolation(HPZoneIntake15.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, BeforeHPIntake))
+                .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), BeforeHPIntake.getHeading())
+                .addPath(new BezierLine(BeforeHPIntake, HPZoneIntake2))
+                .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake2.getHeading())
+
+                .addPath(new BezierLine(HPZoneIntake2, HPZoneIntake25))
+                .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), HPZoneIntake25.getHeading())
+                .addPath(new BezierLine(HPZoneIntake25, HPZoneIntake2))
+                .setLinearHeadingInterpolation(HPZoneIntake25.getHeading(), HPZoneIntake2.getHeading())
+                .addPath(new BezierLine(HPZoneIntake25, BeforeHPIntake))
+                .setLinearHeadingInterpolation(HPZoneIntake25.getHeading(), BeforeHPIntake.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
@@ -422,6 +473,18 @@ public class Auto_With_Selection_BackFire2 extends OpMode {
                 .addPath(new BezierLine(beforePPGpose, PPGpose))
                 .setLinearHeadingInterpolation(beforePPGpose.getHeading(), PPGpose.getHeading())
                 .build();
+
+//        .addPath(new BezierLine(yeetPose,BeforeSTIntake))
+//                .setLinearHeadingInterpolation(yeetPose.getHeading(), BeforeSTIntake.getHeading())
+//                .addPath(new BezierLine(BeforeSTIntake, STIntake1))
+//                .setLinearHeadingInterpolation(BeforeSTIntake.getHeading(), STIntake1.getHeading())
+//                .addPath(new BezierLine(STIntake1, BeforeSTIntake))
+//                .setLinearHeadingInterpolation(STIntake1.getHeading(), BeforeSTIntake.getHeading())
+//                .addPath(new BezierLine(BeforeSTIntake, STIntake2))
+//                .setLinearHeadingInterpolation(BeforeSTIntake.getHeading(), STIntake2.getHeading())
+//                .build();
+
+        // Code For The Secret Tunnel Intaking period
 
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
