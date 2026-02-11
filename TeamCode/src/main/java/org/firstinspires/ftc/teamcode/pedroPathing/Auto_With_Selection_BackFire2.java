@@ -5,7 +5,6 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,12 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Yeeter;
 
-import java.util.Arrays;
-
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_BackFront")
-public class Auto_With_Selection_BackFront extends OpMode {
+@Autonomous(name = "Auto_With_Selection_BackFire2")
+public class Auto_With_Selection_BackFire2 extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
@@ -143,7 +140,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
 
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(83, 72.325, Math.toRadians(44));
+            yeetPose = new Pose(84, 8, Math.toRadians(62));
             GPPpose = new Pose(120, 73.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
             PPGpose = new Pose(119.25, 28, Math.toRadians(0));
@@ -162,7 +159,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
             beforePPGpose = new Pose(50,37, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(60,83, Math.toRadians(132));
+            yeetPose = new Pose(56,17, Math.toRadians(120));
             GPPpose = new Pose(25,83.5, Math.toRadians(180));
             PGPpose = new Pose(23,60, Math.toRadians(180));
             PPGpose = new Pose(23,37, Math.toRadians(180));
