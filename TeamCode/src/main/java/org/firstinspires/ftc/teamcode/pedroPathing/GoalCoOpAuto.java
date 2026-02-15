@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_GoalCompatible")
-public class Auto_With_Selection_GoalCompatible extends OpMode {
+@Autonomous(name = "GoalCoOpAuto")
+public class GoalCoOpAuto extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;

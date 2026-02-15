@@ -5,7 +5,6 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,12 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Yeeter;
 
-import java.util.Arrays;
-
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_BackFront")
-public class Auto_With_Selection_BackFront extends OpMode {
+@Autonomous(name = "SimplePointToGoalAuto")
+public class SimplePointToGoalAuto extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;

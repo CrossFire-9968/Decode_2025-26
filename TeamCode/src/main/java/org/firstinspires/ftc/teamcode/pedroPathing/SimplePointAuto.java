@@ -4,7 +4,6 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -13,21 +12,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Yeeter;
 
-import java.util.Arrays;
-
 
 @Configurable
-@Autonomous(name = "Auto_With_Selection_2")
-public class Auto_With_Selection_2 extends OpMode {
+@Autonomous(name = "SimplePointAuto")
+public class SimplePointAuto extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
+    private Pose yeetPoseOF = null;
     private Pose beforeGPPpose = null;
     private Pose GPPpose = null;
     private Pose beforePGPpose = null;
     private Pose PGPpose = null;
     private Pose beforePPGpose = null;
     private Pose PPGpose = null;
+    private Pose endPose = null;
+
 
     Pose grabGPPControlPoint = null;
     Pose grabPGPControlPoint = null;
@@ -103,30 +103,36 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (37,85.3, Math.toRadians(180));
-            beforePGPpose = new Pose(56,64.5, Math.toRadians(180));
-            beforePPGpose = new Pose(37,35, Math.toRadians(180));
+            beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
+            beforePGPpose = new Pose(57,60, Math.toRadians(180));
+            beforePPGpose = new Pose(50,37, Math.toRadians(180));
 
-            startPose = new Pose(26, 128.5, Math.toRadians(90));
-            yeetPose = new Pose(60, 84, Math.toRadians(128));
-            GPPpose = new Pose(22, 85.3, Math.toRadians(180));
-            PGPpose = new Pose(22, 64.5, Math.toRadians(180));
-            PPGpose = new Pose(22, 32, Math.toRadians(180));
+            startPose = new Pose(56,10, Math.toRadians(90));
+            yeetPose = new Pose(56,17, Math.toRadians(120));
+            GPPpose = new Pose(25,83.5, Math.toRadians(180));
+            PGPpose = new Pose(23,60, Math.toRadians(180));
+            PPGpose = new Pose(23,37, Math.toRadians(180));
+            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
+            endPose = new Pose(60,73, Math.toRadians(132));
         }
         if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
-            grabGPPControlPoint = new Pose(90, 83, Math.toRadians(180));
+            grabGPPControlPoint = new Pose(96, 83, Math.toRadians(180));
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (86,78, Math.toRadians(0));
-            beforePGPpose = new Pose(81,54, Math.toRadians(0));
-            beforePPGpose = new Pose(96,36, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,72.4, Math.toRadians(0));
+            beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
+            beforePPGpose = new Pose(90,28, Math.toRadians(0));
 
-            startPose = new Pose(108, 120, Math.toRadians(90));
-            yeetPose = new Pose(77, 77, Math.toRadians(49));
-            GPPpose = new Pose(118, 78, Math.toRadians(0));
-            PGPpose = new Pose(115, 54, Math.toRadians(0));
-            PPGpose = new Pose(119, 36, Math.toRadians(0));
+
+
+            startPose = new Pose(84, 1, Math.toRadians(90));
+            yeetPose = new Pose(84, 8, Math.toRadians(62));
+            GPPpose = new Pose(120, 72.4, Math.toRadians(0));
+            PGPpose = new Pose(123, 50.25, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 28, Math.toRadians(0));
+            yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
+            endPose = new Pose(85, 66.325, Math.toRadians(46));
         }
 
         if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
@@ -134,16 +140,21 @@ public class Auto_With_Selection_2 extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (88,75.325, Math.toRadians(0));
-            beforePGPpose = new Pose(89,51, Math.toRadians(0));
-            beforePPGpose = new Pose(101,36, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,72.4, Math.toRadians(0));
+            beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
+            beforePPGpose = new Pose(90,28, Math.toRadians(0));
+
+
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(81, 80.325, Math.toRadians(40));
-            GPPpose = new Pose(120, 76, Math.toRadians(0));
-            PGPpose = new Pose(121, 51, Math.toRadians(0));
-            PPGpose = new Pose(119, 36, Math.toRadians(0));
+            yeetPose = new Pose(84, 8, Math.toRadians(62));
+            GPPpose = new Pose(120, 72.4, Math.toRadians(0));
+            PGPpose = new Pose(123, 50.25, Math.toRadians(0));
+            PPGpose = new Pose(119, 28, Math.toRadians(0));
+            yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
+            endPose = new Pose(85, 66.325, Math.toRadians(46));
         }
+
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
             grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
@@ -152,13 +163,15 @@ public class Auto_With_Selection_2 extends OpMode {
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
             beforePGPpose = new Pose(57,60, Math.toRadians(180));
-            beforePPGpose = new Pose(39,36, Math.toRadians(180));
+            beforePPGpose = new Pose(50,37, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(64,79, Math.toRadians(132));
-            GPPpose = new Pose(29,83.5, Math.toRadians(180));
+            yeetPose = new Pose(56,17, Math.toRadians(120));
+            GPPpose = new Pose(25,83.5, Math.toRadians(180));
             PGPpose = new Pose(23,60, Math.toRadians(180));
-            PPGpose = new Pose(23,36, Math.toRadians(180));
+            PPGpose = new Pose(23,37, Math.toRadians(180));
+            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
+            endPose = new Pose(60,73, Math.toRadians(132));
         }
     }
 
@@ -170,6 +183,7 @@ public class Auto_With_Selection_2 extends OpMode {
         buildPathsPGP();
         buildPathsPPG();
     }
+
 
 
     @Override
@@ -299,7 +313,7 @@ public class Auto_With_Selection_2 extends OpMode {
                         masterState = masterStateEnum.PPG;
                     }
                     else if (yeetCount == 4) {
-                        masterState = masterStateEnum.COMPLETE;
+                        masterState = masterStateEnum.PGP;
                     }
 
                     setPathState(0);
@@ -360,20 +374,20 @@ public class Auto_With_Selection_2 extends OpMode {
         //final Pose grabGPPControlPoint1 = new Pose(48, 85, Math.toRadians(180));
 
         // Move from yeet pose to GPP pose
-        grabGPP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose, beforeGPPpose)))
+        grabPPG = follower.pathBuilder()
+                .addPath(new BezierLine(yeetPose, beforeGPPpose))
                 .setLinearHeadingInterpolation(yeetPose.getHeading(), beforeGPPpose.getHeading())
-                .addPath(new BezierCurve(Arrays.asList(beforeGPPpose, GPPpose)))
+                .addPath(new BezierLine(beforeGPPpose, GPPpose))
                 .setLinearHeadingInterpolation(beforeGPPpose.getHeading(), GPPpose.getHeading())
                 .build();
 
 
 
         // Move from GPP pose to yeet pose
-       scoreGPP = follower.pathBuilder()
-               .addPath(new BezierCurve(Arrays.asList(GPPpose, grabGPPControlPoint, yeetPose)))
+       scorePPG = follower.pathBuilder()
+               .addPath(new BezierLine(GPPpose, yeetPose))
               .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
-                .build();
+               .build();
     }
 
 
@@ -383,15 +397,15 @@ public class Auto_With_Selection_2 extends OpMode {
 
         // Move from yeet pose to PGP pose
         grabPGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose,beforePGPpose)))
+                .addPath(new BezierLine(yeetPose,beforePGPpose))
                 .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierCurve(Arrays.asList(beforePGPpose,PGPpose)))
+                .addPath(new BezierLine(beforePGPpose,PGPpose))
                 .setLinearHeadingInterpolation(beforePGPpose.getHeading(), PGPpose.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PGPpose, grabPGPControlPoint, yeetPose)))
+                .addPath(new BezierLine(PGPpose, yeetPose))
                 .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -402,16 +416,16 @@ public class Auto_With_Selection_2 extends OpMode {
         //final Pose grabPPGControlPoint1 = new Pose(72, 57, Math.toRadians(180));
 
         // Move from yeet pose to PPG pose
-        grabPPG = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(yeetPose,beforePPGpose)))
+        grabGPP = follower.pathBuilder()
+                .addPath(new BezierLine(yeetPose,beforePPGpose))
                 .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePPGpose.getHeading())
-                .addPath(new BezierCurve(Arrays.asList(beforePPGpose, PPGpose)))
+                .addPath(new BezierLine(beforePPGpose, PPGpose))
                 .setLinearHeadingInterpolation(beforePPGpose.getHeading(), PPGpose.getHeading())
                 .build();
 
         // Move from PPG pose to yeet pose
-        scorePPG = follower.pathBuilder()
-                .addPath(new BezierCurve(Arrays.asList(PPGpose, grabPPGControlPoint, yeetPose)))
+        scoreGPP = follower.pathBuilder()
+                .addPath(new BezierLine(PPGpose, yeetPose))
                 .setLinearHeadingInterpolation(PPGpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
@@ -451,7 +465,6 @@ public class Auto_With_Selection_2 extends OpMode {
 
             case 1:
                 log("State", "Arrived at GPP pose");
-
                 // Wait until yeet position reached
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
@@ -522,7 +535,7 @@ public class Auto_With_Selection_2 extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                    //follower.followPath(scorePPG, true);
+                    follower.followPath(scorePPG, true);
                     setPathState(-1);
                 }
                 break;
@@ -543,8 +556,8 @@ public class Auto_With_Selection_2 extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.655;
-        final double secondElementYeetPower = 0.665;
+        final double firstElementYeetPower = 0.83;
+        final double secondElementYeetPower = 0.80;
         final int yeetPosition = 290;
 
         switch (pathState) {
@@ -557,7 +570,7 @@ public class Auto_With_Selection_2 extends OpMode {
 
             case 1:
                 log("State", "Yeeting elements");
-                yeeter.yeetAllElementsAuto(firstElementYeetPower, secondElementYeetPower, yeetPosition);
+                yeeter.yeetAllElements(firstElementYeetPower, secondElementYeetPower, yeetPosition);
                 if (!yeeter.isLaunching()) {
                     yeeter.resetPark(); // Reset park state machine so it runs only once
                     setPathState(2);
