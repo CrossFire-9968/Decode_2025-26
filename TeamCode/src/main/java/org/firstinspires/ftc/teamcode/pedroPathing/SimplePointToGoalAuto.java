@@ -547,6 +547,7 @@ public class SimplePointToGoalAuto extends OpMode {
     }
 
 
+
     // State machine handling the yeeting of elements in autonomous
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
