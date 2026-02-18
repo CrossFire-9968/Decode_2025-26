@@ -14,24 +14,30 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 
 
 @Configurable
-@Autonomous(name = "GoalCoOpAuto")
-public class GoalCoOpAuto extends OpMode {
+@Autonomous(name = "FarHuman")
+public class FarHuman extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
     private Pose yeetPoseOF = null;
-    private Pose yeetPoseOF2 = null;
     private Pose beforeGPPpose = null;
     private Pose GPPpose = null;
     private Pose beforePGPpose = null;
     private Pose PGPpose = null;
-    private Pose beforeSTIntake2 = null;
+    private Pose beforePPGpose = null;
     private Pose PPGpose = null;
-    private Pose ClassifierEmpty = null;
-    private Pose BeforeClassifierEmpty = null;
+    private Pose endPose = null;
+    private Pose HPZoneIntake1 = null;
+    private Pose HPZoneIntake12 = null;
+    private Pose HPZoneIntake22 = null;
+    private Pose HPZoneIntake2 = null;
+    private Pose HPZoneIntake15 = null;
+    private Pose HPZoneIntake25 = null;
     private Pose STIntake1 = null;
     private Pose STIntake2 = null;
-    private Pose endPose = null;
+    private Pose BeforeHPIntake = null;
+    private Pose BeforeSTIntake = null;
+
 
     Pose grabGPPControlPoint = null;
     Pose grabPGPControlPoint = null;
@@ -103,46 +109,55 @@ public class GoalCoOpAuto extends OpMode {
 
     private void loadPreset(Alliance alliance, AutoStartLocation location) {
         if (alliance == Alliance.BLUE && location == AutoStartLocation.GOAL) {
-            grabGPPControlPoint = new Pose(90, 83, Math.toRadians(180));
-            grabPGPControlPoint = new Pose(54, 60, Math.toRadians(180));
-            grabPPGControlPoint = new Pose(72, 36.8, Math.toRadians(180));
+            grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
+            grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
+            grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (65,80.3, Math.toRadians(180));
-            beforePGPpose = new Pose(63,57.5, Math.toRadians(180));
-            beforeSTIntake2 = new Pose(36,47, Math.toRadians(180));
+            beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
+            beforePGPpose = new Pose(57,60, Math.toRadians(180));
+            beforePPGpose = new Pose(50,37, Math.toRadians(180));
 
-            startPose = new Pose(40, 125, Math.toRadians(90));
-            yeetPose = new Pose(61, 92, Math.toRadians(134));
-            GPPpose = new Pose(30, 80.3, Math.toRadians(180));
-            PGPpose = new Pose(38.5, 57.5, Math.toRadians(180));
-            PPGpose = new Pose(28, 36.8, Math.toRadians(180));
-            yeetPoseOF = new Pose(59, 73.325, Math.toRadians(137));
-            yeetPoseOF2 = new Pose(74, 73.325, Math.toRadians(137));
-            ClassifierEmpty = new Pose(27.2, 63.1, Math.toRadians(180));
-            BeforeClassifierEmpty = new Pose(36, 63.4, Math.toRadians(180));
-            STIntake1 = new Pose(24, 50, Math.toRadians(180));
-            STIntake2 = new Pose(23, 40, Math.toRadians(180));
+            startPose = new Pose(56,10, Math.toRadians(90));
+            yeetPose = new Pose(56,17, Math.toRadians(120));
+            GPPpose = new Pose(25,83.5, Math.toRadians(180));
+            PGPpose = new Pose(23,60, Math.toRadians(180));
+            PPGpose = new Pose(23,37, Math.toRadians(180));
+            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
+            endPose = new Pose(60,73, Math.toRadians(132));
+
+            HPZoneIntake1 = new Pose(130, 6, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
+            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
         }
         if (alliance == Alliance.RED && location == AutoStartLocation.GOAL) {
-            grabGPPControlPoint = new Pose(90, 83, Math.toRadians(180));
-            grabPGPControlPoint = new Pose(54, 60, Math.toRadians(180));
-            grabPPGControlPoint = new Pose(72, 36.8, Math.toRadians(180));
+            grabGPPControlPoint = new Pose(96, 83, Math.toRadians(180));
+            grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
+            grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (79,80.3, Math.toRadians(0));
-            beforePGPpose = new Pose(81,57.5, Math.toRadians(0));
-            beforeSTIntake2 = new Pose(108,47, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,71.4, Math.toRadians(0));
+            beforePGPpose = new Pose(89,50.45, Math.toRadians(0));
+            beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
 
-            startPose = new Pose(104, 125, Math.toRadians(90));
-            yeetPose = new Pose(86, 92, Math.toRadians(49));
-            GPPpose = new Pose(112, 80.3, Math.toRadians(0));
-            PGPpose = new Pose(105.5, 57.5, Math.toRadians(0));
-            PPGpose = new Pose(116, 36.8, Math.toRadians(0));
-            yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
-            yeetPoseOF2 = new Pose(70, 73.325, Math.toRadians(47));
-            ClassifierEmpty = new Pose(116.8, 63.1, Math.toRadians(0));
-            BeforeClassifierEmpty = new Pose(108, 63.4, Math.toRadians(0));
-            STIntake1 = new Pose(120, 50, Math.toRadians(0));
-            STIntake2 = new Pose(121, 40, Math.toRadians(0));
+            startPose = new Pose(84, 1, Math.toRadians(90));
+            yeetPose = new Pose(84, 8, Math.toRadians(59));
+            yeetPoseOF = new Pose(84, 8, Math.toRadians(63));
+            GPPpose = new Pose(120, 71.4, Math.toRadians(0));
+            PGPpose = new Pose(123, 50.45, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 26.5, Math.toRadians(0));
+            endPose = new Pose(85, 66.325, Math.toRadians(46));
+
+            HPZoneIntake1 = new Pose(131.4,8.5, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130.4, 8, Math.toRadians(0));
+            HPZoneIntake15 = new Pose(129, 14.5, Math.toRadians(0));
+            HPZoneIntake25 = new Pose(129, 3, Math.toRadians(10));
+            BeforeHPIntake = new Pose(120, 9, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(120, 24, Math.toRadians(0));
+            
         }
 
         if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
@@ -150,48 +165,57 @@ public class GoalCoOpAuto extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (85,73.4, Math.toRadians(0));
-            beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
-            beforeSTIntake2 = new Pose(90,28, Math.toRadians(0));
-
-
+            beforeGPPpose = new Pose (85,71.4, Math.toRadians(0));
+            beforePGPpose = new Pose(89,50.45, Math.toRadians(0));
+            beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(81.5, 74.325, Math.toRadians(44));
-            GPPpose = new Pose(120, 73.4, Math.toRadians(0));
-            PGPpose = new Pose(123, 50.25, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 28, Math.toRadians(0));
-            yeetPoseOF = new Pose(81, 74.325, Math.toRadians(47));
-            yeetPoseOF2 = new Pose(80, 73.325, Math.toRadians(47));
+            yeetPose = new Pose(84, 8, Math.toRadians(63));
+            yeetPoseOF = new Pose(84, 8, Math.toRadians(60));
+            GPPpose = new Pose(120, 71.4, Math.toRadians(0));
+            PGPpose = new Pose(123, 50.45, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 26.5, Math.toRadians(0));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
-            ClassifierEmpty = new Pose(114.3, 67, Math.toRadians(0));
-            BeforeClassifierEmpty = new Pose(108, 67, Math.toRadians(0));
-            STIntake1 = new Pose(121, 40, Math.toRadians(0));
-            STIntake2 = new Pose(121, 35, Math.toRadians(0));
+
+            HPZoneIntake1 = new Pose(131.4,8, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130.4, 4, Math.toRadians(0));
+            HPZoneIntake12 = new Pose(125, 13.5, Math.toRadians(0));
+            HPZoneIntake15 = new Pose(129, 13.5, Math.toRadians(0));
+            HPZoneIntake25 = new Pose(129, 3, Math.toRadians(10));
+            BeforeHPIntake = new Pose(120, 9, Math.toRadians(0));
+            STIntake1 = new Pose(130, 20, Math.toRadians(0));
+            STIntake2 = new Pose(130, 28, Math.toRadians(0));
+            BeforeSTIntake = new Pose(120, 24, Math.toRadians(0));
+            
         }
 
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
-            grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
+            grabGPPControlPoint = new Pose(48, 83, Math.toRadians(180));
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,60, Math.toRadians(180));
-            beforeSTIntake2 = new Pose(50,37, Math.toRadians(180));
+            beforeGPPpose = new Pose (59,71.4, Math.toRadians(180));
+            beforePGPpose = new Pose(55,50.45, Math.toRadians(180));
+            beforePPGpose = new Pose(54,26.5, Math.toRadians(180));
 
-            startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(60,83, Math.toRadians(132));
-            GPPpose = new Pose(25,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,60, Math.toRadians(180));
-            PPGpose = new Pose(23,37, Math.toRadians(180));
-            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
-            yeetPoseOF2 = new Pose(80, 73.325, Math.toRadians(47));
-            endPose = new Pose(60,73, Math.toRadians(132));
-            ClassifierEmpty = new Pose(115, 67, Math.toRadians(0));
-            BeforeClassifierEmpty = new Pose(108, 67, Math.toRadians(0));
-            STIntake1 = new Pose(121, 50, Math.toRadians(0));
-            STIntake2 = new Pose(121, 44, Math.toRadians(0));
+            startPose = new Pose(60, 1, Math.toRadians(90));
+            yeetPose = new Pose(60, 8, Math.toRadians(115));
+            yeetPoseOF = new Pose(60, 8, Math.toRadians(115));
+            GPPpose = new Pose(24, 71.4, Math.toRadians(180));
+            PGPpose = new Pose(21, 50.45, Math.toRadians(180));
+            PPGpose = new Pose(24.75, 26.5, Math.toRadians(180));
+            endPose = new Pose(59, 66.325, Math.toRadians(136));
+
+            HPZoneIntake1 = new Pose(12.6,8, Math.toRadians(180));
+            HPZoneIntake2 = new Pose(13.6, 4, Math.toRadians(180));
+            HPZoneIntake12 = new Pose(19, 13.5, Math.toRadians(180));
+            HPZoneIntake15 = new Pose(15, 13.5, Math.toRadians(180));
+            HPZoneIntake25 = new Pose(15, 3, Math.toRadians(100));
+            BeforeHPIntake = new Pose(24, 9, Math.toRadians(180));
+            STIntake1 = new Pose(14, 20, Math.toRadians(180));
+            STIntake2 = new Pose(14, 28, Math.toRadians(180));
+            BeforeSTIntake = new Pose(24, 24, Math.toRadians(180));
 
         }
     }
@@ -324,14 +348,14 @@ public class GoalCoOpAuto extends OpMode {
 
                     // After first yeet, go to the Artifacts
                     if (yeetCount == 1) {
-                        masterState = masterStateEnum.PGP;
+                        masterState = MotifPose;
                     }
                     // After yeeting Motif do ???
                     else if (yeetCount == 2) {
-                        masterState = masterStateEnum.PPG;
+                        masterState = masterStateEnum.PGP;
                     }
                     else if (yeetCount == 3) {
-                        masterState = MotifPose;
+                        masterState = masterStateEnum.PPG;
                     }
                     else if (yeetCount == 4) {
                         masterState = masterStateEnum.PGP;
@@ -344,7 +368,7 @@ public class GoalCoOpAuto extends OpMode {
             case GPP:
                 updateStateMachineGPP();
                 if (pathState == -1) {
-                    masterState = masterStateEnum.COMPLETE;
+                    masterState = masterStateEnum.YEET;
                     setPathState(0);
                 }
                 break;
@@ -418,20 +442,36 @@ public class GoalCoOpAuto extends OpMode {
 
         // Move from yeet pose to PGP pose
         grabPGP = follower.pathBuilder()
-                .addPath(new BezierLine(yeetPose,beforePGPpose))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierLine(beforePGPpose,PGPpose))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierLine(PGPpose,BeforeClassifierEmpty))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), BeforeClassifierEmpty.getHeading())
-                .addPath(new BezierLine(PGPpose, ClassifierEmpty))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), ClassifierEmpty.getHeading())
+                .addPath(new BezierLine(yeetPose, BeforeHPIntake))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), BeforeHPIntake.getHeading())
+                .addPath(new BezierLine(BeforeHPIntake, HPZoneIntake1))
+                .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake15))
+                .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), HPZoneIntake15.getHeading())
+                .addPath(new BezierLine(HPZoneIntake15, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake15.getHeading(), HPZoneIntake12.getHeading())
+                .addPath(new BezierLine(HPZoneIntake12, HPZoneIntake15))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake15.getHeading())
+                .addPath(new BezierLine(HPZoneIntake15, BeforeHPIntake))
+                .setLinearHeadingInterpolation(HPZoneIntake15.getHeading(), BeforeHPIntake.getHeading())
+                .addPath(new BezierLine(BeforeHPIntake, HPZoneIntake2))
+                .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake2.getHeading())
+                .addPath(new BezierLine(HPZoneIntake2, HPZoneIntake1))
+                .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), HPZoneIntake12.getHeading())
+               .addPath(new BezierLine(HPZoneIntake12, HPZoneIntake1))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake2.getHeading())
+               //.addPath(new BezierLine(HPZoneIntake12, HPZoneIntake2))
+              //  .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), BeforeHPIntake.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierLine(PGPpose, yeetPose))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierLine(PGPpose, yeetPoseOF))
+                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPoseOF.getHeading())
                 .build();
     }
 
@@ -442,23 +482,28 @@ public class GoalCoOpAuto extends OpMode {
 
         // Move from yeet pose to PPG pose
         grabGPP = follower.pathBuilder()
-                .addPath(new BezierLine(yeetPose, beforeSTIntake2))
-                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforeSTIntake2.getHeading())
-                .addPath(new BezierLine(beforeSTIntake2, STIntake1))
-                .setLinearHeadingInterpolation(beforeSTIntake2.getHeading(), STIntake1.getHeading())
-                .addPath(new BezierLine(STIntake1, beforeSTIntake2))
-                .setLinearHeadingInterpolation(STIntake1.getHeading(), beforeSTIntake2.getHeading())
-                .addPath(new BezierLine(beforeSTIntake2, STIntake2))
-                .setLinearHeadingInterpolation(beforeSTIntake2.getHeading(), STIntake2.getHeading())
+                .addPath(new BezierLine(yeetPose,beforePPGpose))
+                .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePPGpose.getHeading())
+                .addPath(new BezierLine(beforePPGpose, PPGpose))
+                .setLinearHeadingInterpolation(beforePPGpose.getHeading(), PPGpose.getHeading())
                 .build();
 
+//        .addPath(new BezierLine(yeetPose,BeforeSTIntake))
+//                .setLinearHeadingInterpolation(yeetPose.getHeading(), BeforeSTIntake.getHeading())
+//                .addPath(new BezierLine(BeforeSTIntake, STIntake1))
+//                .setLinearHeadingInterpolation(BeforeSTIntake.getHeading(), STIntake1.getHeading())
+//                .addPath(new BezierLine(STIntake1, BeforeSTIntake))
+//                .setLinearHeadingInterpolation(STIntake1.getHeading(), BeforeSTIntake.getHeading())
+//                .addPath(new BezierLine(BeforeSTIntake, STIntake2))
+//                .setLinearHeadingInterpolation(BeforeSTIntake.getHeading(), STIntake2.getHeading())
+//                .build();
+
+        // Code For The Secret Tunnel Intaking period
 
         // Move from PPG pose to yeet pose
         scoreGPP = follower.pathBuilder()
-                .addPath(new BezierLine(STIntake2,beforePGPpose))
-                .setLinearHeadingInterpolation(STIntake2.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierLine(beforePGPpose, yeetPose))
-                .setLinearHeadingInterpolation(beforePGPpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierLine(PPGpose, yeetPose))
+                .setLinearHeadingInterpolation(PPGpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -492,28 +537,28 @@ public class GoalCoOpAuto extends OpMode {
                 log("State", "Moving to GPP pose");
                 yeeter.intakeOn();
                 follower.followPath(grabGPP, true);
-                setPathState(-1);
+                setPathState(1);
                 break;
 
-//            case 1:
-//                log("State", "Arrived at GPP pose");
-//                // Wait until yeet position reached
-//                if (!follower.isBusy()) {
-//                    log("State", "Moving to yeet");
-//                    yeeter.intakeOff();
-//                    follower.followPath(scoreGPP, true);
-//                    setPathState(2);
-//                }
-//                break;
-//
-//            case 2:
-//                log("Moving to yeet position");
-//
-//                if (!follower.isBusy()) {
-//                    log("State", "Arrived at yeet pose");
-//                    setPathState(-1);
-//                }
-//                break;
+            case 1:
+                log("State", "Arrived at GPP pose");
+                // Wait until yeet position reached
+                if (!follower.isBusy()) {
+                    log("State", "Moving to yeet");
+                    yeeter.intakeOff();
+                    follower.followPath(scoreGPP, true);
+                    setPathState(2);
+                }
+                break;
+
+            case 2:
+                log("Moving to yeet position");
+
+                if (!follower.isBusy()) {
+                    log("State", "Arrived at yeet pose");
+                    setPathState(-1);
+                }
+                break;
         }
     }
 
@@ -588,9 +633,9 @@ public class GoalCoOpAuto extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.71;
-        final double secondElementYeetPower = 0.64;
-        final int yeetPosition = 300;
+        final double firstElementYeetPower = 0.79;
+        final double secondElementYeetPower = 0.80;
+        final int yeetPosition = 278;
 
         switch (pathState) {
             case 0:
@@ -602,7 +647,7 @@ public class GoalCoOpAuto extends OpMode {
 
             case 1:
                 log("State", "Yeeting elements");
-                yeeter.yeetAllElementsAuto(firstElementYeetPower, secondElementYeetPower, yeetPosition);
+                yeeter.yeetAllElements(firstElementYeetPower, secondElementYeetPower, yeetPosition);
                 if (!yeeter.isLaunching()) {
                     yeeter.resetPark(); // Reset park state machine so it runs only once
                     setPathState(2);

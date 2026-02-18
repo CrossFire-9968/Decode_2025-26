@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 
 
 @Configurable
-@Autonomous(name = "SimplePointToGoalAuto")
+//@Autonomous(name = "SimplePointToGoalAuto")
 public class SimplePointToGoalAuto extends OpMode {
     // Initialize poses
     private Pose startPose = null;
@@ -135,16 +135,16 @@ public class SimplePointToGoalAuto extends OpMode {
 
             beforeGPPpose = new Pose (85,73.4, Math.toRadians(0));
             beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
-            beforePPGpose = new Pose(90,28, Math.toRadians(0));
+            beforePPGpose = new Pose(90,27, Math.toRadians(0));
 
 
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(83, 72.325, Math.toRadians(44));
+            yeetPose = new Pose(83, 71, Math.toRadians(44));
             GPPpose = new Pose(120, 73.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 28, Math.toRadians(0));
-            yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
+            PPGpose = new Pose(119.25, 27, Math.toRadians(0));
+            yeetPoseOF = new Pose(83.5, 71, Math.toRadians(44));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
         }
 
@@ -155,13 +155,13 @@ public class SimplePointToGoalAuto extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,60, Math.toRadians(180));
+            beforePGPpose = new Pose(57,59.5, Math.toRadians(180));
             beforePPGpose = new Pose(50,37, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
             yeetPose = new Pose(60,83, Math.toRadians(132));
             GPPpose = new Pose(25,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,60, Math.toRadians(180));
+            PGPpose = new Pose(23,59.5, Math.toRadians(180));
             PPGpose = new Pose(23,37, Math.toRadians(180));
             yeetPoseOF = new Pose(60,83, Math.toRadians(136));
             endPose = new Pose(60,73, Math.toRadians(132));
@@ -551,9 +551,9 @@ public class SimplePointToGoalAuto extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.71;
-        final double secondElementYeetPower = 0.67;
-        final int yeetPosition = 295;
+        final double firstElementYeetPower = 0.73;
+        final double secondElementYeetPower = 0.66;
+        final int yeetPosition = 300;
 
         switch (pathState) {
             case 0:
