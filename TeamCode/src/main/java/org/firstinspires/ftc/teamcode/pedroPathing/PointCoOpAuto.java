@@ -28,6 +28,8 @@ public class PointCoOpAuto extends OpMode {
     private Pose PPGpose = null;
     private Pose endPose = null;
     private Pose HPZoneIntake1 = null;
+    private Pose HPZoneIntake12 = null;
+    private Pose HPZoneIntake22 = null;
     private Pose HPZoneIntake2 = null;
     private Pose HPZoneIntake15 = null;
     private Pose HPZoneIntake25 = null;
@@ -168,16 +170,17 @@ public class PointCoOpAuto extends OpMode {
             beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(84, 8, Math.toRadians(64));
-            yeetPoseOF = new Pose(84, 8, Math.toRadians(64));
+            yeetPose = new Pose(84, 8, Math.toRadians(63));
+            yeetPoseOF = new Pose(84, 8, Math.toRadians(60));
             GPPpose = new Pose(120, 71.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.45, Math.toRadians(0));
             PPGpose = new Pose(119.25, 26.5, Math.toRadians(0));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
 
-            HPZoneIntake1 = new Pose(131.4,8.5, Math.toRadians(0));
-            HPZoneIntake2 = new Pose(130.4, 8, Math.toRadians(0));
-            HPZoneIntake15 = new Pose(129, 14.5, Math.toRadians(0));
+            HPZoneIntake1 = new Pose(131.4,8, Math.toRadians(0));
+            HPZoneIntake2 = new Pose(130.4, 4, Math.toRadians(0));
+            HPZoneIntake12 = new Pose(125, 13.5, Math.toRadians(0));
+            HPZoneIntake15 = new Pose(129, 13.5, Math.toRadians(0));
             HPZoneIntake25 = new Pose(129, 3, Math.toRadians(10));
             BeforeHPIntake = new Pose(120, 9, Math.toRadians(0));
             STIntake1 = new Pose(130, 20, Math.toRadians(0));
@@ -188,28 +191,32 @@ public class PointCoOpAuto extends OpMode {
 
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
-            grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
+            grabGPPControlPoint = new Pose(48, 83, Math.toRadians(180));
             grabPGPControlPoint = new Pose(90, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,60, Math.toRadians(180));
-            beforePPGpose = new Pose(50,37, Math.toRadians(180));
+            beforeGPPpose = new Pose (59,71.4, Math.toRadians(180));
+            beforePGPpose = new Pose(55,50.45, Math.toRadians(180));
+            beforePPGpose = new Pose(54,26.5, Math.toRadians(180));
 
-            startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(56,17, Math.toRadians(120));
-            GPPpose = new Pose(25,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,60, Math.toRadians(180));
-            PPGpose = new Pose(23,37, Math.toRadians(180));
-            yeetPoseOF = new Pose(56,17, Math.toRadians(123));
-            endPose = new Pose(60,73, Math.toRadians(132));
+            startPose = new Pose(60, 1, Math.toRadians(90));
+            yeetPose = new Pose(60, 8, Math.toRadians(115));
+            yeetPoseOF = new Pose(60, 8, Math.toRadians(115));
+            GPPpose = new Pose(24, 71.4, Math.toRadians(180));
+            PGPpose = new Pose(21, 50.45, Math.toRadians(180));
+            PPGpose = new Pose(24.75, 26.5, Math.toRadians(180));
+            endPose = new Pose(59, 66.325, Math.toRadians(136));
 
-            HPZoneIntake1 = new Pose(130, 6, Math.toRadians(0));
-            HPZoneIntake2 = new Pose(130, 3, Math.toRadians(0));
-            BeforeHPIntake = new Pose(125, 5, Math.toRadians(0));
-            STIntake1 = new Pose(130, 20, Math.toRadians(0));
-            STIntake2 = new Pose(130, 28, Math.toRadians(0));
-            BeforeSTIntake = new Pose(125, 24, Math.toRadians(0));
+            HPZoneIntake1 = new Pose(12.6,8, Math.toRadians(180));
+            HPZoneIntake2 = new Pose(13.6, 4, Math.toRadians(180));
+            HPZoneIntake12 = new Pose(19, 13.5, Math.toRadians(180));
+            HPZoneIntake15 = new Pose(15, 13.5, Math.toRadians(180));
+            HPZoneIntake25 = new Pose(15, 3, Math.toRadians(100));
+            BeforeHPIntake = new Pose(24, 9, Math.toRadians(180));
+            STIntake1 = new Pose(14, 20, Math.toRadians(180));
+            STIntake2 = new Pose(14, 28, Math.toRadians(180));
+            BeforeSTIntake = new Pose(24, 24, Math.toRadians(180));
+
         }
     }
 
@@ -441,14 +448,24 @@ public class PointCoOpAuto extends OpMode {
                 .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake1.getHeading())
                 .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake15))
                 .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), HPZoneIntake15.getHeading())
+                .addPath(new BezierLine(HPZoneIntake15, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake15.getHeading(), HPZoneIntake12.getHeading())
+                .addPath(new BezierLine(HPZoneIntake12, HPZoneIntake15))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake15.getHeading())
                 .addPath(new BezierLine(HPZoneIntake15, BeforeHPIntake))
                 .setLinearHeadingInterpolation(HPZoneIntake15.getHeading(), BeforeHPIntake.getHeading())
                 .addPath(new BezierLine(BeforeHPIntake, HPZoneIntake2))
                 .setLinearHeadingInterpolation(BeforeHPIntake.getHeading(), HPZoneIntake2.getHeading())
-
-
-                .addPath(new BezierLine(HPZoneIntake2, BeforeHPIntake))
-                .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), BeforeHPIntake.getHeading())
+                .addPath(new BezierLine(HPZoneIntake2, HPZoneIntake1))
+                .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake1.getHeading(), HPZoneIntake12.getHeading())
+               .addPath(new BezierLine(HPZoneIntake12, HPZoneIntake1))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake1.getHeading())
+                .addPath(new BezierLine(HPZoneIntake1, HPZoneIntake12))
+                .setLinearHeadingInterpolation(HPZoneIntake12.getHeading(), HPZoneIntake2.getHeading())
+               //.addPath(new BezierLine(HPZoneIntake12, HPZoneIntake2))
+              //  .setLinearHeadingInterpolation(HPZoneIntake2.getHeading(), BeforeHPIntake.getHeading())
                 .build();
 
         // Move from PGP pose to yeet pose
@@ -616,9 +633,9 @@ public class PointCoOpAuto extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.83;
+        final double firstElementYeetPower = 0.79;
         final double secondElementYeetPower = 0.80;
-        final int yeetPosition = 290;
+        final int yeetPosition = 278;
 
         switch (pathState) {
             case 0:

@@ -551,8 +551,8 @@ public class SimplePointToGoalAuto extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.76;
-        final double secondElementYeetPower = 0.705;
+        final double firstElementYeetPower = 0.71;
+        final double secondElementYeetPower = 0.67;
         final int yeetPosition = 295;
 
         switch (pathState) {
