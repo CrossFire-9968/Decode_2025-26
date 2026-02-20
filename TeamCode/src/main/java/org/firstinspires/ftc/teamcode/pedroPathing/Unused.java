@@ -14,19 +14,17 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 
 
 @Configurable
-//@Autonomous(name = "SimplePointToGoalAuto")
-public class SimplePointToGoalAuto extends OpMode {
+//@Autonomous(name = "GoalFull")
+public class Unused extends OpMode {
     // Initialize poses
     private Pose startPose = null;
     private Pose yeetPose = null;
-    private Pose yeetPoseOF = null;
     private Pose beforeGPPpose = null;
     private Pose GPPpose = null;
     private Pose beforePGPpose = null;
     private Pose PGPpose = null;
     private Pose beforePPGpose = null;
     private Pose PPGpose = null;
-    private Pose endPose = null;
 
     Pose grabGPPControlPoint = null;
     Pose grabPGPControlPoint = null;
@@ -133,21 +131,16 @@ public class SimplePointToGoalAuto extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (85,73.4, Math.toRadians(0));
-            beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
-            beforePPGpose = new Pose(90,27, Math.toRadians(0));
-
-
+            beforeGPPpose = new Pose (88,75.325, Math.toRadians(0));
+            beforePGPpose = new Pose(89,51, Math.toRadians(0));
+            beforePPGpose = new Pose(101,36, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(83, 71, Math.toRadians(44));
-            GPPpose = new Pose(120, 73.4, Math.toRadians(0));
-            PGPpose = new Pose(123, 50.25, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 27, Math.toRadians(0));
-            yeetPoseOF = new Pose(83.5, 71, Math.toRadians(44));
-            endPose = new Pose(85, 66.325, Math.toRadians(46));
+            yeetPose = new Pose(81, 80.325, Math.toRadians(40));
+            GPPpose = new Pose(120, 76, Math.toRadians(0));
+            PGPpose = new Pose(121, 51, Math.toRadians(0));
+            PPGpose = new Pose(119, 36, Math.toRadians(0));
         }
-
 
         if (alliance == Alliance.BLUE && location == AutoStartLocation.POINT) {
             grabGPPControlPoint = new Pose(48, 85, Math.toRadians(180));
@@ -155,16 +148,14 @@ public class SimplePointToGoalAuto extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,59.5, Math.toRadians(180));
-            beforePPGpose = new Pose(50,37, Math.toRadians(180));
+            beforePGPpose = new Pose(57,60, Math.toRadians(180));
+            beforePPGpose = new Pose(39,36, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(60,83, Math.toRadians(132));
-            GPPpose = new Pose(25,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,59.5, Math.toRadians(180));
-            PPGpose = new Pose(23,37, Math.toRadians(180));
-            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
-            endPose = new Pose(60,73, Math.toRadians(132));
+            yeetPose = new Pose(64,79, Math.toRadians(132));
+            GPPpose = new Pose(29,83.5, Math.toRadians(180));
+            PGPpose = new Pose(23,60, Math.toRadians(180));
+            PPGpose = new Pose(23,36, Math.toRadians(180));
         }
     }
 
@@ -176,7 +167,6 @@ public class SimplePointToGoalAuto extends OpMode {
         buildPathsPGP();
         buildPathsPPG();
     }
-
 
 
     @Override
@@ -306,7 +296,7 @@ public class SimplePointToGoalAuto extends OpMode {
                         masterState = masterStateEnum.PPG;
                     }
                     else if (yeetCount == 4) {
-                        masterState = masterStateEnum.PGP;
+                        masterState = masterStateEnum.COMPLETE;
                     }
 
                     setPathState(0);
@@ -367,7 +357,7 @@ public class SimplePointToGoalAuto extends OpMode {
         //final Pose grabGPPControlPoint1 = new Pose(48, 85, Math.toRadians(180));
 
         // Move from yeet pose to GPP pose
-        grabPPG = follower.pathBuilder()
+        grabGPP = follower.pathBuilder()
                 .addPath(new BezierLine(yeetPose, beforeGPPpose))
                 .setLinearHeadingInterpolation(yeetPose.getHeading(), beforeGPPpose.getHeading())
                 .addPath(new BezierLine(beforeGPPpose, GPPpose))
@@ -377,10 +367,10 @@ public class SimplePointToGoalAuto extends OpMode {
 
 
         // Move from GPP pose to yeet pose
-       scorePPG = follower.pathBuilder()
-               .addPath(new BezierLine(GPPpose, yeetPoseOF))
-              .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPoseOF.getHeading())
-               .build();
+       scoreGPP = follower.pathBuilder()
+               .addPath(new BezierLine(GPPpose, yeetPose))
+              .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
+                .build();
     }
 
 
@@ -409,7 +399,7 @@ public class SimplePointToGoalAuto extends OpMode {
         //final Pose grabPPGControlPoint1 = new Pose(72, 57, Math.toRadians(180));
 
         // Move from yeet pose to PPG pose
-        grabGPP = follower.pathBuilder()
+        grabPPG = follower.pathBuilder()
                 .addPath(new BezierLine(yeetPose,beforePPGpose))
                 .setLinearHeadingInterpolation(yeetPose.getHeading(), beforePPGpose.getHeading())
                 .addPath(new BezierLine(beforePPGpose, PPGpose))
@@ -417,11 +407,9 @@ public class SimplePointToGoalAuto extends OpMode {
                 .build();
 
         // Move from PPG pose to yeet pose
-        scoreGPP = follower.pathBuilder()
-                .addPath(new BezierLine(PPGpose,beforePGPpose))
-                .setLinearHeadingInterpolation(PPGpose.getHeading(), beforePGPpose.getHeading())
-                .addPath(new BezierLine(beforePGPpose, yeetPose))
-                .setLinearHeadingInterpolation(beforePGPpose.getHeading(), yeetPose.getHeading())
+        scorePPG = follower.pathBuilder()
+                .addPath(new BezierLine(PPGpose, yeetPose))
+                .setLinearHeadingInterpolation(PPGpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -460,6 +448,7 @@ public class SimplePointToGoalAuto extends OpMode {
 
             case 1:
                 log("State", "Arrived at GPP pose");
+
                 // Wait until yeet position reached
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
@@ -530,7 +519,7 @@ public class SimplePointToGoalAuto extends OpMode {
                 if (!follower.isBusy()) {
                     log("State", "Moving to yeet");
                     yeeter.intakeOff();
-                    follower.followPath(scorePPG, true);
+                    //follower.followPath(scorePPG, true);
                     setPathState(-1);
                 }
                 break;
@@ -551,9 +540,9 @@ public class SimplePointToGoalAuto extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.73;
-        final double secondElementYeetPower = 0.66;
-        final int yeetPosition = 300;
+        final double firstElementYeetPower = 0.655;
+        final double secondElementYeetPower = 0.645;
+        final int yeetPosition = 290;
 
         switch (pathState) {
             case 0:

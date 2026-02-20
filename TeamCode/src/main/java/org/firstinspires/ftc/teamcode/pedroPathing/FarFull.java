@@ -140,18 +140,17 @@ public class FarFull extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (85,72.4, Math.toRadians(0));
-            beforePGPpose = new Pose(89,50.25, Math.toRadians(0));
-            beforePPGpose = new Pose(90,28, Math.toRadians(0));
-
+            beforeGPPpose = new Pose (85,74, Math.toRadians(0));
+            beforePGPpose = new Pose(89,51, Math.toRadians(0));
+            beforePPGpose = new Pose(90,27, Math.toRadians(0));
 
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(84, 8, Math.toRadians(62));
-            GPPpose = new Pose(120, 72.4, Math.toRadians(0));
-            PGPpose = new Pose(123, 50.25, Math.toRadians(0));
-            PPGpose = new Pose(119, 28, Math.toRadians(0));
-            yeetPoseOF = new Pose(85, 73.325, Math.toRadians(47));
+            yeetPose = new Pose(84, 8, Math.toRadians(63.5));
+            GPPpose = new Pose(120, 74, Math.toRadians(0));
+            PGPpose = new Pose(123, 51, Math.toRadians(0));
+            PPGpose = new Pose(119, 27, Math.toRadians(0));
+            yeetPoseOF = new Pose(85, 8, Math.toRadians(58));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
         }
 
@@ -162,15 +161,15 @@ public class FarFull extends OpMode {
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
             beforeGPPpose = new Pose (59,83.5, Math.toRadians(180));
-            beforePGPpose = new Pose(57,60, Math.toRadians(180));
-            beforePPGpose = new Pose(50,37, Math.toRadians(180));
+            beforePGPpose = new Pose(57,59, Math.toRadians(180));
+            beforePPGpose = new Pose(50,36, Math.toRadians(180));
 
             startPose = new Pose(56,10, Math.toRadians(90));
-            yeetPose = new Pose(56,17, Math.toRadians(120));
+            yeetPose = new Pose(56,17, Math.toRadians(117));
             GPPpose = new Pose(25,83.5, Math.toRadians(180));
-            PGPpose = new Pose(23,60, Math.toRadians(180));
-            PPGpose = new Pose(23,37, Math.toRadians(180));
-            yeetPoseOF = new Pose(60,83, Math.toRadians(136));
+            PGPpose = new Pose(23,59, Math.toRadians(180));
+            PPGpose = new Pose(23,36, Math.toRadians(180));
+            yeetPoseOF = new Pose(56,17, Math.toRadians(115));
             endPose = new Pose(60,73, Math.toRadians(132));
         }
     }
@@ -385,8 +384,8 @@ public class FarFull extends OpMode {
 
         // Move from GPP pose to yeet pose
        scorePPG = follower.pathBuilder()
-               .addPath(new BezierLine(GPPpose, yeetPose))
-              .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPose.getHeading())
+               .addPath(new BezierLine(GPPpose, yeetPoseOF))
+              .setLinearHeadingInterpolation(GPPpose.getHeading(), yeetPoseOF.getHeading())
                .build();
     }
 
@@ -405,8 +404,8 @@ public class FarFull extends OpMode {
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierLine(PGPpose, yeetPose))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
+                .addPath(new BezierLine(PGPpose, yeetPoseOF))
+                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPoseOF.getHeading())
                 .build();
     }
 
@@ -556,8 +555,8 @@ public class FarFull extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.83;
-        final double secondElementYeetPower = 0.80;
+        final double firstElementYeetPower = 0.82;
+        final double secondElementYeetPower = 0.81;
         final int yeetPosition = 290;
 
         switch (pathState) {

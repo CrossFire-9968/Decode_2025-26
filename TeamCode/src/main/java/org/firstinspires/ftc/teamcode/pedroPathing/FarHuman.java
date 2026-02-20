@@ -165,16 +165,16 @@ public class FarHuman extends OpMode {
             grabPGPControlPoint = new Pose(54, 51, Math.toRadians(180));
             grabPPGControlPoint = new Pose(72, 57, Math.toRadians(180));
 
-            beforeGPPpose = new Pose (85,71.4, Math.toRadians(0));
+            beforeGPPpose = new Pose (85,72, Math.toRadians(0));
             beforePGPpose = new Pose(89,50.45, Math.toRadians(0));
-            beforePPGpose = new Pose(90,26.5, Math.toRadians(0));
+            beforePPGpose = new Pose(90,25.3, Math.toRadians(0));
 
             startPose = new Pose(84, 1, Math.toRadians(90));
             yeetPose = new Pose(84, 8, Math.toRadians(63));
             yeetPoseOF = new Pose(84, 8, Math.toRadians(60));
-            GPPpose = new Pose(120, 71.4, Math.toRadians(0));
+            GPPpose = new Pose(120, 72, Math.toRadians(0));
             PGPpose = new Pose(123, 50.45, Math.toRadians(0));
-            PPGpose = new Pose(119.25, 26.5, Math.toRadians(0));
+            PPGpose = new Pose(119.25, 25.3, Math.toRadians(0));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
 
             HPZoneIntake1 = new Pose(131.4,8, Math.toRadians(0));
@@ -470,8 +470,8 @@ public class FarHuman extends OpMode {
 
         // Move from PGP pose to yeet pose
         scorePGP = follower.pathBuilder()
-                .addPath(new BezierLine(PGPpose, yeetPoseOF))
-                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPoseOF.getHeading())
+                .addPath(new BezierLine(PGPpose, yeetPose))
+                .setLinearHeadingInterpolation(PGPpose.getHeading(), yeetPose.getHeading())
                 .build();
     }
 
@@ -633,9 +633,9 @@ public class FarHuman extends OpMode {
 // Assumes yeet position is always the same throughout autonomous
     public void updateStateMachineYeet() {
         // Set yeeter powers and position
-        final double firstElementYeetPower = 0.79;
-        final double secondElementYeetPower = 0.80;
-        final int yeetPosition = 278;
+        final double firstElementYeetPower = 0.84;
+        final double secondElementYeetPower = 0.875;
+        final int yeetPosition = 275;
 
         switch (pathState) {
             case 0:
