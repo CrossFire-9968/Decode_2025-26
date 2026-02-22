@@ -216,7 +216,6 @@ public class FarHuman extends OpMode {
             STIntake1 = new Pose(14, 20, Math.toRadians(180));
             STIntake2 = new Pose(14, 28, Math.toRadians(180));
             BeforeSTIntake = new Pose(24, 24, Math.toRadians(180));
-
         }
     }
 
