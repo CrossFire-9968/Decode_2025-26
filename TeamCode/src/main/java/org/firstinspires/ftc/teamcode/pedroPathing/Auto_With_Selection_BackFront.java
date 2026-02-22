@@ -10,9 +10,9 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
-import org.firstinspires.ftc.teamcode.Blinkin;
+
+
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
     private Pose beforePPGpose = null;
     private Pose PPGpose = null;
     private Pose endPose = null;
-    public Blinkin blinkin = new Blinkin();
+
 
     Pose grabGPPControlPoint = null;
     Pose grabPGPControlPoint = null;
@@ -187,8 +187,7 @@ public class Auto_With_Selection_BackFront extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
 //        follower.setStartingPose(startPoseFrontLeft);
-        blinkin.init(hardwareMap);
-        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.AQUA);
+
 
         // Reset master state machine
         masterState = masterStateEnum.PRELOAD;
