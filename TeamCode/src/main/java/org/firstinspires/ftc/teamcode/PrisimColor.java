@@ -12,7 +12,7 @@ public class PrisimColor
 
     private static final int SOLID_BRIGHTNESS = 50;
     private static final int SOLID_START_INDEX = 0;
-    private static final int SOLID_STOP_INDEX = 23;
+    private static final int SOLID_STOP_INDEX = 35;
 
     PrismAnimations.Solid solidRed = new PrismAnimations.Solid(Color.RED);
     PrismAnimations.Solid solidGreen = new PrismAnimations.Solid(Color.GREEN);

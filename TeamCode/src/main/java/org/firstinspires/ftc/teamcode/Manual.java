@@ -101,8 +101,14 @@ public class Manual extends OpMode {
         else if (timer.seconds() < 100) {
             led.setPrismColor(PrismColor.PURPLE);
         }
-        else {
+        else if (timer.seconds() < 115) {
             led.setPrismColor(PrismColor.ORANGE);
+        }
+        else if (timer.seconds() < 120) {
+            led.setPrismColor(PrismColor.RED);
+        }
+        else {
+            led.setPrismColor(PrismColor.WHITE);
         }
 
         // Driver initiated April Tag alignment for yeeting
