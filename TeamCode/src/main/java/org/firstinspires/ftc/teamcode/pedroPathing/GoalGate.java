@@ -9,7 +9,8 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
+import org.firstinspires.ftc.teamcode.PrisimColor;
+import org.firstinspires.ftc.teamcode.PrisimColor.PrismColor;
 import org.firstinspires.ftc.teamcode.Yeeter;
 
 
@@ -32,6 +33,7 @@ public class GoalGate extends OpMode {
     private Pose STIntake1 = null;
     private Pose STIntake2 = null;
     private Pose endPose = null;
+    public PrisimColor led = new PrisimColor();
 
     Pose grabGPPControlPoint = null;
     Pose grabPGPControlPoint = null;
@@ -211,6 +213,8 @@ public class GoalGate extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
 //        follower.setStartingPose(startPoseFrontLeft);
+        led.init(hardwareMap);
+        led.setPrismColor(PrismColor.CYAN);
 
         // Reset master state machine
         masterState = masterStateEnum.PRELOAD;

@@ -10,9 +10,10 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-
-
+import org.firstinspires.ftc.teamcode.PrisimColor;
+import org.firstinspires.ftc.teamcode.PrisimColor.PrismColor;
 import org.firstinspires.ftc.teamcode.Yeeter;
+
 
 
 @Configurable
@@ -29,6 +30,7 @@ public class GoalFull extends OpMode {
     private Pose beforePPGpose = null;
     private Pose PPGpose = null;
     private Pose endPose = null;
+    public PrisimColor led = new PrisimColor();
 
 
     Pose grabGPPControlPoint = null;
@@ -186,6 +188,8 @@ public class GoalFull extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
 //        follower.setStartingPose(startPoseFrontLeft);
+        led.init(hardwareMap);
+        led.setPrismColor(PrismColor.CYAN);
 
 
         // Reset master state machine

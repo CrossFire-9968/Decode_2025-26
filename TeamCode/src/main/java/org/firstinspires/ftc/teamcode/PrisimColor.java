@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.PrisimColor.PrismColor.CYAN;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Prism.Color;
@@ -12,7 +10,7 @@ public class PrisimColor
 {
     GoBildaPrismDriver prism;
 
-    private static final int SOLID_BRIGHTNESS = 100;
+    private static final int SOLID_BRIGHTNESS = 50;
     private static final int SOLID_START_INDEX = 0;
     private static final int SOLID_STOP_INDEX = 23;
 
