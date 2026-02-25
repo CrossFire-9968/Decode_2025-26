@@ -157,7 +157,6 @@ public class FarHuman extends OpMode {
             STIntake1 = new Pose(130, 20, Math.toRadians(0));
             STIntake2 = new Pose(130, 28, Math.toRadians(0));
             BeforeSTIntake = new Pose(120, 24, Math.toRadians(0));
-            
         }
 
         if (alliance == Alliance.RED && location == AutoStartLocation.POINT) {
