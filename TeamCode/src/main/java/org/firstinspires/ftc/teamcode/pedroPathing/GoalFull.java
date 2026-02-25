@@ -145,11 +145,11 @@ public class GoalFull extends OpMode {
 
 
             startPose = new Pose(84, 1, Math.toRadians(90));
-            yeetPose = new Pose(83, 71, Math.toRadians(44));
+            yeetPose = new Pose(86, 73, Math.toRadians(46));
             GPPpose = new Pose(120, 73.4, Math.toRadians(0));
             PGPpose = new Pose(123, 50.25, Math.toRadians(0));
             PPGpose = new Pose(119.25, 27, Math.toRadians(0));
-            yeetPoseOF = new Pose(83.5, 71, Math.toRadians(44));
+            yeetPoseOF = new Pose(86, 73, Math.toRadians(46));
             endPose = new Pose(85, 66.325, Math.toRadians(46));
         }
 
