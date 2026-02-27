@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Yeeter;
 @Autonomous(name = "FarFull")
 public class FarFull extends OpMode {
     // Initialize poses
+
     private Pose startPose = null;
     private Pose yeetPose = null;
     private Pose yeetPoseOF = null;
